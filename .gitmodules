@@ -1,0 +1,20 @@
+[submodule "apriltag/apriltag"]
+	path = apriltag/apriltag
+	url = https://github.com/AprilRobotics/apriltag
+	branch = master
+[submodule "apriltag/apriltag_ros"]
+	path = apriltag/apriltag_ros
+	url = https://github.com/AprilRobotics/apriltag_ros
+	branch = master
+[submodule "behaviortree/explain_bt"]
+	path = behaviortree/explain_bt
+	url = https://github.com/ian-chuang/robot-explanation-BTs.git
+	branch = main
+[submodule "behaviortree/behaviortree_cpp"]
+	path = behaviortree/behaviortree_cpp
+	url = https://github.com/ian-chuang/BehaviorTree.CPP.git
+	branch = v4.3
+[submodule "behaviortree/behaviortree_ros"]
+	path = behaviortree/behaviortree_ros
+	url = https://github.com/ian-chuang/BehaviorTree.ROS.git
+	branch = master

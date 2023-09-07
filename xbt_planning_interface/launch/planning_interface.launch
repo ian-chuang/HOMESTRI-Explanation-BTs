@@ -1,0 +1,9 @@
+<launch>
+    <rosparam file="$(find xbt_planning_interface)/config/planning_interface.yaml" />
+    <node
+        name="planning_interface"
+        pkg="xbt_planning_interface"
+        type="planning_interface"
+        output="screen" 
+    />
+</launch>
