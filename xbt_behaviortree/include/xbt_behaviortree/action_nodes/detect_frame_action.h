@@ -13,6 +13,8 @@ public:
   DetectFrameAction(const std::string &name, const NodeConfiguration &conf)
       : StatefulActionNode(name, conf)
   {
+    tfBuffer_ = std::make_shared<tf2_ros::Buffer>();
+    tfListener_ = std::make_shared<tf2_ros::TransformListener>(*tfBuffer_);
   }
 
   static PortsList providedPorts()
@@ -58,10 +60,6 @@ public:
     {
       timeout_ = DEFAULT_TIMEOUT; // Use the default timeout.
     }
-
-    // Create tfBuffer and tfListener here to reuse them in onRunning.
-    tfBuffer_ = std::make_shared<tf2_ros::Buffer>();
-    tfListener_ = std::make_shared<tf2_ros::TransformListener>(*tfBuffer_);
 
     return NodeStatus::RUNNING;
   }

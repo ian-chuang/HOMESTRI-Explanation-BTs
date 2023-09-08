@@ -68,30 +68,19 @@ public:
 
   void run()
   {
+    ros::Rate loop_rate(100);
     while (ros::ok()) {
-      state_mutex_.lock();
-      bool running = running_flag_;
-      bool start = start_flag_;
-      state_mutex_.unlock();
-
-      if (running)
+      if (running_flag_)
       {
-        xbt_mutex_.lock();
         auto status = xbt_->status();
-        xbt_mutex_.unlock();
-
-        if (status == NodeStatus::RUNNING || start)
+        if (status == NodeStatus::RUNNING || start_flag_)
         {
-          xbt_mutex_.lock();
           xbt_->tick();
-          xbt_mutex_.unlock();
-
-          state_mutex_.lock();
           start_flag_ = false;
-          state_mutex_.unlock();
         }
       }
-      ros::Duration(0.01).sleep();
+      ros::spinOnce();
+      loop_rate.sleep();
     }
   }
 
@@ -101,8 +90,6 @@ private:
   std::shared_ptr<XBT::ExplainableBT> xbt_;
   bool running_flag_;
   bool start_flag_;
-  std::mutex state_mutex_;
-  std::mutex xbt_mutex_;
   ros::ServiceServer start_tree_service_;
   ros::ServiceServer stop_tree_service_;
   ros::ServiceServer reset_tree_service_;
@@ -110,34 +97,26 @@ private:
 
   bool startTreeCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
   {
-    state_mutex_.lock();
     running_flag_ = true;
     start_flag_ = true;
-    state_mutex_.unlock();
     return true;
   }
 
   bool stopTreeCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
   {
-    state_mutex_.lock();
     running_flag_ = false;
-    state_mutex_.unlock();
     return true;
   }
 
   bool resetTreeCallback(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res)
   {
-    xbt_mutex_.lock();
     xbt_->halt();
-    xbt_mutex_.unlock();
     return true;
   }
 
   bool explainCallback(explain_bt::Explain::Request &req, explain_bt::Explain::Response &res)
   {
-    xbt_mutex_.lock();
     bool success = xbt_->explain_callback(req, res);
-    xbt_mutex_.unlock();
     return success;
   }
 };
