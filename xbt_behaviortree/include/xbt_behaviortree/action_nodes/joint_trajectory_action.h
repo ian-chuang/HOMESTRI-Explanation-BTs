@@ -41,13 +41,4 @@ public:
     ROS_ERROR("JointTrajectoryAction request failed %d", static_cast<int>(failure));
     return NodeStatus::FAILURE;
   }
-
-  void halt() override
-  {
-    if (status() == NodeStatus::RUNNING)
-    {
-      ROS_WARN("JointTrajectoryAction halted");
-      BaseClass::halt();
-    }
-  }
 };

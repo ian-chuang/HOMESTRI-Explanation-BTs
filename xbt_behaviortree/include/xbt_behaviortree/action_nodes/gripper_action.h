@@ -47,13 +47,4 @@ public:
     ROS_ERROR("GripperAction request failed %d", static_cast<int>(failure));
     return NodeStatus::FAILURE;
   }
-
-  void halt() override
-  {
-    if (status() == NodeStatus::RUNNING)
-    {
-      ROS_WARN("GripperAction halted");
-      BaseClass::halt();
-    }
-  }
 };
