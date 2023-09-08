@@ -1,9 +1,18 @@
 <launch>
+    <arg name="use_rviz" default="true" />
+
     <!-- fake robot -->
     <include file="$(find homestri_fake)/launch/a_bot_fake.launch">
+        <arg name="use_rviz" value="false" />
     </include>
 
     <!-- simple moveit planning interface -->
     <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">
     </include>
+
+    <!-- launch rviz -->
+    <group if="$(arg use_rviz)">
+        <arg name="my_rviz" value="-d $(find xbt_bringup)/etc/fake_bringup.rviz" />
+        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="$(arg my_rviz)" output="screen" />
+    </group>
 </launch>
