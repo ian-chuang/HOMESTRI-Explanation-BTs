@@ -77,6 +77,4 @@ To run the system, follow these steps:
     roslaunch xbt_bringup run_xbt.launch bt:=collect_zeolite
     ```
 
-This README provides comprehensive instructions for setting up and running the HOMESTRI-Explanation-BTs repository. If you encounter any issues or have questions, please refer to the documentation or reach out to the project contributors for assistance.
-
-Feel free to improve and expand upon this README as the project evolves.
+Once you launch, the explainable behavior tree GUI will open. To run the behavior tree, click the 'Run' button.
