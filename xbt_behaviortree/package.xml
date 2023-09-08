@@ -25,5 +25,6 @@
   <depend>controller_manager_msgs</depend>
   <depend>control_msgs</depend>
   <depend>xbt_planning_interface</depend>
+  <depend>compliant_trajectory_control</depend>
 
 </package>

@@ -18,7 +18,8 @@ moveit_msgs
 geometric_shapes
 controller_manager_msgs
 control_msgs
-homestri_planning_interface
+xbt_planning_interface
+compliant_trajectory_control
 )
 
 set(GCC_COVERAGE_LINK_FLAGS    "-lstdc++fs")

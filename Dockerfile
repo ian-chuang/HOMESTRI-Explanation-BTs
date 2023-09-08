@@ -13,7 +13,7 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR /root/catkin_ws
 
 # Copy the 'src' directory from 'catkin_ws' to the container's workspace
-COPY . ./src/homestri_explanation_bts
+COPY . ./src/homestri_xbt
 
 RUN source /opt/ros/noetic/setup.bash && \
     apt-get update && rosdep install -q -y \
@@ -23,5 +23,5 @@ RUN source /opt/ros/noetic/setup.bash && \
     && rm -rf /var/lib/apt/lists/*
 
 # Build the ROS workspace
-RUN source /opt/ros/noetic/setup.bash && \
-    catkin build
+# RUN source /opt/ros/noetic/setup.bash && \
+#     catkin build

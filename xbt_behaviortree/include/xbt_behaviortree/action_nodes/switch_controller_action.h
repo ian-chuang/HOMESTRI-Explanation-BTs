@@ -36,13 +36,13 @@ public:
     };
   }
 
-  void sendRequest(RequestType& request) override
+  bool sendRequest(RequestType& request) override
   {
     std::string controller;
     if (!getInput<std::string>("controller", controller))
     {
       ROS_ERROR("Missing required input [controller]");
-      return;
+      return false;
     }
 
     std::vector<std::string> other_controllers = SwitchControllerAction::ConflictingControllers;
@@ -51,6 +51,8 @@ public:
     request.start_controllers = {controller};
     request.stop_controllers = other_controllers;
     request.strictness = controller_manager_msgs::SwitchControllerRequest::BEST_EFFORT;
+
+    return true;
   }
 
   NodeStatus onResponse(const ResponseType& rep) override

@@ -10,6 +10,7 @@
 #include <xbt_behaviortree/action_nodes/switch_controller_action.h>
 #include <xbt_behaviortree/action_nodes/simple_plan_action.h>
 #include <xbt_behaviortree/action_nodes/joint_trajectory_action.h>
+#include <xbt_behaviortree/action_nodes/compliant_trajectory_action.h>
 #include <xbt_behaviortree/node_input_conversions.h>
 #include <explain_bt/ExplainableBT.h>
 
@@ -18,7 +19,6 @@ using namespace BT;
 std::string get_xml_filename(ros::NodeHandle& nh, std::string param) {
   std::string xml_filename;
   nh.getParam(param, xml_filename);
-  std::cout << xml_filename << "********" << std::endl;
   ROS_INFO("Loading XML : %s", xml_filename.c_str());
   return xml_filename;
 }
@@ -31,19 +31,14 @@ int main(int argc, char **argv) {
 
   // create bt factory
   BehaviorTreeFactory factory;
-  // RegisterRosAction<ManipulationAction>(factory, "ManipulationAction", nh);
-  // RegisterRosAction<ComplianceControlAction>(factory, "ComplianceControlAction", nh);
-  // RegisterRosAction<CartesianControlAction>(factory, "CartesianControlAction", nh);
-  // RegisterRosAction<ForceControlAction>(factory, "ForceControlAction", nh);
   RegisterRosAction<GripperAction>(factory, "GripperAction", nh);
   RegisterRosAction<JointTrajectoryAction>(factory, "JointTrajectoryAction", nh);
+  RegisterRosAction<CompliantTrajectoryAction>(factory, "CompliantTrajectoryAction", nh);
   RegisterRosService<SwitchControllerAction>(factory, "SwitchControllerAction", nh);
   RegisterRosService<SimplePlanAction>(factory, "SimplePlanAction", nh);
-
   factory.registerNodeType<SleepAction>("SleepAction");
   factory.registerNodeType<TransformPoseAction>("TransformPoseAction");
   factory.registerNodeType<DetectFrameAction>("DetectFrameAction");
-  // factory.registerNodeType<DetectFrame>("DetectFrame");
   // factory.registerNodeType<UpdatePose>("UpdatePose");
 
   // create tree from xml files

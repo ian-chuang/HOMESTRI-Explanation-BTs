@@ -2,13 +2,13 @@
 #include <behaviortree_ros/bt_service_node.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <trajectory_msgs/JointTrajectory.h>
-#include <homestri_planning_interface/SimplePlan.h>
-#include <homestri_planning_interface/SimplePlanRequest.h>
-#include <homestri_planning_interface/SimplePlanResponse.h>
+#include <xbt_planning_interface/SimplePlan.h>
+#include <xbt_planning_interface/SimplePlanRequest.h>
+#include <xbt_planning_interface/SimplePlanResponse.h>
 
 using namespace BT;
 
-class SimplePlanAction : public RosServiceNode<homestri_planning_interface::SimplePlan>
+class SimplePlanAction : public RosServiceNode<xbt_planning_interface::SimplePlan>
 {
 private:
     const static inline double DefaultVelScaling = 0.1;
@@ -16,7 +16,7 @@ private:
 
 public:
     SimplePlanAction(ros::NodeHandle &handle, const std::string &node_name, const NodeConfiguration &conf)
-        : RosServiceNode<homestri_planning_interface::SimplePlan>(handle, node_name, conf)
+        : RosServiceNode<xbt_planning_interface::SimplePlan>(handle, node_name, conf)
     {
     }
 
@@ -32,46 +32,46 @@ public:
         };
     }
 
-    void sendRequest(RequestType &request) override
+    bool sendRequest(RequestType &request) override
     {
         std::string mode_str;
         if (!getInput<std::string>("mode", mode_str))
         {
             ROS_ERROR("Missing required input [mode]");
-            return;
+            return false;
         }
         uint8_t mode;
         if (mode_str == "POSE")
         {
-            mode = homestri_planning_interface::SimplePlanRequest::POSE;
+            mode = xbt_planning_interface::SimplePlanRequest::POSE;
             if (!getInput<geometry_msgs::PoseStamped>("pose", request.pose))
             {
                 ROS_ERROR("Missing required input [pose]");
-                return;
+                return false; 
             }
         }
         else if (mode_str == "POSE_LINE")
         {
-            mode = homestri_planning_interface::SimplePlanRequest::POSE_LINE;
+            mode = xbt_planning_interface::SimplePlanRequest::POSE_LINE;
             if (!getInput<geometry_msgs::PoseStamped>("pose", request.pose))
             {
                 ROS_ERROR("Missing required input [pose]");
-                return;
+                return false;
             }
         }
         else if (mode_str == "TARGET")
         {
-            mode = homestri_planning_interface::SimplePlanRequest::TARGET;
+            mode = xbt_planning_interface::SimplePlanRequest::TARGET;
             if (!getInput<std::string>("target", request.target))
             {
                 ROS_ERROR("Missing required input [target]");
-                return;
+                return false;
             }
         }
         else
         {
             ROS_ERROR("Invalid mode input: %s", mode_str.c_str());
-            return;
+            return false;
         }
 
         if (!getInput<double>("vel_scaling", request.vel_scaling))
@@ -83,6 +83,8 @@ public:
         {
             request.acc_scaling = SimplePlanAction::DefaultAccScaling;
         }
+
+        return true;
     }
 
     NodeStatus onResponse(const ResponseType &rep) override

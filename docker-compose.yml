@@ -17,7 +17,7 @@ services:
       # Grant display access to X Server.
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev:/dev
-      - .:/root/catkin_ws/src/homestri_explanation_bts
+      - .:/root/catkin_ws/src/homestri_xbt
     deploy:
       resources:
         reservations:

@@ -24,7 +24,7 @@ public:
   bool sendGoal(GoalType &goal) override
   {
     if (!getInput<trajectory_msgs::JointTrajectory>("joint_trajectory", goal.trajectory)) {
-        ROS_ERROR("Missing required input [max_effort]");
+        ROS_ERROR("Missing required input [joint_trajectory]");
         return false;
     }
 
