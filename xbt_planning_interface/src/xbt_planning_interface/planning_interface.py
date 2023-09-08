@@ -34,15 +34,15 @@ class PlanningInterface:
 
         if mode == SimplePlanRequest.POSE:
             self.move_group.set_planning_pipeline_id("ompl")
-            self.move_group.set_planner_id("RRTConnect")
+            self.move_group.set_planner_id("")
             self.move_group.set_pose_target(pose)
         elif mode == SimplePlanRequest.POSE_LINE:
             self.move_group.set_planning_pipeline_id("pilz_industrial_motion_planner")
             self.move_group.set_planner_id("LIN")
-            self.move_group.set_joint_value_target(target)
+            self.move_group.set_pose_target(pose)
         elif mode == SimplePlanRequest.TARGET:
             self.move_group.set_planning_pipeline_id("ompl")
-            self.move_group.set_planner_id("RRTConnect")
+            self.move_group.set_planner_id("")
             self.move_group.set_named_target(target)
 
         success, robot_traj, time, error_code = self.move_group.plan()

@@ -1,0 +1,226 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00030000000009af000000b400000ddd000004e8000009d5000000ef00000db7000004c200000000000000000a00000009d5000000ef00000db7000004c2')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                                 "
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd0000000200000002000003e3000003aafc0100000001fb00000060007200710074005f006500780070006c00610069006e005f00620074005f005f0041006300740069006f006e0050006c007500670069006e005f005f0031005f005f004500780070006c00610069006e004200540050006c007500670069006e0100000000000003e30000008d00ffffff000000030000043d00000258fc0100000006fb000000b4007200710074005f006a006f0069006e0074005f007400720061006a006500630074006f00720079005f0063006f006e00740072006f006c006c00650072005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c00650072005f005f0031005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c00650072005500690100000000000004260000000000000000fb000000b4007200710074005f006a006f0069006e0074005f007400720061006a006500630074006f00720079005f0063006f006e00740072006f006c006c00650072005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c00650072005f005f0032005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c006500720055006901000002c1000002940000000000000000fb0000006c007200710074005f007200650063006f006e006600690067007500720065005f005f0050006100720061006d005f005f0031005f005f005f0070006c007500670069006e0063006f006e007400610069006e00650072005f0074006f0070005f0077006900640067006500740100000000000005710000000000000000fc000000000000043d0000000000fffffffc0200000002fb00000082007200710074005f0063006f006e00740072006f006c006c00650072005f006d0061006e0061006700650072005f005f0043006f006e00740072006f006c006c00650072004d0061006e0061006700650072005f005f0031005f005f0043006f006e00740072006f006c006c00650072004d0061006e0061006700650072005500690100000271000002580000000000000000fb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c006900730068006500720057006900640067006500740100000014000003c00000000000000000fb00000050007200710074005f0061006300740069006f006e005f005f0041006300740069006f006e0050006c007500670069006e005f005f0031005f005f006d0065007300730061006700650073002e0075006901000003520000034c0000000000000000fb00000030005f005f0044006f0063006b0057006900640067006500740043006f006e007400610069006e00650072005f005f003101000003aa000000930000000000000000000003e30000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                 `rqt_explain_bt__ActionPlugin__1__ExplainBTPlugin                    rqt_joint_trajectory_controller__JointTrajectoryController__1__JointTrajectoryControllerUi           rqt_joint_trajectory_controller__JointTrajectoryController__2__JointTrajectoryControllerUi          lrqt_reconfigure__Param__1___plugincontainer_top_widget            =                                                                            q X                                                                                                       R L                                                                                               "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'rqt_explain_bt/ActionPlugin': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__rqt_controller_manager__ControllerManager__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ControllerManagerUi": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Controller manager'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "cm_ns": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_explain_bt__ActionPlugin__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ExplainBTPlugin": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Form'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_joint_trajectory_controller__JointTrajectoryController__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__JointTrajectoryControllerUi": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Joint trajectory controller'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "cm_ns": {
+                  "repr": "'/controller_manager'",
+                  "type": "repr"
+                },
+                "jtc_name": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_joint_trajectory_controller__JointTrajectoryController__2": {
+          "keys": {},
+          "groups": {
+            "plugin": {
+              "keys": {
+                "cm_ns": {
+                  "repr": "None",
+                  "type": "repr"
+                },
+                "jtc_name": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_publisher__Publisher__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__PublisherWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Message Publisher'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "publishers": {
+                  "repr": "\"[{'topic_name': '/joint_group_pos_controller/command', 'type_name': 'std_msgs/Float64MultiArray', 'rate': 1.0, 'enabled': False, 'publisher_id': 0, 'counter': 0, 'expressions': {'/joint_group_pos_controller/command/data': '[0,0,0,0,0,0]'}}]\"",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_reconfigure__Param__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget___plugincontainer_top_widget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Dynamic Reconfigure'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "_splitter": {
+                  "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000001000000020000012c000000640100000009010000000200')",
+                  "type": "repr(QByteArray.hex)",
+                  "pretty-print": "       , d     "
+                },
+                "expanded_nodes": {
+                  "repr": "None",
+                  "type": "repr"
+                },
+                "selected_nodes": {
+                  "repr": "None",
+                  "type": "repr"
+                },
+                "splitter": {
+                  "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff0000000100000002000001840000017201ffffffff010000000100')",
+                  "type": "repr(QByteArray.hex)",
+                  "pretty-print": "         r     "
+                },
+                "text": {
+                  "repr": "''",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

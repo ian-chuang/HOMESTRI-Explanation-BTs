@@ -1,0 +1,19 @@
+<launch>
+    <arg name="bt"/>
+
+    <!-- explainable behavior tree -->
+    <param name="bt_directory" value="$(find xbt_bringup)/bt_xml/$(arg bt)"/>
+    <node pkg="xbt_behaviortree" type="run_xbt" name="run_xbt" output="screen"/>
+
+    <!-- apriltag detection, transform publisher, and realsense camera -->
+    <include file="$(find xbt_apriltag)/launch/detect.launch">
+        <arg name="image_rect" value="camera/color/image_raw" />
+        <arg name="camera_info" value="camera/color/camera_info" />
+        <arg name="settings" value="$(find xbt_bringup)/bt_xml/$(arg bt)/config/settings.yaml" />
+        <arg name="tags" value="$(find xbt_bringup)/bt_xml/$(arg bt)/config/tags.yaml" />
+        <arg name="transforms" value="$(find xbt_bringup)/bt_xml/$(arg bt)/config/transforms.yaml" />
+    </include>
+
+    <!-- xbt gui -->
+    <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find xbt_bringup)/etc/xbt.perspective"/>
+</launch>

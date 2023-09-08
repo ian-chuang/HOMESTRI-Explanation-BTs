@@ -1,0 +1,13 @@
+<launch>
+    <!-- fake robot -->
+    <include file="$(find homestri_bringup)/launch/a_bot_bringup.launch">
+    </include>
+
+    <!-- launch realsense -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    </include>
+
+    <!-- simple moveit planning interface -->
+    <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">
+    </include>
+</launch>

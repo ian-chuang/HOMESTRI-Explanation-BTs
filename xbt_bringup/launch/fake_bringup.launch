@@ -1,0 +1,9 @@
+<launch>
+    <!-- fake robot -->
+    <include file="$(find homestri_fake)/launch/a_bot_fake.launch">
+    </include>
+
+    <!-- simple moveit planning interface -->
+    <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">
+    </include>
+</launch>
