@@ -1,4 +1,4 @@
-FROM thbarkouki/homestri-ur:latest
+FROM thbarkouki/homestri-ur:minimal-v1.0.2
 
 SHELL ["/bin/bash", "-c"]
 
