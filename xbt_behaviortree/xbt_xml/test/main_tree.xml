@@ -1,8 +1,0 @@
-<root main_tree_to_execute="MainTree">
-    <BehaviorTree ID="MainTree">
-        <Sequence name="main sequence">
-            <SleepAction msec="5000"/>
-
-        </Sequence>
-    </BehaviorTree>
-</root>

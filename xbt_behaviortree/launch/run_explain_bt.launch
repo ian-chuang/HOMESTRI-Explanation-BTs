@@ -1,6 +1,0 @@
-<launch>
-    <arg name="bt" default="robinzen"/>
-
-    <param name="bt_directory" value="$(find xbt_behaviortree)/xbt_xml/$(arg bt)"/>
-    <node pkg="xbt_explain_bt" type="run_xbt" name="run_xbt" output="screen"/>
-</launch>

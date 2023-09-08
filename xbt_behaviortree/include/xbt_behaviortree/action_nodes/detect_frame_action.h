@@ -1,6 +1,6 @@
 #include "behaviortree_cpp/behavior_tree.h"
 #include <tf2_ros/transform_listener.h>
-#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/Pose.h>
 
 using namespace BT;
 
@@ -20,7 +20,7 @@ public:
     return {
         InputPort<std::string>("target_frame"),
         InputPort<std::string>("source_frame"),
-        OutputPort<geometry_msgs::PoseStamped>("output_pose"),
+        OutputPort<geometry_msgs::Pose>("output_pose"),
         InputPort<int>("max_tries"),
         InputPort<double>("timeout")
     };
@@ -73,17 +73,16 @@ public:
       try
       {
         transformStamped_ = tfBuffer_->lookupTransform(target_frame_, source_frame_, ros::Time(0), ros::Duration(timeout_));
-        geometry_msgs::PoseStamped pose_stamped;
-        pose_stamped.header = transformStamped_.header;
-        pose_stamped.pose.position.x = transformStamped_.transform.translation.x;
-        pose_stamped.pose.position.y = transformStamped_.transform.translation.y;
-        pose_stamped.pose.position.z = transformStamped_.transform.translation.z;
-        pose_stamped.pose.orientation.x = transformStamped_.transform.rotation.x;
-        pose_stamped.pose.orientation.y = transformStamped_.transform.rotation.y;
-        pose_stamped.pose.orientation.z = transformStamped_.transform.rotation.z;
-        pose_stamped.pose.orientation.w = transformStamped_.transform.rotation.w;
+        geometry_msgs::Pose pose;
+        pose.position.x = transformStamped_.transform.translation.x;
+        pose.position.y = transformStamped_.transform.translation.y;
+        pose.position.z = transformStamped_.transform.translation.z;
+        pose.orientation.x = transformStamped_.transform.rotation.x;
+        pose.orientation.y = transformStamped_.transform.rotation.y;
+        pose.orientation.z = transformStamped_.transform.rotation.z;
+        pose.orientation.w = transformStamped_.transform.rotation.w;
 
-        setOutput("output_pose", pose_stamped);
+        setOutput("output_pose", pose);
 
         return NodeStatus::SUCCESS;
       }

@@ -1,10 +1,6 @@
-#ifndef CONDITION_NODE_H
-#define CONDITION_NODE_H
-
 #include <ros/ros.h>
 #include "behaviortree_cpp/behavior_tree.h"
 #include <behaviortree_ros/bt_subscriber_node.h>
-#include <homestri_behavior_trees/node_input_conversions.h>
 #include <robotiq_2f_gripper_control/Robotiq2FGripper_robot_input.h>
 
 class GraspedCondition: public RosSubscriberNode<robotiq_2f_gripper_control::Robotiq2FGripper_robot_input>
@@ -36,5 +32,3 @@ RosSubscriberNode<robotiq_2f_gripper_control::Robotiq2FGripper_robot_input>(hand
     return NodeStatus::FAILURE;
   }
 };
-
-#endif
