@@ -77,4 +77,4 @@ To run the system, follow these steps:
     roslaunch xbt_bringup run_xbt.launch bt:=collect_zeolite
     ```
 
-Once you launch, the explainable behavior tree GUI will open. To run the behavior tree, click the 'Run' button.
+    Once you launch, the explainable behavior tree GUI will open. To run the behavior tree, click the 'Run' button.
