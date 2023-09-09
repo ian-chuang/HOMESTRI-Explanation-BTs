@@ -1,18 +1,19 @@
-#include "behaviortree_cpp/behavior_tree.h"
+#include <ros/ros.h>
+#include "behaviortree_ros/bt_async_behavior.h"
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Quaternion.h>
 #include <geometry_msgs/Vector3.h>
 #include <tf2/LinearMath/Quaternion.h>
-#include <tf2/LinearMath/Transform.h> // Include tf2::Transform
+#include <tf2/LinearMath/Transform.h> 
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 using namespace BT;
 
-class TransformPoseAction : public SyncActionNode
+class TransformPoseAction : public AsyncBehaviorBase
 {
 public:
   TransformPoseAction(const std::string& name, const NodeConfig& config)
-    : SyncActionNode(name, config)
+    : AsyncBehaviorBase(name, config)
   { }
 
   static PortsList providedPorts()
@@ -25,13 +26,14 @@ public:
     };
   }
 
-  NodeStatus tick() override
+  BT::NodeStatus doWork() override
   {
     // Check if input_pose is available
     geometry_msgs::Pose input_pose;  
     if (!getInput("input_pose", input_pose))
     {
-      throw RuntimeError("Missing required port [input_pose]");
+      ROS_ERROR("Missing required input [input_pose]");
+      return NodeStatus::FAILURE;
     }
 
     // Set default values for translation and quaternion if not provided

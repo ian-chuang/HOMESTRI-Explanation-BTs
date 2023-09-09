@@ -40,11 +40,10 @@
                 source_frame="test_frame" 
                 target_frame="world" 
                 output_pose="{test_frame_pose}"
-                timeout="1"
-                max_tries="10"
+                timeout="1000"
             />
             <TransformPoseAction
-                name="create offset test frame"
+                name="create offset approach pose"
                 input_pose="{test_frame_pose}"
                 translation_xyz="-0.1;0;0"
                 output_pose="{offset_test_frame_pose}"
@@ -52,7 +51,7 @@
 
             <!-- move to approach pose -->
             <SimplePlanAction
-                name="plan to move to test frame"
+                name="plan to move to approach pose"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE"
                 pose="{offset_test_frame_pose}"
@@ -62,7 +61,7 @@
                 joint_trajectory="{joint_trajectory}"
             />
             <JointTrajectoryAction
-                name="move to home"
+                name="move to approach pose"
                 server_name="/pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             />
@@ -79,7 +78,7 @@
                 joint_trajectory="{joint_trajectory}"
             />
             <JointTrajectoryAction
-                name="move to home"
+                name="move to test frame"
                 server_name="/pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             />
@@ -94,7 +93,7 @@
 
             <!-- move to retract pose -->
             <SimplePlanAction
-                name="plan to move to test frame"
+                name="plan to move to retract pose"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
                 pose="{offset_test_frame_pose}"
@@ -104,7 +103,7 @@
                 joint_trajectory="{joint_trajectory}"
             />
             <JointTrajectoryAction
-                name="move to home"
+                name="move to retract pose"
                 server_name="/pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             />

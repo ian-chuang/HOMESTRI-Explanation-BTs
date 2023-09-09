@@ -1,4 +1,4 @@
-#include "behaviortree_cpp/behavior_tree.h"
+#include <ros/ros.h>
 #include <behaviortree_ros/bt_action_node.h>
 #include <compliant_trajectory_control/FollowCompliantTrajectoryAction.h>
 #include <compliant_trajectory_control/FollowCompliantTrajectoryGoal.h>
@@ -47,12 +47,16 @@ public:
 
   NodeStatus onResult(const ResultType &res) override
   {
-    return NodeStatus::SUCCESS;
+    if (res.error_code == compliant_trajectory_control::FollowCompliantTrajectoryResult::SUCCESSFUL) {
+      return NodeStatus::SUCCESS;
+    } else {
+      return NodeStatus::FAILURE;
+    }
   }
 
   virtual NodeStatus onFailedRequest(FailureCause failure) override
   {
-    ROS_ERROR("JointTrajectoryAction request failed %d", static_cast<int>(failure));
+    ROS_ERROR("CompliantTrajectoryAction action server failure: %d", static_cast<int>(failure));
     return NodeStatus::FAILURE;
   }
 };

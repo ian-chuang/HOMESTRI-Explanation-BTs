@@ -1,4 +1,4 @@
-#include "behaviortree_cpp/behavior_tree.h"
+#include <ros/ros.h>
 #include <behaviortree_ros/bt_service_node.h>
 #include <controller_manager_msgs/SwitchController.h>
 #include <controller_manager_msgs/SwitchControllerRequest.h>
@@ -63,14 +63,13 @@ public:
     }
     else
     {
-      ROS_ERROR("SwitchControllerAction: Failed to switch controllers");
       return NodeStatus::FAILURE;
     }
   }
 
   virtual NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override
   {
-    ROS_ERROR("SwitchControllerAction: Request failed %d", static_cast<int>(failure));
+    ROS_ERROR("SwitchControllerAction service failure: %d", static_cast<int>(failure));
     return NodeStatus::FAILURE;
   }
 };

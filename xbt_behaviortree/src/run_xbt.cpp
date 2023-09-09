@@ -9,6 +9,7 @@
 #include <xbt_behaviortree/action_nodes/gripper_action.h>
 #include <xbt_behaviortree/action_nodes/switch_controller_action.h>
 #include <xbt_behaviortree/action_nodes/simple_plan_action.h>
+#include <xbt_behaviortree/action_nodes/trigger_action.h>
 #include <xbt_behaviortree/action_nodes/joint_trajectory_action.h>
 #include <xbt_behaviortree/action_nodes/compliant_trajectory_action.h>
 #include <xbt_behaviortree/condition_nodes/grasped_condition.h>
@@ -31,6 +32,7 @@ public:
     RegisterRosAction<CompliantTrajectoryAction>(factory, "CompliantTrajectoryAction", nh);
     RegisterRosService<SwitchControllerAction>(factory, "SwitchControllerAction", nh);
     RegisterRosService<SimplePlanAction>(factory, "SimplePlanAction", nh);
+    RegisterRosService<TriggerAction>(factory, "TriggerAction", nh);
     RegisterRosSubscriber<GraspedCondition>(factory, "GraspedCondition", nh);
     factory.registerNodeType<SleepAction>("SleepAction");
     factory.registerNodeType<TransformPoseAction>("TransformPoseAction");

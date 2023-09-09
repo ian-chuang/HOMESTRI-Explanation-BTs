@@ -1,4 +1,4 @@
-#include "behaviortree_cpp/behavior_tree.h"
+#include <ros/ros.h>
 #include <behaviortree_ros/bt_action_node.h>
 #include <control_msgs/GripperCommandAction.h>
 #include <control_msgs/GripperCommandGoal.h>
@@ -17,7 +17,12 @@ public:
   {
     return {
         InputPort<double>("position"),
-        InputPort<double>("max_effort")};
+        InputPort<double>("max_effort"),
+        OutputPort<double>("position"),
+        OutputPort<double>("effort"),
+        OutputPort<bool>("stalled"),
+        OutputPort<bool>("reached_goal"),
+    };
   }
 
   bool sendGoal(GoalType &goal) override
@@ -39,12 +44,24 @@ public:
 
   NodeStatus onResult(const ResultType &res) override
   {
-    return NodeStatus::SUCCESS;
+    setOutput<double>("position", res.position);
+    setOutput<double>("effort", res.effort);
+    setOutput<bool>("stalled", res.stalled);
+    setOutput<bool>("reached_goal", res.reached_goal);
+
+    if (res.reached_goal || res.stalled)
+    {
+      return NodeStatus::SUCCESS;
+    }
+    else
+    {
+      return NodeStatus::FAILURE;
+    }
   }
 
   virtual NodeStatus onFailedRequest(FailureCause failure) override
   {
-    ROS_ERROR("GripperAction request failed %d", static_cast<int>(failure));
+    ROS_ERROR("GripperAction action server failure: %d", static_cast<int>(failure));
     return NodeStatus::FAILURE;
   }
 };

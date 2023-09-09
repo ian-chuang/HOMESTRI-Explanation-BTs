@@ -1,4 +1,5 @@
-#include "behaviortree_cpp/behavior_tree.h"
+#include <ros/ros.h>
+#include "behaviortree_cpp/action_node.h"
 
 using namespace BT;
 using namespace std::chrono;
@@ -47,7 +48,6 @@ class SleepAction : public BT::StatefulActionNode
     void onHalted() override
     {
       // nothing to do here...
-      std::cout << "SleepAction interrupted" << std::endl;
     }
 
   private:

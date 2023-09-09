@@ -1,4 +1,4 @@
-#include "behaviortree_cpp/behavior_tree.h"
+#include <ros/ros.h>
 #include <behaviortree_ros/bt_service_node.h>
 #include <geometry_msgs/Pose.h>
 #include <trajectory_msgs/JointTrajectory.h>
@@ -27,8 +27,8 @@ public:
             InputPort<std::string>("target"),
             InputPort<geometry_msgs::Pose>("pose"),
             InputPort<std::string>("pose_frame_id"),
-            InputPort<double>("vel_scaling"),
-            InputPort<double>("acc_scaling"),
+            InputPort<double>("vel_scaling", SimplePlanAction::DefaultVelScaling, "Velocity scaling factor"),
+            InputPort<double>("acc_scaling", SimplePlanAction::DefaultAccScaling, "Acceleration scaling factor"),
             OutputPort<trajectory_msgs::JointTrajectory>("joint_trajectory"),
         };
     }
@@ -86,12 +86,14 @@ public:
 
         if (!getInput<double>("vel_scaling", request.vel_scaling))
         {
-            request.vel_scaling = SimplePlanAction::DefaultVelScaling;
+            ROS_ERROR("Missing required input [vel_scaling]");
+            return false;
         }
 
         if (!getInput<double>("acc_scaling", request.acc_scaling))
         {
-            request.acc_scaling = SimplePlanAction::DefaultAccScaling;
+            ROS_ERROR("Missing required input [acc_scaling]");
+            return false;
         }
 
         return true;
@@ -106,14 +108,13 @@ public:
         }
         else
         {
-            ROS_ERROR("SimplePlanAction: plan failed");
             return NodeStatus::FAILURE;
         }
     }
 
     virtual NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override
     {
-        ROS_ERROR("SimplePlanAction: request failed %d", static_cast<int>(failure));
+        ROS_ERROR("SimplePlanAction service failure: %d", static_cast<int>(failure));
         return NodeStatus::FAILURE;
     }
 };

@@ -1,20 +1,19 @@
-#include "behaviortree_cpp/behavior_tree.h"
+#include <ros/ros.h>
+#include "behaviortree_ros/bt_async_behavior.h"
 #include <tf2_ros/transform_listener.h>
 #include <geometry_msgs/Pose.h>
 
 using namespace BT;
 
-class DetectFrameAction : public StatefulActionNode
+class DetectFrameAction : public AsyncBehaviorBase
 {
 public:
   // Define a constant default timeout value.
-  static constexpr double DEFAULT_TIMEOUT = 0.02;
+  static constexpr double DefaultTimeout = 1.0;
 
   DetectFrameAction(const std::string &name, const NodeConfiguration &conf)
-      : StatefulActionNode(name, conf)
+      : AsyncBehaviorBase(name, conf)
   {
-    tfBuffer_ = std::make_shared<tf2_ros::Buffer>();
-    tfListener_ = std::make_shared<tf2_ros::TransformListener>(*tfBuffer_);
   }
 
   static PortsList providedPorts()
@@ -23,93 +22,56 @@ public:
         InputPort<std::string>("target_frame"),
         InputPort<std::string>("source_frame"),
         OutputPort<geometry_msgs::Pose>("output_pose"),
-        InputPort<int>("max_tries"),
-        InputPort<double>("timeout")
-    };
+        InputPort<unsigned>("timeout", DetectFrameAction::DefaultTimeout, "timeout to lookup transform (milliseconds)")};
   }
 
-  NodeStatus onStart() override
+  BT::NodeStatus doWork() override
   {
-    // Retrieve target_frame and source_frame only once.
-    if (!getInput<std::string>("target_frame", target_frame_))
+    std::string target_frame;
+    if (!getInput<std::string>("target_frame", target_frame))
     {
-      throw RuntimeError("missing port [target_frame]");
+      ROS_ERROR("Missing required input [target_frame]");
+      return BT::NodeStatus::FAILURE;
     }
 
-    if (!getInput<std::string>("source_frame", source_frame_))
+    std::string source_frame;
+    if (!getInput<std::string>("source_frame", source_frame))
     {
-      throw RuntimeError("missing port [source_frame]");
+      ROS_ERROR("Missing required input [source_frame]");
+      return BT::NodeStatus::FAILURE;
     }
 
-    if (!getInput<int>("max_tries", max_tries_))
+    unsigned msec;
+    if (!getInput<unsigned>("timeout", msec))
     {
-      max_tries_ = 1; // Default to 1 try if max_tries is not set.
+      ROS_ERROR("Missing required input [timeout]");
+      return NodeStatus::FAILURE;
     }
+    ros::Duration timeout(static_cast<double>(msec) * 1e-3);
 
-    num_tries_ = 0;
+    tf2_ros::Buffer tfBuffer;
+    tf2_ros::TransformListener tfListener(tfBuffer);
 
-    // Try to get a custom timeout; otherwise, use the default.
-    if (getInput<double>("timeout", timeout_))
+    try
     {
-      if (timeout_ <= 0)
-      {
-        throw RuntimeError("Invalid timeout value. It must be greater than zero.");
-      }
+      auto transformStamped = tfBuffer.lookupTransform(target_frame, source_frame, ros::Time(0), timeout);
+      geometry_msgs::Pose pose;
+      pose.position.x = transformStamped.transform.translation.x;
+      pose.position.y = transformStamped.transform.translation.y;
+      pose.position.z = transformStamped.transform.translation.z;
+      pose.orientation.x = transformStamped.transform.rotation.x;
+      pose.orientation.y = transformStamped.transform.rotation.y;
+      pose.orientation.z = transformStamped.transform.rotation.z;
+      pose.orientation.w = transformStamped.transform.rotation.w;
+
+      setOutput("output_pose", pose);
+
+      return NodeStatus::SUCCESS;
     }
-    else
+    catch (tf2::TransformException &ex)
     {
-      timeout_ = DEFAULT_TIMEOUT; // Use the default timeout.
-    }
-
-    return NodeStatus::RUNNING;
-  }
-
-  NodeStatus onRunning() override
-  {
-    if (num_tries_ < max_tries_)
-    {
-      try
-      {
-        transformStamped_ = tfBuffer_->lookupTransform(target_frame_, source_frame_, ros::Time(0), ros::Duration(timeout_));
-        geometry_msgs::Pose pose;
-        pose.position.x = transformStamped_.transform.translation.x;
-        pose.position.y = transformStamped_.transform.translation.y;
-        pose.position.z = transformStamped_.transform.translation.z;
-        pose.orientation.x = transformStamped_.transform.rotation.x;
-        pose.orientation.y = transformStamped_.transform.rotation.y;
-        pose.orientation.z = transformStamped_.transform.rotation.z;
-        pose.orientation.w = transformStamped_.transform.rotation.w;
-
-        setOutput("output_pose", pose);
-
-        return NodeStatus::SUCCESS;
-      }
-      catch (tf2::TransformException &ex)
-      {
-        ROS_WARN("%s", ex.what());
-        num_tries_++; // Increment the number of tries.
-        return NodeStatus::RUNNING;
-      }
-    }
-    else
-    {
+      ROS_ERROR("DetectFrameAction: %s", ex.what());
       return NodeStatus::FAILURE;
     }
   }
-
-  void onHalted() override
-  {
-    // Clean up if necessary when the node is interrupted.
-    // For example, you can cancel ongoing transformations here.
-  }
-
-private:
-  int num_tries_;
-  int max_tries_;
-  double timeout_;
-  std::string target_frame_;
-  std::string source_frame_;
-  geometry_msgs::TransformStamped transformStamped_;
-  std::shared_ptr<tf2_ros::Buffer> tfBuffer_;
-  std::shared_ptr<tf2_ros::TransformListener> tfListener_;
 };
