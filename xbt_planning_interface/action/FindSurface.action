@@ -1,0 +1,16 @@
+geometry_msgs/WrenchStamped wrench
+float64 force_threshold
+float64 maximum_distance
+duration timeout
+
+---
+
+int32 error_code
+int32 FORCE_THRESHOLD_EXCEEDED = 0
+int32 MAXIMUM_DISTANCE_EXCEEDED = -1 
+int32 TIMEOUT_EXCEEDED = -2
+int32 TF_LOOKUP_ERROR = -3
+
+string error_string
+
+---

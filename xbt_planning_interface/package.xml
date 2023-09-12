@@ -56,6 +56,8 @@
   <depend>geometry_msgs</depend>
   <depend>trajectory_msgs</depend>
   <depend>compliant_trajectory_control</depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
 
   <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>

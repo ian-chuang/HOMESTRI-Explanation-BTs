@@ -1,0 +1,7 @@
+import rospy
+from xbt_planning_interface.find_surface_action_server import FindSurfaceActionServer
+
+if __name__ == "__main__":
+    rospy.init_node('find_surface_action_server')
+    planning_interface = FindSurfaceActionServer()
+    rospy.spin()
