@@ -112,7 +112,7 @@
             <SwitchControllerAction 
                 name="switch to compliance controller"
                 service_name="controller_manager/switch_controller"
-                controller="cartesian_compliance_controller"
+                controller="cartesian_compliance_controller_follow_trajectory"
             />
             <SimplePlanAction
                 name="plan to move to home"
@@ -129,6 +129,21 @@
                 wrench="0;5;0;0;0;0"
                 wrench_frame_id="world"
                 joint_trajectory="{joint_trajectory}"
+            />
+
+            <!-- find surface using compliance surface -->
+            <SwitchControllerAction 
+                name="switch to compliance controller"
+                service_name="controller_manager/switch_controller"
+                controller="cartesian_compliance_controller_find_surface"
+            />
+            <FindSurfaceAction
+                name="find surface"
+                server_name="/find_surface_action_server/find_surface"
+                force_target="10"
+                force_threshold="5"
+                maximum_distance="0.2"
+                maximum_duration="30"
             />
             <SwitchControllerAction 
                 name="switch to joint trajectory controller"

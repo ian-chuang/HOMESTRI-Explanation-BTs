@@ -1,14 +1,33 @@
 <launch>
     <arg name="use_rviz" default="true" />
 
+    <rosparam file="$(find xbt_bringup)/config/fake_controllers.yaml" />
+
+    <!-- Control wrench and frame with one handle -->
+    <remap from="cartesian_compliance_controller_follow_trajectory/target_frame" to="target_frame" />
+    <remap from="cartesian_compliance_controller_find_surface/target_frame" to="target_frame" />
+    <remap from="cartesian_compliance_controller_follow_trajectory/target_wrench" to="target_wrench" />
+    <remap from="cartesian_compliance_controller_find_surface/target_wrench" to="target_wrench" />
     <!-- fake robot -->
     <include file="$(find homestri_fake)/launch/a_bot_fake.launch">
+        <arg name="controllers" value="joint_state_controller pos_joint_traj_controller gripper_action_controller" />
+        <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory cartesian_compliance_controller_find_surface" />
         <arg name="use_rviz" value="false" />
     </include>
 
     <!-- simple moveit planning interface -->
     <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">
     </include>
+
+    <!-- find surface action server -->
+    <remap from="find_surface_action_server/target_wrench" to="target_wrench" />
+    <remap from="find_surface_action_server/wrench" to="wrench" />
+    <node 
+        name="find_surface_action_server" 
+        pkg="xbt_planning_interface" 
+        type="find_surface_action_server" 
+        output="screen"
+    />
 
     <!-- launch rviz -->
     <group if="$(arg use_rviz)">

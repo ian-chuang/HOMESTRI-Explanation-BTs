@@ -19,10 +19,13 @@ private:
     "joint_based_cartesian_traj_controller",
     "forward_cartesian_traj_controller",
     "joint_group_vel_controller",
+    "joint_group_pos_controller",
     "twist_controller",
     "cartesian_motion_controller",
     "cartesian_force_controller",
-    "cartesian_compliance_controller"
+    "cartesian_compliance_controller",
+    "cartesian_compliance_controller_follow_trajectory",
+    "cartesian_compliance_controller_find_surface"
   };
 
 public:
