@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /MotionPlanning1
         - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.5
     Tree Height: 230
@@ -40,7 +39,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Acceleration_Scaling_Factor: 1
+    - Acceleration_Scaling_Factor: 0.1
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: ""
@@ -479,7 +478,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 1
+      Velocity_Scaling_Factor: 0.1
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
@@ -495,15 +494,6 @@ Visualization Manager:
       Shape: Arrow
       Topic: /target_frame
       Unreliable: false
-      Value: false
-    - Class: rviz/InteractiveMarkers
-      Enable Transparency: true
-      Enabled: false
-      Name: InteractiveMarkers
-      Show Axes: false
-      Show Descriptions: true
-      Show Visual Aids: false
-      Update Topic: /motion_control_handle/update
       Value: false
   Enabled: true
   Global Options:
@@ -521,7 +511,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.240000009536743
+      Distance: 3.147038698196411
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -529,17 +519,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: -0.10000000149011612
-        Y: 0.25
-        Z: 0.30000001192092896
+        X: -0.2056550532579422
+        Y: 0.27084818482398987
+        Z: 0.5666731595993042
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.30000007152557373
+      Pitch: 0.3400000333786011
       Target Frame: world
-      Yaw: 6.064952850341797
+      Yaw: 5.584952354431152
     Saved: ~
 Window Geometry:
   Displays:
@@ -557,5 +547,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1291
-  X: 2086
-  Y: 228
+  X: 95
+  Y: 89

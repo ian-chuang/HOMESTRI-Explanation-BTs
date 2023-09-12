@@ -1,3 +1,10 @@
+# Publish wrench ----------------------------------
+xbt_force_torque_sensor_controller:
+  type: force_torque_sensor_controller/LowPassForceTorqueSensorController  # Specify the controller type as LowPassForceTorqueSensorController
+  name: wrench  # Specify the name of the force torque sensor interface to be published
+  low_pass_filter_coeff: 500 # coefficient for filter strength, higher value -> more filtering 
+  publish_rate: &loop_hz 500
+
 cartesian_compliance_controller_follow_trajectory:
   type: "velocity_controllers/CartesianComplianceController"
   end_effector_link: "tcp_link"
@@ -24,7 +31,7 @@ cartesian_compliance_controller_follow_trajectory:
     rot_z: 20
 
   solver:
-    error_scale: 1.0
+    error_scale: 0.3
 
   pd_gains:
     trans_x: { p: 0.2 }
@@ -54,7 +61,7 @@ cartesian_compliance_controller_find_surface:
     rot_z: 20
 
   solver:
-    error_scale: 0.01
+    error_scale: 0.03
 
   pd_gains:
     trans_x: { p: 0.2 }

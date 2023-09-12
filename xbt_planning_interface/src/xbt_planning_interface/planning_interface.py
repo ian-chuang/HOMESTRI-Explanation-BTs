@@ -10,7 +10,7 @@ class PlanningInterface:
         self.default_vel_scaling = rospy.get_param(name + '/default_vel_scaling')
         self.default_acc_scaling = rospy.get_param(name + '/default_acc_scaling')
 
-        self.move_group = moveit_commander.MoveGroupCommander(move_group_name)
+        self.move_group = moveit_commander.MoveGroupCommander(move_group_name, wait_for_servers=30.0)
 
         self.plan_srv = rospy.Service(name + '/simple_plan', SimplePlan, self.simple_plan_cb)
 

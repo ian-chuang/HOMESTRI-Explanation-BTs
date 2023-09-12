@@ -27,7 +27,7 @@ class FindSurfaceActionServer:
         self.wrench_publisher = rospy.Publisher(name + "/target_wrench", WrenchStamped, queue_size=1)
 
         # Initialize the current wrench subscriber
-        self.wrench_subscriber = rospy.Subscriber(name + "/wrench", WrenchStamped, self.wrench_callback, queue_size=1)
+        self.wrench_subscriber = rospy.Subscriber(name + "/ft_sensor_wrench", WrenchStamped, self.wrench_callback, queue_size=1)
         # current wrench 
         self.current_wrench = None
         # current wrench mutex

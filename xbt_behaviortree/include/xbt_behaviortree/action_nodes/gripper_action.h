@@ -49,14 +49,14 @@ public:
     setOutput<bool>("stalled", res.stalled);
     setOutput<bool>("reached_goal", res.reached_goal);
 
-    if (res.reached_goal || res.stalled)
-    {
+    // if (res.reached_goal || res.stalled)
+    // {
       return NodeStatus::SUCCESS;
-    }
-    else
-    {
-      return NodeStatus::FAILURE;
-    }
+    // }
+    // else
+    // {
+    //   return NodeStatus::FAILURE;
+    // }
   }
 
   virtual NodeStatus onFailedRequest(FailureCause failure) override
