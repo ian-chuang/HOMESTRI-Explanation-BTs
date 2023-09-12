@@ -12,6 +12,7 @@
 #include <xbt_behaviortree/action_nodes/trigger_action.h>
 #include <xbt_behaviortree/action_nodes/joint_trajectory_action.h>
 #include <xbt_behaviortree/action_nodes/compliant_trajectory_action.h>
+#include <xbt_behaviortree/action_nodes/find_surface_action.h>
 #include <xbt_behaviortree/condition_nodes/grasped_condition.h>
 #include <xbt_behaviortree/node_input_conversions.h>
 #include <explain_bt/ExplainableBT.h>
@@ -30,6 +31,7 @@ public:
     RegisterRosAction<GripperAction>(factory, "GripperAction", nh);
     RegisterRosAction<JointTrajectoryAction>(factory, "JointTrajectoryAction", nh);
     RegisterRosAction<CompliantTrajectoryAction>(factory, "CompliantTrajectoryAction", nh);
+    RegisterRosAction<FindSurfaceAction>(factory, "FindSurfaceAction", nh);
     RegisterRosService<SwitchControllerAction>(factory, "SwitchControllerAction", nh);
     RegisterRosService<SimplePlanAction>(factory, "SimplePlanAction", nh);
     RegisterRosService<TriggerAction>(factory, "TriggerAction", nh);
