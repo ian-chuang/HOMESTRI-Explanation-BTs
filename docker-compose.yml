@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  homestri-ur:
+  homestri-explanation-bts:
     build:
       context: .
       dockerfile: Dockerfile

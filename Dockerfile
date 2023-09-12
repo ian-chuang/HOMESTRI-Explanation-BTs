@@ -1,4 +1,4 @@
-FROM thbarkouki/homestri-ur:minimal-v1.0.2
+FROM thbarkouki/homestri-ur:minimal-v1.0.3
 
 SHELL ["/bin/bash", "-c"]
 
@@ -23,5 +23,5 @@ RUN source /opt/ros/noetic/setup.bash && \
     && rm -rf /var/lib/apt/lists/*
 
 # Build the ROS workspace
-# RUN source /opt/ros/noetic/setup.bash && \
-#     catkin build
+RUN source /opt/ros/noetic/setup.bash && \
+    catkin build
