@@ -6,8 +6,8 @@
     <!-- Control wrench and frame with one handle -->
     <remap from="cartesian_compliance_controller_follow_trajectory/target_frame" to="target_frame" />
     <remap from="cartesian_compliance_controller_find_surface/target_frame" to="target_frame" />
-    <remap from="cartesian_compliance_controller_follow_trajectory/target_wrench" to="target_wrench_filtered" />
-    <remap from="cartesian_compliance_controller_find_surface/target_wrench" to="target_wrench_filtered" />
+    <remap from="cartesian_compliance_controller_follow_trajectory/target_wrench" to="target_wrench" />
+    <remap from="cartesian_compliance_controller_find_surface/target_wrench" to="target_wrench" />
     <remap from="cartesian_compliance_controller_follow_trajectory/ft_sensor_wrench" to="wrench_filtered" />
     <remap from="cartesian_compliance_controller_find_surface/ft_sensor_wrench" to="wrench_filtered" />
     <!-- real robot -->
@@ -34,19 +34,6 @@
         type="find_surface_action_server" 
         output="screen"
     />
-
-    <!-- filter noise on target_wrench to avoid abrupt motions -->
-    <node 
-        name="low_pass_wrench_relay"
-        pkg="xbt_planning_interface" 
-        type="low_pass_wrench_relay"
-        output="screen"
-    >
-        <param name="input_topic" value="target_wrench" type="str"/>
-        <param name="output_topic" value="target_wrench_filtered" type="str"/>
-        <!-- The higher the alpha, the more filtering. Alpha is between 0 and 1-->
-        <param name="alpha" value="0.7" type="double"/> 
-    </node>
 
     <!-- launch rviz -->
     <group if="$(arg use_rviz)">

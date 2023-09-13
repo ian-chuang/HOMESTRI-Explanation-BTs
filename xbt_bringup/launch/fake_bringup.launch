@@ -6,8 +6,8 @@
     <!-- Control wrench and frame with one handle -->
     <remap from="cartesian_compliance_controller_follow_trajectory/target_frame" to="target_frame" />
     <remap from="cartesian_compliance_controller_find_surface/target_frame" to="target_frame" />
-    <remap from="cartesian_compliance_controller_follow_trajectory/target_wrench" to="target_wrench_filtered" />
-    <remap from="cartesian_compliance_controller_find_surface/target_wrench" to="target_wrench_filtered" />
+    <remap from="cartesian_compliance_controller_follow_trajectory/target_wrench" to="target_wrench" />
+    <remap from="cartesian_compliance_controller_find_surface/target_wrench" to="target_wrench" />
     <!-- fake robot -->
     <include file="$(find homestri_fake)/launch/a_bot_fake.launch">
         <arg name="controllers" value="joint_state_controller pos_joint_traj_controller gripper_action_controller" />

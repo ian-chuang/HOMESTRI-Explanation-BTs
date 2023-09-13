@@ -21,6 +21,7 @@ cartesian_compliance_controller_follow_trajectory:
     - wrist_3_joint  
 
   hand_frame_control: true
+  target_wrench_low_pass_coefficient: 0.0001
 
   stiffness: # w.r.t. compliance_ref_link
     trans_x: 300
@@ -51,6 +52,7 @@ cartesian_compliance_controller_find_surface:
   joints: *robot_joints
 
   hand_frame_control: true
+  target_wrench_low_pass_coefficient: 0.001
 
   stiffness: # w.r.t. compliance_ref_link
     trans_x: 0
