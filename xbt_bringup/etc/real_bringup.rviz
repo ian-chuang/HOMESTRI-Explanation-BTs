@@ -484,7 +484,7 @@ Visualization Manager:
       Axes Radius: 0.10000000149011612
       Class: rviz/Pose
       Color: 255; 25; 0
-      Enabled: false
+      Enabled: true
       Head Length: 0.30000001192092896
       Head Radius: 0.10000000149011612
       Name: Pose
@@ -494,7 +494,7 @@ Visualization Manager:
       Shape: Arrow
       Topic: /target_frame
       Unreliable: false
-      Value: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -548,4 +548,4 @@ Window Geometry:
     collapsed: false
   Width: 1291
   X: 95
-  Y: 89
+  Y: 52

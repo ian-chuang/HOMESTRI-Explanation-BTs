@@ -1,0 +1,7 @@
+import rospy
+from xbt_planning_interface.low_pass_wrench_relay import LowPassWrenchRelay
+        
+if __name__ == '__main__':
+    rospy.init_node('low_pass_wrench_relay')
+    node = LowPassWrenchRelay()
+    rospy.spin()

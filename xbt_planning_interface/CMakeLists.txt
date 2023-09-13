@@ -46,5 +46,6 @@ catkin_install_python(
     PROGRAMS 
         scripts/planning_interface
         scripts/find_surface_action_server
+        scripts/low_pass_wrench_relay
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

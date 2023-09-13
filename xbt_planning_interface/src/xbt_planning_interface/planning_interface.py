@@ -1,6 +1,8 @@
 import rospy
 import moveit_commander
 from xbt_planning_interface.srv import SimplePlan, SimplePlanRequest, SimplePlanResponse
+import moveit_msgs.msg
+import math
 
 class PlanningInterface:
     def __init__(self):
@@ -12,9 +14,52 @@ class PlanningInterface:
 
         self.move_group = moveit_commander.MoveGroupCommander(move_group_name, wait_for_servers=30.0)
 
+        self.move_group.set_planning_time(5)
+        self.move_group.allow_replanning(True)
+        self.move_group.allow_looking(True)
+
+        # constraints = moveit_msgs.msg.Constraints()
+        # constraints.joint_constraints = []
+
+        # joint_constraint = moveit_msgs.msg.JointConstraint()
+        # joint_constraint.joint_name = 'shoulder_pan_joint'
+        # joint_constraint.position = 0
+        # joint_constraint.tolerance_above = math.pi
+        # joint_constraint.tolerance_below = math.pi
+        # joint_constraint.weight = 10
+        # constraints.joint_constraints.append(joint_constraint)
+
+        # joint_constraint = moveit_msgs.msg.JointConstraint()
+        # joint_constraint.joint_name = 'elbow_joint'
+        # joint_constraint.position = math.pi/2
+        # joint_constraint.tolerance_above = math.pi/2
+        # joint_constraint.tolerance_below = math.pi/2
+        # joint_constraint.weight = 10
+        # constraints.joint_constraints.append(joint_constraint)
+
+        # joint_constraint = moveit_msgs.msg.JointConstraint()
+        # joint_constraint.joint_name = 'wrist_1_joint'
+        # joint_constraint.position = -math.pi/2
+        # joint_constraint.tolerance_above = math.pi
+        # joint_constraint.tolerance_below = math.pi/4
+        # joint_constraint.weight = 10
+        # constraints.joint_constraints.append(joint_constraint)
+
+        # joint_constraint = moveit_msgs.msg.JointConstraint()
+        # joint_constraint.joint_name = 'wrist_3_joint'
+        # joint_constraint.position = 0
+        # joint_constraint.tolerance_above = math.pi
+        # joint_constraint.tolerance_below = math.pi
+        # joint_constraint.weight = 10
+        # constraints.joint_constraints.append(joint_constraint)
+
+        # self.move_group.set_path_constraints(constraints)
+
         self.plan_srv = rospy.Service(name + '/simple_plan', SimplePlan, self.simple_plan_cb)
 
     def simple_plan_cb(self, req):
+        print(req)
+
         mode = req.mode
         target = req.target
         pose = req.pose
@@ -34,7 +79,7 @@ class PlanningInterface:
 
         if mode == SimplePlanRequest.POSE:
             self.move_group.set_planning_pipeline_id("ompl")
-            self.move_group.set_planner_id("")
+            self.move_group.set_planner_id("RRTConnect")
             self.move_group.set_pose_target(pose)
         elif mode == SimplePlanRequest.POSE_LINE:
             self.move_group.set_planning_pipeline_id("pilz_industrial_motion_planner")
@@ -42,7 +87,7 @@ class PlanningInterface:
             self.move_group.set_pose_target(pose)
         elif mode == SimplePlanRequest.TARGET:
             self.move_group.set_planning_pipeline_id("ompl")
-            self.move_group.set_planner_id("")
+            self.move_group.set_planner_id("RRTConnect")
             self.move_group.set_named_target(target)
 
         success, robot_traj, time, error_code = self.move_group.plan()
