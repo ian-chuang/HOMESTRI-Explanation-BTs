@@ -95,7 +95,7 @@
 
             <!-- move to pose -->
             <SimplePlanAction
-                name="plan to move to test frame"
+                name="plan to move to handle"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
                 pose="{handle_pose}"
@@ -105,7 +105,7 @@
                 joint_trajectory="{joint_trajectory}"
             />
             <JointTrajectoryAction
-                name="move to test frame"
+                name="move to handle"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             />

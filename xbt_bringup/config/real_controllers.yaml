@@ -256,6 +256,7 @@ cartesian_compliance_controller_follow_trajectory:
 
   hand_frame_control: true
   target_wrench_low_pass_coefficient: 0.0002
+  publish_wrench_feedback: true
 
   stiffness: # w.r.t. compliance_ref_link
     trans_x: 300
