@@ -1,8 +1,6 @@
 <launch>
     <arg name="use_rviz" default="true" />
 
-    <rosparam file="$(find xbt_bringup)/config/real_controllers.yaml" />
-
     <!-- Control wrench and frame with one handle -->
     <remap from="cartesian_compliance_controller_follow_trajectory/target_frame" to="target_frame" />
     <remap from="cartesian_compliance_controller_find_surface/target_frame" to="target_frame" />
@@ -12,14 +10,15 @@
     <remap from="cartesian_compliance_controller_find_surface/ft_sensor_wrench" to="wrench_filtered" />
     <!-- real robot -->
     <include file="$(find homestri_bringup)/launch/a_bot_bringup.launch">
-        <arg name="controllers" value="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller xbt_force_torque_sensor_controller" />
+        <arg name="controller_config_file" value="$(find xbt_bringup)/config/real_controllers.yaml" />
+        <arg name="controllers" value="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller" />
         <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory cartesian_compliance_controller_find_surface" />
         <arg name="use_rviz" value="false" />
     </include>
 
     <!-- launch realsense -->
-    <!-- <include file="$(find realsense2_camera)/launch/rs_camera.launch">
-    </include> -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    </include>
 
     <!-- simple moveit planning interface -->
     <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">

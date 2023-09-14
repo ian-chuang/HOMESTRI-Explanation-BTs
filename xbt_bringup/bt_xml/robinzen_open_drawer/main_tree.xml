@@ -68,6 +68,13 @@
                 translation_xyz="-0.1;0;0"
                 output_pose="{retreat_handle_pose}"
             />
+            <TransformPoseAction
+                name="create offset approach pose"
+                input_pose="{retreat_handle_pose}"
+                translation_xyz="0;0;0.25"
+                quaternion_xyzw="0;0.3826834;0;0.9238795"
+                output_pose="{inspect_pose}"
+            />
 
             <!-- move to approach pose -->
             <SimplePlanAction
@@ -136,7 +143,7 @@
             <CompliantTrajectoryAction
                 name="pull handle with compliance"
                 server_name="/compliant_traj_action_server/follow_compliant_trajectory"
-                wrench="-8;0;30;0;0;0"
+                wrench="0;0;30;0;0;0"
                 wrench_frame_id="world"
                 joint_trajectory="{joint_trajectory}"
             />
@@ -155,7 +162,7 @@
             <CompliantTrajectoryAction
                 name="pull handle with compliance"
                 server_name="/compliant_traj_action_server/follow_compliant_trajectory"
-                wrench="0;0;30;0;0;0"
+                wrench="-8;0;30;0;0;0"
                 wrench_frame_id="world"
                 joint_trajectory="{joint_trajectory}"
             />
@@ -209,6 +216,249 @@
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             />
+
+
+            <!-- inspect -->
+            <SwitchControllerAction 
+                name="switch to joint trajectory controller"
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+            <SimplePlanAction
+                name="plan to pull handle"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{inspect_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.03"
+                acc_scaling="0.03"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <JointTrajectoryAction
+                name="move to test frame"
+                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+            <SimplePlanAction
+                name="plan to pull handle"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{retreat_handle_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.03"
+                acc_scaling="0.03"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <JointTrajectoryAction
+                name="move to test frame"
+                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- close drawer -->
+
+
+            <!-- follow compliant trajectory to pull-->
+            <TriggerAction
+                name="zero force torque sensor"
+                service_name="/ur_hardware_interface/zero_ftsensor"
+            />
+            <SleepAction 
+                name="sleep for 1 second" 
+                msec="1000"
+            />
+            <SwitchControllerAction 
+                name="switch to compliance controller"
+                service_name="controller_manager/switch_controller"
+                controller="cartesian_compliance_controller_follow_trajectory"
+            />
+            <SimplePlanAction
+                name="plan to move to test frame"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{lower_handle_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <CompliantTrajectoryAction
+                name="pull handle with compliance"
+                server_name="/compliant_traj_action_server/follow_compliant_trajectory"
+                wrench="0;0;0;0;0;0"
+                wrench_frame_id="world"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+            <!-- close gripper -->
+            <GripperAction
+                name="close gripper"
+                server_name="/gripper_controller/gripper_cmd"
+                position="0.8"
+                max_effort="20"
+            />            
+
+            <!-- lift handle -->
+            <SimplePlanAction
+                name="plan to pull handle"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{pull_handle_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.01"
+                acc_scaling="0.01"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <CompliantTrajectoryAction
+                name="pull handle with compliance"
+                server_name="/compliant_traj_action_server/follow_compliant_trajectory"
+                wrench="0;0;30;0;0;0"
+                wrench_frame_id="world"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+            <TransformPoseAction
+                name="create offset approach pose"
+                input_pose="{lift_handle_pose}"
+                translation_xyz="0.05;0;0"
+                output_pose="{lift_handle_pose}"
+            />
+
+            <!-- pull handle  -->
+            <SimplePlanAction
+                name="plan to pull handle"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{lift_handle_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.03"
+                acc_scaling="0.03"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <CompliantTrajectoryAction
+                name="pull handle with compliance"
+                server_name="/compliant_traj_action_server/follow_compliant_trajectory"
+                wrench="8;0;30;0;0;0"
+                wrench_frame_id="world"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+            <!-- lower handle -->
+            <SimplePlanAction
+                name="plan to pull handle"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{handle_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.01"
+                acc_scaling="0.01"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <CompliantTrajectoryAction
+                name="pull handle with compliance"
+                server_name="/compliant_traj_action_server/follow_compliant_trajectory"
+                wrench="0;0;0;0;0;0"
+                wrench_frame_id="world"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+            <!-- open gripper -->
+            <GripperAction
+                name="close gripper"
+                server_name="/gripper_controller/gripper_cmd"
+                position="0"
+                max_effort="20"
+            />      
+
+            <SwitchControllerAction 
+                name="switch to joint trajectory controller"
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+
+            <!-- retreat -->
+            <SimplePlanAction
+                name="plan to move to test frame"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{approach_handle_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <JointTrajectoryAction
+                name="move to test frame"
+                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+
+
+            <TransformPoseAction
+                name="create offset approach pose"
+                input_pose="{approach_handle_pose}"
+                translation_xyz="-0.1;0;0.1"
+                output_pose="{home_pose}"
+            />
+
+            <SimplePlanAction
+                name="plan to move to test frame"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE"
+                pose="{home_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.02"
+                acc_scaling="0.02"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <JointTrajectoryAction
+                name="move to test frame"
+                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+
         </Sequence>
     </BehaviorTree>
 </root>
