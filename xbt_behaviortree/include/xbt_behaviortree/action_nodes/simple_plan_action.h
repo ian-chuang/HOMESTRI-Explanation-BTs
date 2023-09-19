@@ -25,6 +25,7 @@ public:
         return {
             InputPort<std::string>("mode"),
             InputPort<std::string>("target"),
+            InputPort<std::vector<double>>("joints"),
             InputPort<geometry_msgs::Pose>("pose"),
             InputPort<std::string>("pose_frame_id"),
             InputPort<double>("vel_scaling", SimplePlanAction::DefaultVelScaling, "Velocity scaling factor"),
@@ -75,6 +76,15 @@ public:
             if (!getInput<std::string>("target", request.target))
             {
                 ROS_ERROR("Missing required input [target]");
+                return false;
+            }
+        }
+        else if (mode_str == "JOINT")
+        {
+            request.mode = xbt_planning_interface::SimplePlanRequest::JOINT;
+            if (!getInput<std::vector<double>>("joints", request.joints))
+            {
+                ROS_ERROR("Missing required input [joints]");
                 return false;
             }
         }

@@ -61,6 +61,7 @@ class PlanningInterface:
         print(req)
 
         mode = req.mode
+        joints = req.joints
         target = req.target
         pose = req.pose
         vel_scaling = req.vel_scaling
@@ -86,9 +87,13 @@ class PlanningInterface:
             self.move_group.set_planner_id("LIN")
             self.move_group.set_pose_target(pose)
         elif mode == SimplePlanRequest.TARGET:
-            self.move_group.set_planning_pipeline_id("ompl")
-            self.move_group.set_planner_id("RRTConnect")
+            self.move_group.set_planning_pipeline_id("chomp")
+            self.move_group.set_planner_id("CHOMP")
             self.move_group.set_named_target(target)
+        elif mode == SimplePlanRequest.JOINT:
+            self.move_group.set_planning_pipeline_id("chomp")
+            self.move_group.set_planner_id("CHOMP")
+            self.move_group.set_joint_value_target(joints)
 
         success, robot_traj, time, error_code = self.move_group.plan()
 

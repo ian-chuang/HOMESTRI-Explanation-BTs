@@ -123,6 +123,17 @@ namespace BT
     return strvec;
   }
 
+  template <> inline std::vector<double> convertFromString(StringView str)
+  {
+    // We expect real numbers separated by semicolons
+    auto parts = splitString(str, ';');
+    std::vector<double> doublevec(parts.size());
+    for (unsigned int i = 0; i < parts.size(); i++) {
+      doublevec[i] = convertFromString<double>(parts[i]);
+    }
+    return doublevec;
+  }
+
   template <> inline geometry_msgs::Vector3 convertFromString(StringView str)
   {
     // We expect real numbers separated by semicolons

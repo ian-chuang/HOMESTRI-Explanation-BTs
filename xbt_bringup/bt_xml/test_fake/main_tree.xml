@@ -1,12 +1,29 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
         <Sequence name="test sequence">
-            <!-- move home -->
+            
             <SwitchControllerAction 
                 name="switch to joint trajectory controller"
                 service_name="controller_manager/switch_controller"
                 controller="pos_joint_traj_controller"
             />
+
+            <!-- move to joints -->
+            <SimplePlanAction
+                name="plan to move to home"
+                service_name="/planning_interface/simple_plan"
+                mode="JOINT"
+                joints="1.57;0;0;0;0;0"
+                vel_scaling="1"
+                acc_scaling="1"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <JointTrajectoryAction
+                name="move to home"
+                server_name="/pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <!-- move home -->
             <SimplePlanAction
                 name="plan to move to home"
                 service_name="/planning_interface/simple_plan"
