@@ -227,6 +227,17 @@
                 wrench_frame_id="world"
             />
 
+            <!-- save current pose -->
+            <DetectFrameAction 
+                name="detect drawer handle tag frame"
+                source_frame="drawer_handle_tag_frame" 
+                target_frame="world" 
+                output_pose="{drawer_handle_tag_pose}"
+                timeout="1000"
+            />
+
+            <!-- calculate retreat pose -->
+
             <!-- open gripper -->
             <GripperAction
                 name="close gripper"
@@ -268,6 +279,28 @@
             />
 
             <!-- calculate poses for inspection -->
+
+            <!-- fix the translation -->
+            <TransformPoseAction
+                name="reorient tag pose to match world pose"
+                input_pose="{handle_pose}"
+                translation_xyz="-0.45;0;0.2"  
+                output_pose="{raise_gripper_pose}"
+            />
+            <TransformPoseAction
+                name="reorient tag pose to match world pose"
+                input_pose="{raise_gripper_pose}"
+                translation_xyz="0.2;0;0"  
+                quaternion_xyzw="0;0.7071068;0;0.7071068"
+                output_pose="{approach_inspect_gripper_pose}"
+            />
+            <TransformPoseAction
+                name="reorient tag pose to match world pose"
+                input_pose="{raise_gripper_pose}"
+                translation_xyz="0.05;0;0"  
+                output_pose="{inspect_gripper_pose}"
+            />
+
 
             <!-- <TransformPoseAction
                 name="calculate raise pose"
