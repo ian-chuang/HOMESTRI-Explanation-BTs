@@ -10,6 +10,7 @@ class DetectFrameAction : public AsyncBehaviorBase
 public:
   // Define a constant default timeout value.
   static constexpr double DefaultTimeout = 1.0;
+  static constexpr double DefaultWaitDuration = 0.0;
 
   DetectFrameAction(const std::string &name, const NodeConfiguration &conf)
       : AsyncBehaviorBase(name, conf)
@@ -22,6 +23,7 @@ public:
         InputPort<std::string>("target_frame"),
         InputPort<std::string>("source_frame"),
         OutputPort<geometry_msgs::Pose>("output_pose"),
+        InputPort<unsigned>("wait_duration", DetectFrameAction::DefaultWaitDuration, "wait for given duration before getting frame (milliseconds)"),
         InputPort<unsigned>("timeout", DetectFrameAction::DefaultTimeout, "timeout to lookup transform (milliseconds)")};
   }
 
@@ -49,8 +51,18 @@ public:
     }
     ros::Duration timeout(static_cast<double>(msec) * 1e-3);
 
+    if (!getInput<unsigned>("wait_duration", msec))
+    {
+      ROS_ERROR("Missing required input [wait_duration]");
+      return NodeStatus::FAILURE;
+    }
+    ros::Duration wait_duration(static_cast<double>(msec) * 1e-3);
+
     tf2_ros::Buffer tfBuffer;
     tf2_ros::TransformListener tfListener(tfBuffer);
+
+    // wait for given duration before getting frame
+    ros::Duration(wait_duration).sleep();
 
     try
     {
