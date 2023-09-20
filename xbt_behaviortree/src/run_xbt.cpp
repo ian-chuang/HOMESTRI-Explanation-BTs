@@ -6,6 +6,7 @@
 #include <xbt_behaviortree/action_nodes/sleep_action.h>
 #include <xbt_behaviortree/action_nodes/detect_frame_action.h>
 #include <xbt_behaviortree/action_nodes/transform_pose_action.h>
+#include <xbt_behaviortree/action_nodes/set_target_wrench_action.h>
 #include <xbt_behaviortree/action_nodes/gripper_action.h>
 #include <xbt_behaviortree/action_nodes/switch_controller_action.h>
 #include <xbt_behaviortree/action_nodes/simple_plan_action.h>
@@ -36,6 +37,7 @@ public:
     RegisterRosService<SimplePlanAction>(factory, "SimplePlanAction", nh);
     RegisterRosService<TriggerAction>(factory, "TriggerAction", nh);
     RegisterRosSubscriber<GraspedCondition>(factory, "GraspedCondition", nh);
+    factory.registerNodeType<SetTargetWrenchAction>("SetTargetWrenchAction");
     factory.registerNodeType<SleepAction>("SleepAction");
     factory.registerNodeType<TransformPoseAction>("TransformPoseAction");
     factory.registerNodeType<DetectFrameAction>("DetectFrameAction");
