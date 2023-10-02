@@ -25,6 +25,7 @@ private:
     "cartesian_force_controller",
     "cartesian_compliance_controller",
     "cartesian_compliance_controller_follow_trajectory",
+    "cartesian_compliance_controller_open_close_latch",
     "cartesian_compliance_controller_find_surface"
   };
 

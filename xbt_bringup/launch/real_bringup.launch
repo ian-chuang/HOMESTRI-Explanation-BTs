@@ -4,15 +4,18 @@
     <!-- Control wrench and frame with one handle -->
     <remap from="cartesian_compliance_controller_follow_trajectory/target_frame" to="target_frame" />
     <remap from="cartesian_compliance_controller_find_surface/target_frame" to="target_frame" />
+    <remap from="cartesian_compliance_controller_open_close_latch/target_frame" to="target_frame" />
     <remap from="cartesian_compliance_controller_follow_trajectory/target_wrench" to="target_wrench" />
     <remap from="cartesian_compliance_controller_find_surface/target_wrench" to="target_wrench" />
-    <remap from="cartesian_compliance_controller_follow_trajectory/ft_sensor_wrench" to="wrench_filtered" />
-    <remap from="cartesian_compliance_controller_find_surface/ft_sensor_wrench" to="wrench_filtered" />
+    <remap from="cartesian_compliance_controller_open_close_latch/target_wrench" to="target_wrench" />
+    <remap from="cartesian_compliance_controller_follow_trajectory/ft_sensor_wrench" to="wrench" />
+    <remap from="cartesian_compliance_controller_find_surface/ft_sensor_wrench" to="wrench" />
+    <remap from="cartesian_compliance_controller_open_close_latch/ft_sensor_wrench" to="wrench" />
     <!-- real robot -->
     <include file="$(find homestri_bringup)/launch/a_bot_bringup.launch">
         <arg name="controller_config_file" value="$(find xbt_bringup)/config/real_controllers.yaml" />
         <arg name="controllers" value="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller" />
-        <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory cartesian_compliance_controller_find_surface" />
+        <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory" />
         <arg name="use_rviz" value="false" />
     </include>
 
@@ -26,7 +29,7 @@
 
     <!-- find surface action server -->
     <remap from="find_surface_action_server/target_wrench" to="target_wrench" />
-    <remap from="find_surface_action_server/ft_sensor_wrench" to="wrench_filtered" />
+    <remap from="find_surface_action_server/ft_sensor_wrench" to="wrench" />
     <node 
         name="find_surface_action_server" 
         pkg="xbt_planning_interface" 

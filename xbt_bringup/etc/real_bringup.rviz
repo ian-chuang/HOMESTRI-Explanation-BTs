@@ -276,7 +276,7 @@ Visualization Manager:
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
         Planning Group: arm
-        Query Goal State: false
+        Query Goal State: true
         Query Start State: false
         Show Workspace: false
         Start State Alpha: 1
@@ -539,15 +539,11 @@ Visualization Manager:
           Value: false
         d415_mount_link:
           Value: false
-        drawer_handle_tag_frame:
-          Value: true
         flange:
           Value: false
         forearm_link:
           Value: false
         gripper_body:
-          Value: false
-        handle_frame:
           Value: false
         left_inner_finger:
           Value: false
@@ -597,8 +593,6 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          handle_frame:
-            {}
           pedestal:
             base_link:
               base:
@@ -616,8 +610,7 @@ Visualization Manager:
                                 camera_link:
                                   camera_color_frame:
                                     camera_color_optical_frame:
-                                      drawer_handle_tag_frame:
-                                        {}
+                                      {}
                                   camera_depth_frame:
                                     camera_depth_optical_frame:
                                       {}
@@ -706,4 +699,4 @@ Window Geometry:
     collapsed: false
   Width: 1291
   X: 280
-  Y: 60
+  Y: 27
