@@ -13,7 +13,7 @@
                 name="plan to search target"
                 service_name="/planning_interface/simple_plan"
                 mode="JOINT"
-                joints="0;-1.57;2.15;-3.71;-1.57;3.14"
+                joints="0;-1.57;2.15;-3.71;-1.57;-3.14"
                 vel_scaling="0.05"
                 acc_scaling="0.05"
                 joint_trajectory="{joint_trajectory}"
@@ -76,6 +76,10 @@
                 output_pose="{tag_pose}"
                 wait_duration="1000"
                 timeout="1000"
+                qx="0.5"
+                qy="-0.5"
+                qz="-0.5"
+                qw="0.5"
             />
 
             <!-- calculate poses for opening drawer-->
@@ -270,7 +274,7 @@
             <TransformPoseAction
                 name="reorient tag pose to match world pose"
                 input_pose="{handle_pose}"
-                translation_xyz="-0.45;0;0.2"  
+                translation_xyz="-0.45;0;0.3"  
                 output_pose="{raise_gripper_pose}"
             />
             <TransformPoseAction
@@ -304,7 +308,7 @@
                 joint_trajectory="{joint_trajectory}"
             /> 
 
-
+            <!-- do inspection stuff -->
 
             <!-- <TransformPoseAction
                 name="calculate raise pose"
@@ -331,7 +335,29 @@
                 joint_trajectory="{joint_trajectory}"
             />  -->
 
+            <!-- calculate new approach pose-->
+            <TransformPoseAction
+                name="calculate approach pose"
+                input_pose="{retreat_handle_gripper_pose}"
+                output_pose="{approach_handle_gripper_pose}"
+            />
+            <SimplePlanAction
+                name="go to approach handle pose"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{approach_handle_gripper_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.02"
+                acc_scaling="0.02"
+                joint_trajectory="{joint_trajectory}"
+            />
+            <JointTrajectoryAction
+                name="go to approach handle pose"
+                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            /> 
 
+            
 
 
         </Sequence>
