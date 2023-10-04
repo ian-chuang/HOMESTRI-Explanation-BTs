@@ -15,7 +15,7 @@
     <include file="$(find homestri_bringup)/launch/a_bot_bringup.launch">
         <arg name="controller_config_file" value="$(find xbt_bringup)/config/real_controllers.yaml" />
         <arg name="controllers" value="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller" />
-        <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory" />
+        <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory cartesian_compliance_controller_open_close_latch cartesian_compliance_controller_find_surface" />
         <arg name="use_rviz" value="false" />
     </include>
 

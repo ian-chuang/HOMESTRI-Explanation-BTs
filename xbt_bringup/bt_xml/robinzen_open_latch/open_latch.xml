@@ -87,13 +87,6 @@
                 service_name="/ur_hardware_interface/zero_ftsensor"
             />
 
-                        
-
-            <SleepAction 
-                name="let force torque sensor zeroing take effect" 
-                msec="2000"
-            />
-
             <!-- switch to joint traj ctrl -->
             <SwitchControllerAction 
                 name="switch to cartesian_compliance_controller_find_surface"
@@ -104,7 +97,7 @@
             <FindSurfaceAction
                 server_name="find_surface_action_server/find_surface"
                 force_target="10"
-                force_threshold="2"
+                force_threshold="5"
                 maximum_distance="0.1"
                 maximum_duration="30"
             />
@@ -155,10 +148,6 @@
                 name="zero force torque sensor"
                 service_name="/ur_hardware_interface/zero_ftsensor"
             />
-            <SleepAction 
-                name="let force torque sensor zeroing take effect" 
-                msec="2000"
-            />
 
             <!-- switch to compliance control-->
             <SwitchControllerAction 
@@ -195,8 +184,8 @@
                 mode="POSE_LINE"
                 pose="{open_latch_pose}"
                 pose_frame_id="world"
-                vel_scaling="0.02"
-                acc_scaling="0.02"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
                 joint_trajectory="{joint_trajectory}"
             />
             <CompliantTrajectoryAction
@@ -233,7 +222,7 @@
             <TransformPoseAction
                 name="calculate retreat handle pose"
                 input_pose="{gripper_pose}"
-                translation_xyz="-0.05;0;0"
+                translation_xyz="-0.1;0;0"
                 output_pose="{retreat_gripper_pose}"
             />
 
@@ -257,11 +246,11 @@
             <SimplePlanAction
                 name="plan to move to test frame"
                 service_name="/planning_interface/simple_plan"
-                mode="POSE_LINE"
+                mode="POSE"
                 pose="{approach_latch_pose}"
                 pose_frame_id="world"
-                vel_scaling="0.02"
-                acc_scaling="0.02"
+                vel_scaling="0.06"
+                acc_scaling="0.06"
                 joint_trajectory="{joint_trajectory}"
             />
             <JointTrajectoryAction

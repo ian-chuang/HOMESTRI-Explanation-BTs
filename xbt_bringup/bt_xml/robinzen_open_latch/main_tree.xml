@@ -94,8 +94,15 @@
             <TransformPoseAction
                 name="calculate latch 1 pose"
                 input_pose="{tag_pose}"
-                translation_xyz="0;-0.265;-0.04"
+                translation_xyz="0;-0.2675;-0.04"
                 output_pose="{latch_1_pose}"
+            />
+
+            <TransformPoseAction
+                name="calculate latch 2 pose"
+                input_pose="{tag_pose}"
+                translation_xyz="0;-0.2675;-0.3876625"
+                output_pose="{latch_2_pose}"
             />
 
             <!-- open latch 1 -->
@@ -104,6 +111,13 @@
                 name="open latch 1"
                 latch_name="latch 1"
                 latch_pose="{latch_1_pose}"
+            />
+
+            <SubTree
+                ID="open latch"
+                name="open latch 2"
+                latch_name="latch 2"
+                latch_pose="{latch_2_pose}"
             />
             
 

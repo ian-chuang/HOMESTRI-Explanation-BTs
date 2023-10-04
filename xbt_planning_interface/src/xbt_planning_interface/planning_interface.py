@@ -18,8 +18,8 @@ class PlanningInterface:
         self.move_group.allow_replanning(True)
         self.move_group.allow_looking(True)
 
-        # constraints = moveit_msgs.msg.Constraints()
-        # constraints.joint_constraints = []
+        constraints = moveit_msgs.msg.Constraints()
+        constraints.joint_constraints = []
 
         # joint_constraint = moveit_msgs.msg.JointConstraint()
         # joint_constraint.joint_name = 'shoulder_pan_joint'
@@ -45,15 +45,15 @@ class PlanningInterface:
         # joint_constraint.weight = 10
         # constraints.joint_constraints.append(joint_constraint)
 
-        # joint_constraint = moveit_msgs.msg.JointConstraint()
-        # joint_constraint.joint_name = 'wrist_3_joint'
-        # joint_constraint.position = 0
-        # joint_constraint.tolerance_above = math.pi
-        # joint_constraint.tolerance_below = math.pi
-        # joint_constraint.weight = 10
-        # constraints.joint_constraints.append(joint_constraint)
+        joint_constraint = moveit_msgs.msg.JointConstraint()
+        joint_constraint.joint_name = 'wrist_3_joint'
+        joint_constraint.position = -math.pi
+        joint_constraint.tolerance_above = 4
+        joint_constraint.tolerance_below = math.pi
+        joint_constraint.weight = 10
+        constraints.joint_constraints.append(joint_constraint)
 
-        # self.move_group.set_path_constraints(constraints)
+        self.move_group.set_path_constraints(constraints)
 
         self.plan_srv = rospy.Service(name + '/simple_plan', SimplePlan, self.simple_plan_cb)
 
