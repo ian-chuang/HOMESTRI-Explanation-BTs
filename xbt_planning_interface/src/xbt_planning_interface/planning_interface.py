@@ -3,6 +3,8 @@ import moveit_commander
 from xbt_planning_interface.srv import SimplePlan, SimplePlanRequest, SimplePlanResponse
 import moveit_msgs.msg
 import math
+import tf2_ros
+import tf2_geometry_msgs
 
 class PlanningInterface:
     def __init__(self):
@@ -21,29 +23,29 @@ class PlanningInterface:
         constraints = moveit_msgs.msg.Constraints()
         constraints.joint_constraints = []
 
-        # joint_constraint = moveit_msgs.msg.JointConstraint()
-        # joint_constraint.joint_name = 'shoulder_pan_joint'
-        # joint_constraint.position = 0
-        # joint_constraint.tolerance_above = math.pi
-        # joint_constraint.tolerance_below = math.pi
-        # joint_constraint.weight = 10
-        # constraints.joint_constraints.append(joint_constraint)
+        joint_constraint = moveit_msgs.msg.JointConstraint()
+        joint_constraint.joint_name = 'shoulder_pan_joint'
+        joint_constraint.position = 0
+        joint_constraint.tolerance_above = math.pi
+        joint_constraint.tolerance_below = math.pi
+        joint_constraint.weight = 10
+        constraints.joint_constraints.append(joint_constraint)
 
-        # joint_constraint = moveit_msgs.msg.JointConstraint()
-        # joint_constraint.joint_name = 'elbow_joint'
-        # joint_constraint.position = math.pi/2
-        # joint_constraint.tolerance_above = math.pi/2
-        # joint_constraint.tolerance_below = math.pi/2
-        # joint_constraint.weight = 10
-        # constraints.joint_constraints.append(joint_constraint)
+        joint_constraint = moveit_msgs.msg.JointConstraint()
+        joint_constraint.joint_name = 'elbow_joint'
+        joint_constraint.position = math.pi/2
+        joint_constraint.tolerance_above = math.pi/2
+        joint_constraint.tolerance_below = math.pi/2
+        joint_constraint.weight = 10
+        constraints.joint_constraints.append(joint_constraint)
 
-        # joint_constraint = moveit_msgs.msg.JointConstraint()
-        # joint_constraint.joint_name = 'wrist_1_joint'
-        # joint_constraint.position = -math.pi/2
-        # joint_constraint.tolerance_above = math.pi
-        # joint_constraint.tolerance_below = math.pi/4
-        # joint_constraint.weight = 10
-        # constraints.joint_constraints.append(joint_constraint)
+        joint_constraint = moveit_msgs.msg.JointConstraint()
+        joint_constraint.joint_name = 'wrist_1_joint'
+        joint_constraint.position = -math.pi
+        joint_constraint.tolerance_above = math.pi
+        joint_constraint.tolerance_below = math.pi/2
+        joint_constraint.weight = 10
+        constraints.joint_constraints.append(joint_constraint)
 
         joint_constraint = moveit_msgs.msg.JointConstraint()
         joint_constraint.joint_name = 'wrist_3_joint'
@@ -55,6 +57,9 @@ class PlanningInterface:
 
         self.move_group.set_path_constraints(constraints)
 
+
+        self.tfBuffer = tf2_ros.Buffer()
+        self.tfListener = tf2_ros.TransformListener(self.tfBuffer)
         self.plan_srv = rospy.Service(name + '/simple_plan', SimplePlan, self.simple_plan_cb)
 
     def simple_plan_cb(self, req):
@@ -78,6 +83,17 @@ class PlanningInterface:
         self.move_group.set_max_velocity_scaling_factor(vel_scaling)
         self.move_group.set_max_acceleration_scaling_factor(acc_scaling)
 
+
+        # Transform the pose to the "world" frame
+        if mode == SimplePlanRequest.POSE or mode == SimplePlanRequest.POSE_LINE:
+            try:
+                pose = self.tfBuffer.transform(pose, "world", timeout=rospy.Duration(1.0))
+            except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
+                rospy.logerr("Error transforming pose: " + str(e))
+                res = SimplePlanResponse()
+                res.success = False
+                return res
+
         if mode == SimplePlanRequest.POSE:
             self.move_group.set_planning_pipeline_id("ompl")
             self.move_group.set_planner_id("RRTConnect")
@@ -94,16 +110,21 @@ class PlanningInterface:
             self.move_group.set_planning_pipeline_id("chomp")
             self.move_group.set_planner_id("CHOMP")
             self.move_group.set_joint_value_target(joints)
-
-        success, robot_traj, time, error_code = self.move_group.plan()
-
-        res = SimplePlanResponse()
-
-        if not success:
-            rospy.logerr("Planning failed with error code: " + str(error_code))
+        else:
+            rospy.logerr("Unknown planning mode: " + str(mode))
+            res = SimplePlanResponse()
             res.success = False
             return res
         
+        success, robot_traj, time, error_code = self.move_group.plan()
+
+        if not success:
+            rospy.logerr("Planning failed with error code: " + str(error_code))
+            res = SimplePlanResponse()
+            res.success = False
+            return res
+        
+        res = SimplePlanResponse()        
         res.joint_trajectory = robot_traj.joint_trajectory
         res.success = True
         

@@ -4,14 +4,14 @@
     "mainwindow": {
       "keys": {
         "geometry": {
-          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00030000000009af000000b400000ddd000004e8000009d5000000ef00000db7000004c200000000000000000a00000009d5000000ef00000db7000004c2')",
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00030000000000a5000000960000071c0000032f000000a5000000bb0000071c0000032f00000000000000000780000000a5000000bb0000071c0000032f')",
           "type": "repr(QByteArray.hex)",
-          "pretty-print": "                                 "
+          "pretty-print": "           /       /            /"
         },
         "state": {
-          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd0000000200000002000003e3000003aafc0100000001fb00000060007200710074005f006500780070006c00610069006e005f00620074005f005f0041006300740069006f006e0050006c007500670069006e005f005f0031005f005f004500780070006c00610069006e004200540050006c007500670069006e0100000000000003e30000008d00ffffff000000030000043d00000258fc0100000006fb000000b4007200710074005f006a006f0069006e0074005f007400720061006a006500630074006f00720079005f0063006f006e00740072006f006c006c00650072005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c00650072005f005f0031005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c00650072005500690100000000000004260000000000000000fb000000b4007200710074005f006a006f0069006e0074005f007400720061006a006500630074006f00720079005f0063006f006e00740072006f006c006c00650072005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c00650072005f005f0032005f005f004a006f0069006e0074005400720061006a006500630074006f007200790043006f006e00740072006f006c006c006500720055006901000002c1000002940000000000000000fb0000006c007200710074005f007200650063006f006e006600690067007500720065005f005f0050006100720061006d005f005f0031005f005f005f0070006c007500670069006e0063006f006e007400610069006e00650072005f0074006f0070005f0077006900640067006500740100000000000005710000000000000000fc000000000000043d0000000000fffffffc0200000002fb00000082007200710074005f0063006f006e00740072006f006c006c00650072005f006d0061006e0061006700650072005f005f0043006f006e00740072006f006c006c00650072004d0061006e0061006700650072005f005f0031005f005f0043006f006e00740072006f006c006c00650072004d0061006e0061006700650072005500690100000271000002580000000000000000fb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c006900730068006500720057006900640067006500740100000014000003c00000000000000000fb00000050007200710074005f0061006300740069006f006e005f005f0041006300740069006f006e0050006c007500670069006e005f005f0031005f005f006d0065007300730061006700650073002e0075006901000003520000034c0000000000000000fb00000030005f005f0044006f0063006b0057006900640067006500740043006f006e007400610069006e00650072005f005f003101000003aa000000930000000000000000000003e30000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd0000000100000003000006780000024bfc0100000002fb00000068007200710074005f006500780070006c00610069006e005f00620074005f005f004500780070006c00610069006e004200540050006c007500670069006e0031005f005f0031005f005f004500780070006c00610069006e004200540050006c007500670069006e0100000000000003e60000008d00fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0031005f005f0049006d006100670065005600690065007700570069006400670065007401000003ec0000028c000000bf00ffffff000006780000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
           "type": "repr(QByteArray.hex)",
-          "pretty-print": "                 `rqt_explain_bt__ActionPlugin__1__ExplainBTPlugin                    rqt_joint_trajectory_controller__JointTrajectoryController__1__JointTrajectoryControllerUi           rqt_joint_trajectory_controller__JointTrajectoryController__2__JointTrajectoryControllerUi          lrqt_reconfigure__Param__1___plugincontainer_top_widget            =                                                                            q X                                                                                                       R L                                                                                               "
+          "pretty-print": "                 hrqt_explain_bt__ExplainBTPlugin1__1__ExplainBTPlugin          Zrqt_image_view__ImageView__1__ImageViewWidget                            6MinimizedDockWidgetsToolbar        "
         }
       },
       "groups": {
@@ -29,7 +29,7 @@
     "pluginmanager": {
       "keys": {
         "running-plugins": {
-          "repr": "{'rqt_explain_bt/ActionPlugin': [1]}",
+          "repr": "{'rqt_explain_bt/ExplainBTPlugin1': [1], 'rqt_image_view/ImageView': [1]}",
           "type": "repr"
         }
       },
@@ -80,6 +80,99 @@
                 },
                 "parent": {
                   "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_explain_bt__ExplainBTPlugin1__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ExplainBTPlugin": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Form'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Image View'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "color_scheme": {
+                  "repr": "3",
+                  "type": "repr"
+                },
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/tag_detections_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/tag_detections_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
                   "type": "repr"
                 }
               },
