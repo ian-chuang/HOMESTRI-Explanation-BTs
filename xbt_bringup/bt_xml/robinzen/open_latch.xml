@@ -192,7 +192,7 @@
                 name="plan to move to test frame"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
-                pose="-0.1;0;0;0;0;0"
+                pose="-0.15;0;0;0;0;0"
                 pose_frame_id="tcp_link"
                 vel_scaling="0.02"
                 acc_scaling="0.02"
