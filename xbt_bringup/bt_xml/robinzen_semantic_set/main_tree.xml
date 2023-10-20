@@ -33,7 +33,7 @@
             <!-- open latch 1 -->
             <SubTree
                 ID="open latch"
-                name="open latch 1"
+                name="open latch"
                 latch_name="latch 1"
                 latch_pose="{latch_1_pose}"
             />
@@ -41,7 +41,7 @@
             <!-- open latch 2 -->
             <SubTree
                 ID="open latch"
-                name="open latch 2"
+                name="open latch"
                 latch_name="latch 2"
                 latch_pose="{latch_2_pose}"
             />
