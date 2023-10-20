@@ -4,14 +4,14 @@
 
             <!-- switch to joint traj ctrl -->
             <SwitchControllerAction 
-                name="switch to joint trajectory controller"
+                name=""
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
 
             <!-- plan joint target to search-->
             <SimplePlanAction
-                name="plan to search target"
+                name=""
                 service_name="/planning_interface/simple_plan"
                 mode="JOINT"
                 joints="0;-1.57;2.15;-3.71;-1.57;-3.14"

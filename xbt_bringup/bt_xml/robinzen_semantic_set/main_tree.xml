@@ -1,6 +1,6 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
-        <Sequence name="robinzen inspection">
+        <Sequence name="inspect Robinzen">
 
             
             <SubTree
