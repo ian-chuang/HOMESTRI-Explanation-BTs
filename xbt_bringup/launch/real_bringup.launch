@@ -23,10 +23,6 @@
     <include file="$(find realsense2_camera)/launch/rs_camera.launch">
     </include>
 
-    <!-- simple moveit planning interface -->
-    <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">
-    </include>
-
     <!-- find surface action server -->
     <remap from="find_surface_action_server/target_wrench" to="target_wrench" />
     <remap from="find_surface_action_server/ft_sensor_wrench" to="wrench" />

@@ -42,7 +42,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Acceleration_Scaling_Factor: 0.1
+    - Acceleration_Scaling_Factor: 0.03
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: ""
@@ -481,7 +481,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 0.1
+      Velocity_Scaling_Factor: 0.03
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
@@ -680,7 +680,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 0.27500006556510925
       Target Frame: world
-      Yaw: 5.104949474334717
+      Yaw: 4.719945430755615
     Saved: ~
 Window Geometry:
   Displays:

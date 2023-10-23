@@ -26,8 +26,8 @@ class PlanningInterface:
         joint_constraint = moveit_msgs.msg.JointConstraint()
         joint_constraint.joint_name = 'shoulder_pan_joint'
         joint_constraint.position = 0
-        joint_constraint.tolerance_above = math.pi
-        joint_constraint.tolerance_below = math.pi
+        joint_constraint.tolerance_above = math.pi/2
+        joint_constraint.tolerance_below = math.pi/2
         joint_constraint.weight = 10
         constraints.joint_constraints.append(joint_constraint)
 
@@ -43,7 +43,15 @@ class PlanningInterface:
         joint_constraint.joint_name = 'wrist_1_joint'
         joint_constraint.position = -math.pi
         joint_constraint.tolerance_above = math.pi
-        joint_constraint.tolerance_below = math.pi/2
+        joint_constraint.tolerance_below = math.pi
+        joint_constraint.weight = 10
+        constraints.joint_constraints.append(joint_constraint)
+
+        joint_constraint = moveit_msgs.msg.JointConstraint()
+        joint_constraint.joint_name = 'wrist_2_joint'
+        joint_constraint.position = -math.pi/2
+        joint_constraint.tolerance_above = math.pi
+        joint_constraint.tolerance_below = math.pi
         joint_constraint.weight = 10
         constraints.joint_constraints.append(joint_constraint)
 

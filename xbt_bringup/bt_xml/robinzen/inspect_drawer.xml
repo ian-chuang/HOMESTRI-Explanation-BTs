@@ -1,0 +1,47 @@
+<root>
+    <!-- 
+    inputs: 
+      - tag_pose
+      - inspect_offset
+  -->
+    <BehaviorTree ID="inspect drawer">
+        <Sequence name="inspect drawer">
+
+            <!-- position control -->
+            <SwitchControllerAction 
+                name="switch to joint trajectory controller"
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+
+            <TransformPoseAction
+                name="calculate inspect pose"
+                input_pose="{tag_pose}"
+                translation_xyz="{inspect_offset}"
+                quaternion_xyzw="0;0.3826834;0;0.9238795"
+                output_pose="{inspect_pose}"
+            /> 
+
+            <!-- plan to inspect pose -->
+            <SimplePlanAction
+                name="plan to inspect pose"
+                service_name="/planning_interface/simple_plan"
+                mode="POSE_LINE"
+                pose="{inspect_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+            <!-- move to inspect pose -->
+            <JointTrajectoryAction
+                name="move to inspect pose"
+                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            /> 
+
+        </Sequence>
+    </BehaviorTree>
+
+</root>

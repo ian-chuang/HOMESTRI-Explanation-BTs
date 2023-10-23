@@ -14,6 +14,10 @@
         <arg name="transforms" value="$(find xbt_bringup)/bt_xml/$(arg bt)/config/transforms.yaml" />
     </include>
 
+    <!-- simple moveit planning interface -->
+    <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">
+    </include>
+
     <!-- xbt gui -->
     <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find xbt_bringup)/etc/xbt.perspective" output="screen"/>
 </launch>
