@@ -56,6 +56,14 @@ class PlanningInterface:
         constraints.joint_constraints.append(joint_constraint)
 
         joint_constraint = moveit_msgs.msg.JointConstraint()
+        joint_constraint.joint_name = 'wrist_2_joint'
+        joint_constraint.position = -math.pi/2
+        joint_constraint.tolerance_above = math.pi/2
+        joint_constraint.tolerance_below = math.pi/2
+        joint_constraint.weight = 10
+        constraints.joint_constraints.append(joint_constraint)
+
+        joint_constraint = moveit_msgs.msg.JointConstraint()
         joint_constraint.joint_name = 'wrist_3_joint'
         joint_constraint.position = -math.pi
         joint_constraint.tolerance_above = 4
