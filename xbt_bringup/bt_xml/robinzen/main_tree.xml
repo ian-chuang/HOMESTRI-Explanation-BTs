@@ -1,13 +1,14 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
-        <Sequence name="robinzen inspection">
+        <Sequence name="inspect Robinzen">
 
-            
+            <!-- go to start position -->
             <SubTree
                 ID="go to start position"
                 name="go to start position"
             />
 
+            <!-- get tag location  -->
             <SubTree
                 ID="get tag location"
                 name="get tag location"

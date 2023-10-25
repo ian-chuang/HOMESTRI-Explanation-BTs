@@ -9,13 +9,13 @@
 
             <!-- position control -->
             <SwitchControllerAction 
-                name="switch to joint trajectory controller"
+                name="switch to position controller"
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
 
             <TransformPoseAction
-                name="calculate inspect pose"
+                name="calculate inspect drawer location"
                 input_pose="{tag_pose}"
                 translation_xyz="{inspect_offset}"
                 quaternion_xyzw="0;0.3826834;0;0.9238795"
@@ -24,19 +24,19 @@
 
             <!-- plan to inspect pose -->
             <SimplePlanAction
-                name="plan to inspect pose"
+                name="plan to inspect drawer"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
                 pose="{inspect_pose}"
                 pose_frame_id="world"
-                vel_scaling="0.05"
-                acc_scaling="0.05"
+                vel_scaling="0.06"
+                acc_scaling="0.06"
                 joint_trajectory="{joint_trajectory}"
             />
 
             <!-- move to inspect pose -->
             <JointTrajectoryAction
-                name="move to inspect pose"
+                name="move to inspect drawer"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 
