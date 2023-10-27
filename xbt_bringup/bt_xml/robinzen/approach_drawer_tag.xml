@@ -3,8 +3,8 @@
     outputs: 
       - tag_pose
   -->
-    <BehaviorTree ID="get tag location">
-        <Sequence name="get tag location">
+    <BehaviorTree ID="approach drawer tag">
+        <Sequence name="approach drawer tag">
 
             <!-- detect tag pose -->
             <DetectFrameAction 

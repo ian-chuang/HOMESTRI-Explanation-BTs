@@ -149,6 +149,13 @@
                     wrench_frame_id="world"
                 />
 
+                <!-- switch back to joint traj ctrl -->
+                <SwitchControllerAction 
+                    name="switch to position controller"
+                    service_name="controller_manager/switch_controller"
+                    controller="scaled_pos_joint_traj_controller"
+                />
+
             </Sequence>
 
             
@@ -170,13 +177,6 @@
                     target_frame="world" 
                     output_pose="{handle_gripper_pose}"
                     timeout="1000"
-                />
-
-                <!-- switch back to joint traj ctrl -->
-                <SwitchControllerAction 
-                    name="switch to position controller"
-                    service_name="controller_manager/switch_controller"
-                    controller="scaled_pos_joint_traj_controller"
                 />
 
                 <!-- retreat from handle -->
