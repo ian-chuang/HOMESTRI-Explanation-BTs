@@ -36,6 +36,10 @@ int main(int argc, char **argv)
   factory.registerNodeType<TransformPoseAction>("TransformPoseAction");
   factory.registerNodeType<DetectFrameAction>("DetectFrameAction");
 
+  enum Status {OPEN=1, CLOSED=0};
+  factory.registerScriptingEnums<Status>();
+
+
   // Get the bt_directory parameter
   std::string bt_directory;
   if (!nh.getParam("bt_directory", bt_directory))
