@@ -3,7 +3,7 @@ FROM thbarkouki/homestri-ur:minimal-v1.0.3
 SHELL ["/bin/bash", "-c"]
 
 # Install python dependencies
-# RUN pip3 install \ 
+RUN pip3 install \ 
 
 # Install ROS dependencies
 # RUN apt-get update && apt-get install --no-install-recommends -y \
