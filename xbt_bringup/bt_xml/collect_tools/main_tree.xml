@@ -1,0 +1,14 @@
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <Sequence name="collect tools">
+
+            <!-- go to start position -->
+            <SubTree
+                ID="go to start position"
+                name="go to start position"
+            />
+
+
+        </Sequence>
+    </BehaviorTree>
+</root>

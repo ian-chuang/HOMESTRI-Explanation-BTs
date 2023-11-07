@@ -15,8 +15,13 @@
     </include>
 
     <!-- simple moveit planning interface -->
-    <include file="$(find xbt_planning_interface)/launch/planning_interface.launch">
-    </include>
+    <rosparam file="$(find xbt_bringup)/bt_xml/$(arg bt)/config/planning_interface.yaml" />
+    <node
+        name="planning_interface"
+        pkg="xbt_planning_interface"
+        type="planning_interface"
+        output="screen" 
+    />
 
     <!-- xbt gui -->
     <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find xbt_bringup)/etc/xbt.perspective" output="screen"/>

@@ -22,54 +22,19 @@ class PlanningInterface:
 
         constraints = moveit_msgs.msg.Constraints()
         constraints.joint_constraints = []
+        self.joint_constraints = rospy.get_param(name + '/joint_constraints')
 
-        joint_constraint = moveit_msgs.msg.JointConstraint()
-        joint_constraint.joint_name = 'shoulder_pan_joint'
-        joint_constraint.position = 0
-        joint_constraint.tolerance_above = math.pi/2
-        joint_constraint.tolerance_below = math.pi/2
-        joint_constraint.weight = 10
-        constraints.joint_constraints.append(joint_constraint)
-
-        joint_constraint = moveit_msgs.msg.JointConstraint()
-        joint_constraint.joint_name = 'elbow_joint'
-        joint_constraint.position = math.pi/2
-        joint_constraint.tolerance_above = math.pi/2
-        joint_constraint.tolerance_below = math.pi/2
-        joint_constraint.weight = 10
-        constraints.joint_constraints.append(joint_constraint)
-
-        joint_constraint = moveit_msgs.msg.JointConstraint()
-        joint_constraint.joint_name = 'wrist_1_joint'
-        joint_constraint.position = -math.pi
-        joint_constraint.tolerance_above = math.pi
-        joint_constraint.tolerance_below = math.pi
-        joint_constraint.weight = 10
-        constraints.joint_constraints.append(joint_constraint)
-
-        joint_constraint = moveit_msgs.msg.JointConstraint()
-        joint_constraint.joint_name = 'wrist_2_joint'
-        joint_constraint.position = -math.pi/2
-        joint_constraint.tolerance_above = math.pi
-        joint_constraint.tolerance_below = math.pi
-        joint_constraint.weight = 10
-        constraints.joint_constraints.append(joint_constraint)
-
-        joint_constraint = moveit_msgs.msg.JointConstraint()
-        joint_constraint.joint_name = 'wrist_2_joint'
-        joint_constraint.position = -math.pi/2
-        joint_constraint.tolerance_above = math.pi/2
-        joint_constraint.tolerance_below = math.pi/2
-        joint_constraint.weight = 10
-        constraints.joint_constraints.append(joint_constraint)
-
-        joint_constraint = moveit_msgs.msg.JointConstraint()
-        joint_constraint.joint_name = 'wrist_3_joint'
-        joint_constraint.position = -math.pi
-        joint_constraint.tolerance_above = 4
-        joint_constraint.tolerance_below = math.pi
-        joint_constraint.weight = 10
-        constraints.joint_constraints.append(joint_constraint)
+        for joint_name, limits in self.joint_constraints.items():
+            min = limits['min']
+            max = limits['max']
+            middle = (min + max) / 2
+            constraint = moveit_msgs.msg.JointConstraint()
+            constraint.joint_name = joint_name
+            constraint.position = middle
+            constraint.tolerance_above = max - middle
+            constraint.tolerance_below = middle - min
+            constraint.weight = 10
+            constraints.joint_constraints.append(constraint)
 
         self.move_group.set_path_constraints(constraints)
 
