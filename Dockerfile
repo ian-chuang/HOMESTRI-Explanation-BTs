@@ -3,7 +3,7 @@ FROM thbarkouki/homestri-ur:minimal-v1.0.3
 SHELL ["/bin/bash", "-c"]
 
 # Install python dependencies
-RUN pip3 install roboflow && \
+RUN pip3 install roboflow opencv-python && \
     pip3 install matplotlib --upgrade
 
 # Install ROS dependencies
