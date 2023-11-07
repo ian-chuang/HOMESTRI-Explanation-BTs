@@ -46,7 +46,7 @@ class MountedMLTracker:
         #self.depth_img_sub = rospy.Subscriber(f"/{cam_spec}/camera/aligned_depth_to_color/image_raw", Image, self.depth_callback) # use for rgb pixel lookup
         #self.depth_cam_info = rospy.Subscriber(f"/{cam_spec}/camera/aligned_depth_to_color/camera_info",CameraInfo, self.depth_cam_info_callback)
         #self.segmented_depth_sub = rospy.Subscriber(f"/{cam_spec}/rscamera/depth_image/points", PointCloud2, self.segmented_depth_callback, queue_size=1)
-
+        self.image_pub = rospy.Publisher('image_topic', Image, queue_size=1)
     
     #def segmented_depth_callback(self, msg):
     #    sum_pt = 0.0
@@ -67,7 +67,6 @@ class MountedMLTracker:
             frame = self.bridge.imgmsg_to_cv2(data, desired_encoding="bgr8")
         except CvBridgeError as e:
             print(e)
-        rospy.sleep(0.01)
         
         # infer on a local image
         predictions = self.model.predict(frame, confidence=40, overlap=30).json()
@@ -92,6 +91,11 @@ class MountedMLTracker:
             cv2.rectangle(frame, start_point, endpoint, color=(0,255,0), thickness=2)
         
         # # Display the resulting frame
+        # TODO Convert this image to a ROS raw image message to subscribe to in rqt
+        ros_img = self.bridge.cv2_to_imgmsg(frame, 'bgr8')
+        self.image_pub.publish(ros_img)
+
+
         resized_frame = cv2.resize(frame, (0,0), fx=0.80, fy=0.80)
         cv2.imshow(f'{self.cam_name} Mounted Camera ML', resized_frame) 
         cv2.waitKey(1)
@@ -142,16 +146,12 @@ def set_cam_spec_srv(request):
 
 def main():
     rospy.init_node("ml_tracker",anonymous=True)
-    rospy.sleep(3)
-    rate = rospy.Rate(60)
+
     set_cam_spec_service = rospy.Service("/set_cam_spec", SetBool, set_cam_spec_srv)
 
     tracker = MountedMLTracker("mounted_cam")
 
 
-    while not rospy.is_shutdown():
-        #tracker.transform_ml_end([-0.05, 0, 0], [0, 0, 0, 1])
-        rate.sleep()
     rospy.spin()
 
 if __name__ == '__main__':
