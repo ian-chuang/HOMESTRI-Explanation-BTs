@@ -21,7 +21,7 @@
 #   ]
 standalone_tags:
   [
-    {id: 20, size: 0.03, name: 'latch_2_tag'},
+
   ]
 # ## Tag bundle definitions
 # ### Remarks
@@ -50,18 +50,18 @@ tag_bundles:
       name: 'tool_rack_frame',
       layout:
         [
-          {id: 20, size: 0.03, x: -0.1016, y:  0, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
-          {id: 21, size: 0.03, x:  -0.0566, y:  0, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
-          {id: 14, size: 0.03, x: 0.2471, y: 0 , z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
-          {id: 15, size: 0.03, x:  0.2921, y: 0, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 20, size: 0.03, x: -0.1016, y:  -0.0508, z: -0.04445, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 21, size: 0.03, x:  -0.0566, y:  -0.0508, z: -0.04445, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 14, size: 0.03, x: 0.2471, y: -0.0508 , z: -0.04445, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 15, size: 0.03, x:  0.2921, y: -0.0508, z: -0.04445, qw: 1, qx: 0, qy: 0, qz: 0},
         ]
     },
     {
       name: 'tool_pallet_frame',
       layout:
         [
-          {id: 16, size: 0.03, x: -0.1016, y:  0, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
-          {id: 17, size: 0.03, x:  -0.0566, y:  0, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 16, size: 0.03, x: -0.0225, y:  0.2032, z: -0.06, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 17, size: 0.03, x:  0.0225, y:  0.2032, z: -0.06, qw: 1, qx: 0, qy: 0, qz: 0},
         ]
     },
   ]
