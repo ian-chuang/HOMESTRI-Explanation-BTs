@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_srvs
   tf2_ros
   tf_conversions
-  vision_msgs
 )
 
 ## System dependencies are found with CMake's conventions

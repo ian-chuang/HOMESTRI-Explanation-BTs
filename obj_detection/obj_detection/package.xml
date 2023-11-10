@@ -60,7 +60,6 @@
   <build_export_depend>std_srvs</build_export_depend>
   <build_export_depend>tf2_ros</build_export_depend>
   <build_export_depend>tf_conversions</build_export_depend>
-  <build_export_depend>vision_msgs</build_export_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>std_srvs</exec_depend>
