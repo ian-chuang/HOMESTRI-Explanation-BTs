@@ -24,5 +24,5 @@
     />
 
     <!-- xbt gui -->
-    <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find xbt_bringup)/etc/xbt.perspective" output="screen"/>
+    <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find xbt_bringup)/etc/xbt_experiment.perspective" output="screen"/>
 </launch>
