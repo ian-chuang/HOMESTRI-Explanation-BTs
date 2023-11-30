@@ -4,6 +4,8 @@
 
 This repository contains ROS packages for running explainable behavior trees (BTs) for the HOMESTRI UR5e robot environment. It includes a Docker setup to simplify the environment configuration.
 
+![Avoiding Obstacles](xbt.png)
+
 ## Prerequisites
 
 Before you get started, ensure that your system meets the following prerequisites:
