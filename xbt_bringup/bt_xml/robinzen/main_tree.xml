@@ -73,13 +73,13 @@
                     ID="inspect drawer"
                     name="inspect drawer"
                     tag_pose="{tag_pose}"
-                    inspect_offset="-0.38;0;0.11"
+                    inspect_offset="-0.33;0;0.11"
                 />
 
             </Sequence>
-
             
 
+            
 
 
         </Sequence>
