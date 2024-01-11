@@ -8,25 +8,25 @@
         <Sequence name="open drawer">
             <!-- calculate poses for opening drawer-->
             <TransformPoseAction
-                name="calculate pull handle pose"
+                name=""
                 input_pose="{handle_pose}"
                 translation_xyz="-0.33;0;0"
                 output_pose="{pull_handle_pose}"
             />
             <TransformPoseAction
-                name="reorient handle pose for gripper"
+                name=""
                 input_pose="{handle_pose}"
                 quaternion_xyzw="-0.6532815;0.2705981;0.2705981;0.6532815"
                 output_pose="{handle_gripper_pose}"
             />
             <TransformPoseAction
-                name="reorient pull pose for gripper"
+                name=""
                 input_pose="{pull_handle_pose}"
                 quaternion_xyzw="-0.6532815;0.2705981;0.2705981;0.6532815"
                 output_pose="{pull_handle_gripper_pose}"
             />
             <TransformPoseAction
-                name="calculate approach handle pose"
+                name=""
                 input_pose="{handle_gripper_pose}"
                 translation_xyz="-0.15;0;0"
                 output_pose="{approach_handle_gripper_pose}"
@@ -34,7 +34,7 @@
 
             <!-- move to approach handle pose -->
             <SimplePlanAction
-                name="plan to approach handle pose"
+                name="plan the motion"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE"
                 pose="{approach_handle_gripper_pose}"
@@ -44,7 +44,7 @@
                 joint_trajectory="{joint_trajectory}"
             />
             <JointTrajectoryAction
-                name="move to approach handle pose"
+                name="execute the motion"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 
@@ -59,7 +59,7 @@
             
             <!-- approach handle -->
             <SimplePlanAction
-                name="plan to move to handle gripper pose"
+                name="plan the action"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
                 pose="{handle_gripper_pose}"
@@ -69,24 +69,24 @@
                 joint_trajectory="{joint_trajectory}"
             />
             <JointTrajectoryAction
-                name="approach handle"
+                name="execute the action"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 
 
             <!-- zero force torque sensor -->
             <TriggerAction
-                name="zero force torque sensor"
+                name=""
                 service_name="/ur_hardware_interface/zero_ftsensor"
             />
             <SleepAction 
-                name="let force torque sensor zeroing take effect" 
+                name="" 
                 msec="1000"
             />
 
             <!-- switch to compliance control-->
             <SwitchControllerAction 
-                name="switch to compliance controller"
+                name=""
                 service_name="controller_manager/switch_controller"
                 controller="cartesian_compliance_controller_follow_trajectory"
             />
@@ -109,7 +109,7 @@
 
             <!-- pull drawer open -->
             <SimplePlanAction
-                name="plan to move to test frame"
+                name="plan the motion"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
                 pose="{pull_handle_gripper_pose}"
@@ -119,7 +119,7 @@
                 joint_trajectory="{joint_trajectory}"
             />
             <CompliantTrajectoryAction
-                name="pull handle with compliance"
+                name="execute the motion"
                 server_name="/compliant_traj_action_server/follow_compliant_trajectory"
                 wrench="-8;0;30;0;0;0"
                 wrench_frame_id="world"
@@ -128,7 +128,7 @@
 
             <!-- stop applying wrench  -->
             <SetTargetWrenchAction
-                name="stop lifting the drawer"
+                name=""
                 msec="3000"
                 wrench="0;0;0;0;0;0"
                 wrench_frame_id="world"
@@ -136,7 +136,7 @@
 
             <!-- switch back to joint traj ctrl -->
             <SwitchControllerAction 
-                name="switch to joint trajectory controller"
+                name=""
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
@@ -151,7 +151,7 @@
 
             <!-- save current pose -->
             <DetectFrameAction 
-                name="detect handle gripper frame"
+                name=""
                 source_frame="tcp_link" 
                 target_frame="world" 
                 output_pose="{handle_gripper_pose}"
@@ -160,7 +160,7 @@
 
             <!-- retreat from handle -->
             <SimplePlanAction
-                name="plan to move to test frame"
+                name="plan the motion"
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
                 pose="-0.15;0;0;0;0;0"

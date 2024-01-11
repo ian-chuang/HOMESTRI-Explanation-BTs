@@ -4,19 +4,19 @@
 
             
             <SubTree
-                ID="go to search pose"
-                name="go to search pose"
+                ID="go to pose"
+                name="move to the starting position"
             />
 
             <SubTree
                 ID="get tag location"
-                name="get tag location"
+                name="observe the drawer"
                 tag_pose="{tag_pose}"
             />
 
             <!-- calculate latch 1 pose -->
             <TransformPoseAction
-                name="calculate latch 1 pose"
+                name=""
                 input_pose="{tag_pose}"
                 translation_xyz="0;-0.2675;-0.04"
                 output_pose="{latch_1_pose}"
@@ -24,7 +24,7 @@
 
             <!-- calculate latch 2 pose -->
             <TransformPoseAction
-                name="calculate latch 2 pose"
+                name=""
                 input_pose="{tag_pose}"
                 translation_xyz="0;-0.2675;-0.3876625"
                 output_pose="{latch_2_pose}"
@@ -33,28 +33,30 @@
             <!-- open latch 1 -->
             <SubTree
                 ID="open latch"
-                name="open latch"
+                name="open latch 1"
                 latch_name="latch 1"
+                latch_tag_name="latch_1_tag"
                 latch_pose="{latch_1_pose}"
             />
 
             <!-- open latch 2 -->
             <SubTree
                 ID="open latch"
-                name="open latch"
+                name="open latch 2"
                 latch_name="latch 2"
+                latch_tag_name="latch_2_tag"
                 latch_pose="{latch_2_pose}"
             />
 
             <!-- go back to search pose -->
             <SubTree
-                ID="go to search pose"
-                name="go to search pose"
+                ID="go to pose"
+                name="return to start postion"
             />
 
             <!-- calculate handle pose  -->
             <TransformPoseAction
-                name="calculate handle pose"
+                name="locate drawer handle"
                 input_pose="{tag_pose}"
                 translation_xyz="-0.08;0;-0.15"
                 output_pose="{handle_pose}"
@@ -63,11 +65,17 @@
             <!-- open drawer -->
             <SubTree
                 ID="open drawer"
-                name="open drawer"
+                name="pull drawer open"
                 handle_pose="{handle_pose}"
             />
 
-            
+            <!-- inspect drawer -->
+            <SubTree
+                ID="inspect drawer"
+                name="inspect zeolite filters in drawer"
+                tag_pose="{tag_pose}"
+                inspect_offset="-0.33;0;0.11"
+            />
 
 
 

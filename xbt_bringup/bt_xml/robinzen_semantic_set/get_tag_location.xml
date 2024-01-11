@@ -8,7 +8,7 @@
 
             <!-- detect tag pose -->
             <DetectFrameAction 
-                name="detect tag pose"
+                name=""
                 source_frame="tag_frame" 
                 target_frame="world" 
                 output_pose="{tag_pose}"
@@ -18,13 +18,13 @@
 
             <!-- calculate pose for approaching tag -->
             <TransformPoseAction
-                name="reorient tag pose to match world orientation"
+                name=""
                 input_pose="{tag_pose}"
                 quaternion_xyzw="-0.5;0.5;0.5;0.5"
                 output_pose="{tag_pose}"
             />
             <TransformPoseAction
-                name="calculate approach tag gripper pose"
+                name=""
                 input_pose="{tag_pose}"
                 translation_xyz="-0.3;0;-0.05"
                 output_pose="{approach_tag_pose}"
@@ -32,14 +32,14 @@
 
             <!-- position control -->
             <SwitchControllerAction 
-                name="switch to joint trajectory controller"
+                name=""
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
 
             <!-- plan to approach tag pose -->
             <SimplePlanAction
-                name="plan to approach tag pose"
+                name=""
                 service_name="/planning_interface/simple_plan"
                 mode="POSE_LINE"
                 pose="{approach_tag_pose}"
@@ -51,7 +51,7 @@
 
             <!-- move to approach tag pose -->
             <JointTrajectoryAction
-                name="move to approach tag pose"
+                name="execute the motion"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 
@@ -59,7 +59,7 @@
             <!-- detect tag pose again for a more accurate position-->
             <!-- cheat and hardcode orientation -->
             <DetectFrameAction 
-                name="detect tag pose"
+                name=""
                 source_frame="tag_frame" 
                 target_frame="world" 
                 output_pose="{tag_pose}"
@@ -73,7 +73,7 @@
 
             <!-- reorient pose to match world -->
             <TransformPoseAction
-                name="match tag pose to world"
+                name=""
                 input_pose="{tag_pose}"
                 quaternion_xyzw="-0.5;0.5;0.5;0.5"
                 output_pose="{tag_pose}"

@@ -1,6 +1,6 @@
 <root>
-    <BehaviorTree ID="go to search pose">
-        <Sequence name="go to search pose">
+    <BehaviorTree ID="go to pose">
+        <Sequence name="move to pose">
 
             <!-- switch to joint traj ctrl -->
             <SwitchControllerAction 
@@ -11,18 +11,16 @@
 
             <!-- plan joint target to search-->
             <SimplePlanAction
-                name=""
+                name="plan the motion"
                 service_name="/planning_interface/simple_plan"
                 mode="JOINT"
                 joints="0;-1.57;2.15;-3.71;-1.57;-3.14"
-                vel_scaling="0.05"
-                acc_scaling="0.05"
                 joint_trajectory="{joint_trajectory}"
             />
 
             <!-- move to search target -->
             <JointTrajectoryAction
-                name="move to search target"
+                name="execute the motion"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 
