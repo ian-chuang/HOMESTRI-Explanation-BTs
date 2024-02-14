@@ -1,17 +1,16 @@
 <root>
     <BehaviorTree ID="go to start position">
-        <Sequence name="go to start position">
+
+        <Sequence>
 
             <!-- switch to position controller -->
             <SwitchControllerAction 
-                name="switch to position controller"
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
 
             <!-- plan to start position-->
             <SimplePlanAction
-                name="plan to start position"
                 service_name="/planning_interface/simple_plan"
                 mode="JOINT"
                 joints="-0.105;-2.129;2.095;-2.841;-1.471;-3.200"
@@ -22,11 +21,11 @@
 
             <!-- move to start position -->
             <JointTrajectoryAction
-                name="move to start position"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 
 
         </Sequence>
+
     </BehaviorTree>
 </root>

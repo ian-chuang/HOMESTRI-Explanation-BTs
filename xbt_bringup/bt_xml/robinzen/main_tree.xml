@@ -3,80 +3,56 @@
         <Sequence name="inspect Robinzen">
 
             <!-- go to start position -->
+            <Explain name="go to start position">
+                <SubTree
+                    ID="go to start position"
+                />
+            </Explain>
+
+
+            <!-- approach drawer tag -->
             <SubTree
-                ID="go to start position"
-                name="go to start position"
+                ID="approach drawer"
+                name="approach drawer"
+                tag_pose="{tag_pose}"
+            />              
+
+            <!-- open latch 1 -->
+            <SubTree
+                ID="open latch"
+                name="open latch 1"
+                latch_name="latch 1"
+                latch_tag_name="latch_1_tag"
+                tag_pose="{tag_pose}"
+                latch_offset="0;-0.27;-0.04"
             />
 
+            <!-- open latch 2 -->
+            <SubTree
+                ID="open latch"
+                name="open latch 2"
+                latch_name="latch 2"
+                latch_tag_name="latch_2_tag"
+                tag_pose="{tag_pose}"
+                latch_offset="0;-0.27;-0.3876625"
+            />
 
-            <Sequence name="check if drawer is open or closed">
+            <!-- open drawer -->
+            <SubTree
+                ID="open drawer"
+                name="open drawer"
+                tag_pose="{tag_pose}"
+                handle_offset="-0.08;0;-0.15"
+            />
 
-                <!-- detect tag pose -->
-                <DetectFrameAction 
-                    name="scan drawer tag location"
-                    source_frame="tag_frame" 
-                    target_frame="world" 
-                    output_pose="{tag_pose}"
-                    wait_duration="1000"
-                    timeout="1000"
-                    output_x="{tag_x}"
-                />
+            <!-- inspect drawer -->
+            <SubTree
+                ID="inspect drawer"
+                name="inspect drawer"
+                tag_pose="{tag_pose}"
+                inspect_offset="-0.33;0;0.11"
+            />
 
-                <!-- check if drawer is open or closed -->
-                <Script 
-                    name="check if drawer is open or closed" 
-                    code=" drawer_open:=tag_x<0.8" 
-                />
-
-            </Sequence>
-
-
-            <Sequence name="open drawer" _skipIf="drawer_open">
-
-                <!-- approach drawer tag -->
-                <SubTree
-                    ID="approach drawer tag"
-                    name="approach drawer tag"
-                    tag_pose="{tag_pose}"
-                />              
-
-                <!-- open latch 1 -->
-                <SubTree
-                    ID="open latch"
-                    name="open latch 1"
-                    latch_name="latch 1"
-                    latch_tag_name="latch_1_tag"
-                    tag_pose="{tag_pose}"
-                    latch_offset="0;-0.27;-0.04"
-                />
-
-                <!-- open latch 2 -->
-                <SubTree
-                    ID="open latch"
-                    name="open latch 2"
-                    latch_name="latch 2"
-                    latch_tag_name="latch_2_tag"
-                    tag_pose="{tag_pose}"
-                    latch_offset="0;-0.27;-0.3876625"
-                />
-
-                <!-- open drawer -->
-                <SubTree
-                    ID="open drawer"
-                    name="open drawer"
-                    tag_pose="{tag_pose}"
-                    handle_offset="-0.08;0;-0.15"
-                />
-
-                <!-- inspect drawer -->
-                <SubTree
-                    ID="inspect drawer"
-                    name="inspect drawer"
-                    tag_pose="{tag_pose}"
-                    inspect_offset="-0.33;0;0.11"
-                />
-
-            </Sequence>
             
 
             
