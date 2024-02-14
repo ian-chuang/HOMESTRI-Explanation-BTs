@@ -3,81 +3,81 @@
         <Sequence name="collect tools">
 
             <!-- go to start position -->
-            <SubTree
-                ID="go to start position"
-                name="go to start position"
-            />
-
-
-            <Sequence name="localize tags">
-                <!-- detect tool rack tag -->
-                <DetectFrameAction 
-                    name="scan tool rack location"
-                    source_frame="tool_rack_frame" 
-                    target_frame="world" 
-                    output_pose="{tool_rack_pose}"
-                    wait_duration="1000"
-                    timeout="1000"
-                    qx="0"
-                    qy="0"
-                    qz="0.7071068"
-                    qw="0.7071068"
+            <Explain name="go to start position">
+                <SubTree
+                    ID="go to start position"
+                    name="go to start position"
                 />
-                <!-- detect tag pallet tag-->
-                <DetectFrameAction 
-                    name="scan tool pallet location"
-                    source_frame="tool_pallet_frame" 
-                    target_frame="world" 
-                    output_pose="{tool_pallet_pose}"
-                    wait_duration="1000"
-                    timeout="1000"
-                    qx="0"
-                    qy="0.7071068"
-                    qz="0"
-                    qw="0.7071068"
-                />
-            </Sequence>
+            </Explain>
 
-            <Sequence name="calculate poses">
+            <Explain name="localize tool rack and pallet">
+                <Sequence name="localize tags">
+                    <!-- detect tool rack tag -->
+                    <DetectFrameAction 
+                        name="scan tool rack location"
+                        source_frame="tool_rack_frame" 
+                        target_frame="world" 
+                        output_pose="{tool_rack_pose}"
+                        wait_duration="1000"
+                        timeout="1000"
+                        qx="0"
+                        qy="0"
+                        qz="0.7071068"
+                        qw="0.7071068"
+                    />
+                    <!-- detect tag pallet tag-->
+                    <DetectFrameAction 
+                        name="scan tool pallet location"
+                        source_frame="tool_pallet_frame" 
+                        target_frame="world" 
+                        output_pose="{tool_pallet_pose}"
+                        wait_duration="1000"
+                        timeout="1000"
+                        qx="0"
+                        qy="0.7071068"
+                        qz="0"
+                        qw="0.7071068"
+                    />
+                </Sequence>
+                <Sequence name="calculate poses">
+                    <TransformPoseAction
+                        name="calculate tool 1 pose"
+                        input_pose="{tool_rack_pose}"
+                        translation_xyz="0.02;0;0"
+                        output_pose="{tool_1_pose}"
+                    />
 
-                <TransformPoseAction
-                    name="calculate tool 1 pose"
-                    input_pose="{tool_rack_pose}"
-                    translation_xyz="0.02;0;0"
-                    output_pose="{tool_1_pose}"
-                />
+                    <TransformPoseAction
+                        name="calculate tool 2 pose"
+                        input_pose="{tool_1_pose}"
+                        translation_xyz="0;-0.0762;0"
+                        output_pose="{tool_2_pose}"
+                    />
 
-                <TransformPoseAction
-                    name="calculate tool 2 pose"
-                    input_pose="{tool_1_pose}"
-                    translation_xyz="0;-0.0762;0"
-                    output_pose="{tool_2_pose}"
-                />
+                    <TransformPoseAction
+                        name="calculate tool 3 pose"
+                        input_pose="{tool_2_pose}"
+                        translation_xyz="0;-0.0762;0"
+                        output_pose="{tool_3_pose}"
+                    />
 
-                <TransformPoseAction
-                    name="calculate tool 3 pose"
-                    input_pose="{tool_2_pose}"
-                    translation_xyz="0;-0.0762;0"
-                    output_pose="{tool_3_pose}"
-                />
+                    <TransformPoseAction
+                        name="calculate tool pallet 1 pose"
+                        input_pose="{tool_pallet_pose}"
+                        translation_xyz="0;0.045;0"
+                        output_pose="{tool_pallet_1_pose}"
+                    />
 
-                <TransformPoseAction
-                    name="calculate tool pallet 1 pose"
-                    input_pose="{tool_pallet_pose}"
-                    translation_xyz="0;0.045;0"
-                    output_pose="{tool_pallet_1_pose}"
-                />
+                    <TransformPoseAction
+                        name="calculate tool pallet 2 pose"
+                        input_pose="{tool_pallet_pose}"
+                        translation_xyz="0;-0.045;0"
+                        output_pose="{tool_pallet_2_pose}"
+                    />
 
-                <TransformPoseAction
-                    name="calculate tool pallet 2 pose"
-                    input_pose="{tool_pallet_pose}"
-                    translation_xyz="0;-0.045;0"
-                    output_pose="{tool_pallet_2_pose}"
-                />
+                </Sequence>
+            </Explain>
 
-            </Sequence>
-
-            
             <SubTree
                 ID="pick tool"
                 name="pick tool 1"
