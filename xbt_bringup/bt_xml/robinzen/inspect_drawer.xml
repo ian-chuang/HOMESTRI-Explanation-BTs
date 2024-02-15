@@ -46,13 +46,20 @@
 
             </Explain>
 
+            
+
 
             <Fallback name="replace zeolite if necessary">
 
-                <Sleep 
-                    name="check zeolite okay"
-                    msec="3000"
-                />
+                <Explain name="run zeolite degradation check">
+                    <ForceSuccess>
+                        <Sequence>
+                            <TriggerAction service_name="/run_yolo" />
+                            <Sleep msec="10000" />
+                            <TriggerAction service_name="/clear_yolo" />
+                        </Sequence>
+                    </ForceSuccess>
+                </Explain>
 
                 <Sleep 
                     name="replace zeolite"

@@ -1,5 +1,7 @@
 <launch>
     <arg name="bt"/>
+    <arg name="use_object_detection" default="false" />
+
 
     <!-- explainable behavior tree -->
     <param name="bt_directory" value="$(find xbt_bringup)/bt_xml/$(arg bt)"/>
@@ -22,6 +24,16 @@
         type="planning_interface"
         output="screen" 
     />
+
+    <!-- object detection -->
+    <group if="$(arg use_object_detection)">
+        <node 
+            name="detect_zeolite" 
+            pkg="obj_detection" 
+            type="detect_zeolite.py" 
+            output="screen"
+        />
+    </group>
 
     <!-- xbt gui -->
     <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" args="--perspective-file $(find xbt_bringup)/etc/xbt_experiment.perspective" output="screen"/>
