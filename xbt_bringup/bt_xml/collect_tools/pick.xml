@@ -110,7 +110,7 @@
                             <ForceFailure>
                                 <TransformPoseAction
                                     input_pose="{tool_pose}"
-                                    translation_xyz="0.01;0;0"
+                                    translation_xyz="0.03;0;0"
                                     output_pose="{tool_pose}"
                                 />
                             </ForceFailure>

@@ -55,7 +55,7 @@
                     <TransformPoseAction
                         name="calculate tool 3 pose"
                         input_pose="{tool_2_pose}"
-                        translation_xyz="0;-0.0762;0"
+                        translation_xyz="-.03;-0.0762;0"
                         output_pose="{tool_3_pose}"
                     />
 
@@ -69,14 +69,14 @@
                     <TransformPoseAction
                         name="calculate tool pallet 2 pose"
                         input_pose="{tool_pallet_pose}"
-                        translation_xyz="0;-0.045;0"
+                        translation_xyz="0;-0.04;0"
                         output_pose="{tool_pallet_2_pose}"
                     />
 
                 </Sequence>
             </Explain>
 
-            <SubTree
+            <!-- <SubTree
                 ID="pick tool"
                 name="pick tool 1"
                 tool_name="tool 1"
@@ -88,7 +88,7 @@
                 name="place tool 1"
                 tool_name="tool 1"
                 place_pose="{tool_pallet_1_pose}"
-            />
+            /> -->
 
             <SubTree
                 ID="pick tool"
