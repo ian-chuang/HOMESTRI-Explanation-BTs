@@ -2,6 +2,7 @@ uint8 POSE=0
 uint8 POSE_LINE=1
 uint8 TARGET=2
 uint8 JOINT=3
+uint8 CIRCLE=4
 
 uint8 mode
 string target
@@ -9,6 +10,7 @@ float64[] joints
 geometry_msgs/PoseStamped pose
 float64 vel_scaling
 float64 acc_scaling
+geometry_msgs/PointStamped center
 ---
 trajectory_msgs/JointTrajectory joint_trajectory
 bool success

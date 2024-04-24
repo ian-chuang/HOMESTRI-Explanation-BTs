@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <behaviortree_ros/bt_service_node.h>
 #include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Point.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <xbt_planning_interface/SimplePlan.h>
 #include <xbt_planning_interface/SimplePlanRequest.h>
@@ -28,6 +29,8 @@ public:
             InputPort<std::vector<double>>("joints"),
             InputPort<geometry_msgs::Pose>("pose"),
             InputPort<std::string>("pose_frame_id"),
+            InputPort<geometry_msgs::Point>("center"),
+            InputPort<std::string>("center_frame_id"),
             InputPort<double>("vel_scaling", SimplePlanAction::DefaultVelScaling, "Velocity scaling factor"),
             InputPort<double>("acc_scaling", SimplePlanAction::DefaultAccScaling, "Acceleration scaling factor"),
             OutputPort<trajectory_msgs::JointTrajectory>("joint_trajectory"),
@@ -85,6 +88,30 @@ public:
             if (!getInput<std::vector<double>>("joints", request.joints))
             {
                 ROS_ERROR("Missing required input [joints]");
+                return false;
+            }
+        }
+        else if (mode_str == "CIRCLE")
+        {
+            request.mode = xbt_planning_interface::SimplePlanRequest::CIRCLE;
+            if (!getInput<geometry_msgs::Pose>("pose", request.pose.pose))
+            {
+                ROS_ERROR("Missing required input [pose]");
+                return false;
+            }
+            if (!getInput<std::string>("pose_frame_id", request.pose.header.frame_id))
+            {
+                ROS_ERROR("Missing required input [pose_frame_id]");
+                return false; 
+            }
+            if (!getInput<geometry_msgs::Point>("center", request.center.point))
+            {
+                ROS_ERROR("Missing required input [center]");
+                return false;
+            }
+            if (!getInput<std::string>("center_frame_id", request.center.header.frame_id))
+            {
+                ROS_ERROR("Missing required input [center_frame_id]");
                 return false;
             }
         }
