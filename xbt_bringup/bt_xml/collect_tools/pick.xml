@@ -7,7 +7,7 @@
     <BehaviorTree ID="pick tool">
 
         <Sequence name="pick {tool_name}">
-            <RetryUntilSuccessful num_attempts="3">
+            <RetryUntilSuccessful num_attempts="2">
                 <Sequence name="grasp {tool_name}">
                     <Explain name="approach {tool_name}">
                         <Sequence>
@@ -99,22 +99,24 @@
                             </Delay> 
                         </Sequence> 
                     </Explain>
-                    <Fallback name="confirm {tool_name} is grasped">
-                        <Explain name="confirm {tool_name} is grasped">
+                    <Explain name="confirm {tool_name} is grasped">
+                        <Fallback>
                             <Delay delay_msec="1000">
-                                <GraspedCondition/>
+                                <GraspedCondition
+                                    topic_name="/robotiq_2f_85_gripper/state"
+                                />
                             </Delay>
-                        </Explain>
 
-                        <Inverter name="">
-                            <TransformPoseAction
-                                name="calculate approach {tool_name} location"
-                                input_pose="{tool_pose}"
-                                translation_xyz="0.01;0;0"
-                                output_pose="{tool_pose}"
-                            />
-                        </Inverter>
-                    </Fallback>
+                            <ForceFailure>
+                                <TransformPoseAction
+                                    input_pose="{tool_pose}"
+                                    translation_xyz="0.01;0;0"
+                                    output_pose="{tool_pose}"
+                                />
+                            </ForceFailure>
+
+                        </Fallback>
+                    </Explain>
                 </Sequence>
             </RetryUntilSuccessful>
 

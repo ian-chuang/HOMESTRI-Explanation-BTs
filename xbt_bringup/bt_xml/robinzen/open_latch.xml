@@ -8,231 +8,233 @@
   -->
     <BehaviorTree ID="open latch">
         <Sequence name="open {latch_name}">
+            <Explain name="look at {latch_name}">
+                <Sequence>
+                    <!-- calculate latch pose -->
+                    <TransformPoseAction
+                        input_pose="{tag_pose}"
+                        translation_xyz="{latch_offset}"
+                        output_pose="{latch_pose}"
+                    />
+                    <!-- calculate pose to inspect latch-->
+                    <TransformPoseAction
+                        input_pose="{latch_pose}"
+                        translation_xyz="-0.2;0;-0.05"
+                        output_pose="{approach_latch_pose}"
+                    />
+                    <!-- position control -->
+                    <SwitchControllerAction 
+                        service_name="controller_manager/switch_controller"
+                        controller="scaled_pos_joint_traj_controller"
+                    />
+                    <!-- plan to approach latch -->
+                    <SimplePlanAction
+                        service_name="/planning_interface/simple_plan"
+                        mode="POSE_LINE"
+                        pose="{approach_latch_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.05"
+                        acc_scaling="0.05"
+                        joint_trajectory="{joint_trajectory}"
+                    />
+                    <!-- move to approach latch -->
+                    <JointTrajectoryAction
+                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                        joint_trajectory="{joint_trajectory}"
+                    />                 
+                </Sequence>
+            </Explain>
 
-            <Sequence name="approach {latch_name}">
+            <Explain name="get {latch_name} state">
+                <ForceSuccess>
+                    <Delay delay_msec="1000">
+                        <DetectFrameAction 
+                            source_frame="{latch_tag_name}" 
+                            target_frame="world" 
+                            wait_duration="2000"
+                            timeout="3000"
+                            _onSuccess="latch_state:=OPEN"
+                            _onFailure="latch_state:=CLOSED"
+                        />
+                    </Delay>
+                </ForceSuccess>
+            </Explain>
 
-                <!-- calculate latch pose -->
-                <TransformPoseAction
-                    name="calculate {latch_name} location"
-                    input_pose="{tag_pose}"
-                    translation_xyz="{latch_offset}"
-                    output_pose="{latch_pose}"
-                />
-                <!-- calculate pose to inspect latch-->
-                <TransformPoseAction
-                    name="calculate approach {latch_name} location"
-                    input_pose="{latch_pose}"
-                    translation_xyz="-0.2;0;-0.05"
-                    output_pose="{approach_latch_pose}"
-                />
-                <!-- position control -->
-                <SwitchControllerAction 
-                    name="switch to position controller"
-                    service_name="controller_manager/switch_controller"
-                    controller="scaled_pos_joint_traj_controller"
-                />
-                <!-- plan to approach latch -->
-                <SimplePlanAction
-                    name="plan to approach {latch_name}"
-                    service_name="/planning_interface/simple_plan"
-                    mode="POSE_LINE"
-                    pose="{approach_latch_pose}"
-                    pose_frame_id="world"
-                    vel_scaling="0.05"
-                    acc_scaling="0.05"
-                    joint_trajectory="{joint_trajectory}"
-                />
-                <!-- move to approach latch -->
-                <JointTrajectoryAction
-                    name="move to approach {latch_name}"
-                    server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                    joint_trajectory="{joint_trajectory}"
-                />                 
-            </Sequence>
-            <ForceSuccess>
-                <DetectFrameAction 
-                    name="check if {latch_name} is already open"
-                    source_frame="{latch_tag_name}" 
-                    target_frame="world" 
-                    wait_duration="2000"
-                    timeout="3000"
-                    _onSuccess="latch_state:=OPEN"
-                    _onFailure="latch_state:=CLOSED"
-                />
-            </ForceSuccess>
-            <Sequence name="turn {latch_name} open" _skipIf="latch_state">
-               <Sequence name="move to {latch_name}">
-                   <!-- close gripper half way -->
-                   <GripperAction
-                       name="partially close gripper"
-                       server_name="/gripper_controller/gripper_cmd"
-                       position="0.4"
-                       max_effort="20"
-                   />   
-                   <!-- calculate find surface pose -->
-                   <TransformPoseAction
-                       name="calculate approach {latch_name} location"
-                       input_pose="{latch_pose}"
-                       translation_xyz="-0.05;0;0"
-                       quaternion_xyzw="0.7071068;0;0;0.7071068"
-                       output_pose="{find_surface_pose}"
-                   />
-                   <!-- plan to find surface pose -->
-                   <SimplePlanAction
-                       name="plan to approach {latch_name}"
-                       service_name="/planning_interface/simple_plan"
-                       mode="POSE_LINE"
-                       pose="{find_surface_pose}"
-                       pose_frame_id="world"
-                       vel_scaling="0.08"
-                       acc_scaling="0.08"
-                       joint_trajectory="{joint_trajectory}"
-                   />
-                   <!-- move to find surface pose -->
-                   <JointTrajectoryAction
-                       name="move to approach {latch_name}"
-                       server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                       joint_trajectory="{joint_trajectory}"
-                   /> 
-               
-                   <!-- zero ft sensor -->
-                   <TriggerAction
-                       name="reset force torque sensor"
-                       service_name="/ur_hardware_interface/zero_ftsensor"
-                   />
-                   <!-- switch to find surface controller -->
-                   <SwitchControllerAction 
-                       name="switch to compliance controller"
-                       service_name="controller_manager/switch_controller"
-                       controller="cartesian_compliance_controller_find_surface"
-                   />
-                   <!-- find surface -->
-                   <FindSurfaceAction
-                       name="find {latch_name} surface"
-                       server_name="find_surface_action_server/find_surface"
-                       force_target="10"
-                       force_threshold="3"
-                       maximum_distance="0.1"
-                       maximum_duration="30"
-                   />
-                   <!-- switch to joint traj ctrl -->
-                   <SwitchControllerAction 
-                       name="switch to position controller"
-                       service_name="controller_manager/switch_controller"
-                       controller="scaled_pos_joint_traj_controller"
-                   />
-                   <!-- plan to retract-->
-                   <SimplePlanAction
-                       name="plan to retract slightly"
-                       service_name="/planning_interface/simple_plan"
-                       mode="POSE_LINE"
-                       pose="-0.01;0;0;0;0;0"
-                       pose_frame_id="tcp_link"
-                       vel_scaling="0.01"
-                       acc_scaling="0.01"
-                       joint_trajectory="{joint_trajectory}"
-                   />
-                   <!-- move to retract -->
-                   <JointTrajectoryAction
-                       name="move to retract slightly"
-                       server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                       joint_trajectory="{joint_trajectory}"
-                   /> 
-               </Sequence>
-               <Sequence name="rotate {latch_name} open">
-                   <!-- zero ft sensor -->
-                   <TriggerAction
-                       name="reset force torque sensor"
-                       service_name="/ur_hardware_interface/zero_ftsensor"
-                   />
-                   <!-- switch to compliance control-->
-                   <SwitchControllerAction 
-                       name="switch to compliance controller"
-                       service_name="controller_manager/switch_controller"
-                       controller="cartesian_compliance_controller_open_close_latch"
-                   />
-                   <!-- close gripper -->
-                   <GripperAction
-                       name="close gripper"
-                       server_name="/gripper_controller/gripper_cmd"
-                       position="0.8"
-                       max_effort="20"
-                   />   
-                   <!-- plan to open latch -->
-                   <SimplePlanAction
-                       name="plan to rotate {latch_name} open"
-                       service_name="/planning_interface/simple_plan"
-                       mode="POSE_LINE"
-                       pose="0;0;0;1.57;0;0"
-                       pose_frame_id="tcp_link"
-                       vel_scaling="0.05"
-                       acc_scaling="0.05"
-                       joint_trajectory="{joint_trajectory}"
-                   />
-                   <!-- move to open latch -->
-                   <CompliantTrajectoryAction
-                       name="move to rotate {latch_name} open"
-                       server_name="/compliant_traj_action_server/follow_compliant_trajectory"
-                       wrench="0;0;0;0;0;0"
-                       wrench_frame_id="world"
-                       joint_trajectory="{joint_trajectory}"
-                   />
+
+            <Explain name="approach {latch_name}" _skipIf="latch_state==OPEN">
+                <Sequence>
+                    <!-- close gripper half way -->
+                    <GripperAction
+                        server_name="/gripper_controller/gripper_cmd"
+                        position="0.4"
+                        max_effort="20"
+                    />   
+                    <!-- calculate find surface pose -->
+                    <TransformPoseAction
+                        input_pose="{latch_pose}"
+                        translation_xyz="-0.05;0;0"
+                        quaternion_xyzw="0.7071068;0;0;0.7071068"
+                        output_pose="{find_surface_pose}"
+                    />
+                    <!-- plan to find surface pose -->
+                    <SimplePlanAction
+                        service_name="/planning_interface/simple_plan"
+                        mode="POSE_LINE"
+                        pose="{find_surface_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.08"
+                        acc_scaling="0.08"
+                        joint_trajectory="{joint_trajectory}"
+                    />
+                    <!-- move to find surface pose -->
+                    <JointTrajectoryAction
+                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                        joint_trajectory="{joint_trajectory}"
+                    /> 
+                    <!-- zero ft sensor -->
+                    <TriggerAction
+                        service_name="/ur_hardware_interface/zero_ftsensor"
+                    />
+                    <!-- switch to find surface controller -->
+                    <SwitchControllerAction 
+                        service_name="controller_manager/switch_controller"
+                        controller="cartesian_compliance_controller_find_surface"
+                    />
+                    <!-- find surface -->
+                    <FindSurfaceAction
+                        server_name="find_surface_action_server/find_surface"
+                        force_target="10"
+                        force_threshold="3"
+                        maximum_distance="0.1"
+                        maximum_duration="30"
+                    />
+                    <!-- switch to joint traj ctrl -->
+                    <SwitchControllerAction 
+                        service_name="controller_manager/switch_controller"
+                        controller="scaled_pos_joint_traj_controller"
+                    />
+                    <!-- plan to retract-->
+                    <SimplePlanAction
+                        service_name="/planning_interface/simple_plan"
+                        mode="POSE_LINE"
+                        pose="-0.01;0;0;0;0;0"
+                        pose_frame_id="tcp_link"
+                        vel_scaling="0.01"
+                        acc_scaling="0.01"
+                        joint_trajectory="{joint_trajectory}"
+                    />
+                    <!-- move to retract -->
+                    <JointTrajectoryAction
+                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                        joint_trajectory="{joint_trajectory}"
+                    /> 
+                </Sequence>
+            </Explain>
+
+            <Explain name="grip {latch_name}" _skipIf="latch_state==OPEN">
+                <Delay delay_msec="1000">
+                    <Sequence>
+                        <!-- zero ft sensor -->
+                        <TriggerAction
+                            service_name="/ur_hardware_interface/zero_ftsensor"
+                        />
+                        <!-- switch to compliance control-->
+                        <SwitchControllerAction 
+                            service_name="controller_manager/switch_controller"
+                            controller="cartesian_compliance_controller_open_close_latch"
+                        />  
+                        
+                            <GripperAction
+                                server_name="/gripper_controller/gripper_cmd"
+                                position="0.8"
+                                max_effort="20"
+                            /> 
+                    </Sequence>
+                </Delay>
+            </Explain>
+
+            <Explain name="turn {latch_name}" _skipIf="latch_state==OPEN">
+                <Sequence>
+                    <!-- plan to open latch -->
+                    <SimplePlanAction
+                        service_name="/planning_interface/simple_plan"
+                        mode="POSE_LINE"
+                        pose="0;0;0;1.57;0;0"
+                        pose_frame_id="tcp_link"
+                        vel_scaling="0.05"
+                        acc_scaling="0.05"
+                        joint_trajectory="{joint_trajectory}"
+                    />
+                    <!-- move to open latch -->
+                    <CompliantTrajectoryAction
+                        server_name="/compliant_traj_action_server/follow_compliant_trajectory"
+                        wrench="0;0;0;0;0;0"
+                        wrench_frame_id="world"
+                        joint_trajectory="{joint_trajectory}"
+                    />
                     <!-- switch back to joint traj ctrl -->
                     <SwitchControllerAction 
-                        name="switch to position controller"
                         service_name="controller_manager/switch_controller"
-                       controller="scaled_pos_joint_traj_controller"
-                   />
-               </Sequence>
-               <!-- open gripper -->
-               <GripperAction
-                   name="open gripper"
-                   server_name="/gripper_controller/gripper_cmd"
-                   position="0.4"
-                   max_effort="20"
-               /> 
-               <Sequence name="retract from {latch_name}">
-                   <!-- retreat from handle -->
-                   <SimplePlanAction
-                       name="plan to retract from {latch_name}"
-                       service_name="/planning_interface/simple_plan"
-                       mode="POSE_LINE"
-                       pose="-0.1;0;0;0;0;0"
-                       pose_frame_id="tcp_link"
-                       vel_scaling="0.04"
-                       acc_scaling="0.04"
-                       joint_trajectory="{joint_trajectory}"
-                   />
-                   <JointTrajectoryAction
-                       name="move to retract from {latch_name}"
-                       server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                       joint_trajectory="{joint_trajectory}"
-                   /> 
-                   <SimplePlanAction
-                       name="plan to look at {latch_name} again"
-                       service_name="/planning_interface/simple_plan"
-                       mode="POSE_LINE"
-                       pose="{approach_latch_pose}"
-                       pose_frame_id="world"
-                       vel_scaling="0.08"
-                       acc_scaling="0.08"
-                       joint_trajectory="{joint_trajectory}"
-                   />
-                   <JointTrajectoryAction
-                       name="move to look at {latch_name} again"
-                       server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                       joint_trajectory="{joint_trajectory}"
-                   /> 
-               </Sequence>
-               <!-- confirm latch open -->
-               <DetectFrameAction 
-                   name="confirm {latch_name} is open"
-                   source_frame="{latch_tag_name}" 
-                   target_frame="world" 
-                   wait_duration="2000"
-                   timeout="3000"
-               />
-            </Sequence>
+                        controller="scaled_pos_joint_traj_controller"
+                    />
+                </Sequence>
+            </Explain>
+
+            <Explain name="release {latch_name}" _skipIf="latch_state==OPEN">
+                <Delay delay_msec="1000">
+                    <!-- open gripper -->
+                    <GripperAction
+                        server_name="/gripper_controller/gripper_cmd"
+                        position="0.4"
+                        max_effort="20"
+                    /> 
+                </Delay>
+            </Explain>
+
+            <Explain name="retract from {latch_name}" _skipIf="latch_state==OPEN">
+                <Sequence >
+                    <!-- retreat from handle -->
+                    <SimplePlanAction
+                        service_name="/planning_interface/simple_plan"
+                        mode="POSE_LINE"
+                        pose="-0.1;0;0;0;0;0"
+                        pose_frame_id="tcp_link"
+                        vel_scaling="0.04"
+                        acc_scaling="0.04"
+                        joint_trajectory="{joint_trajectory}"
+                    />
+                    <JointTrajectoryAction
+                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                        joint_trajectory="{joint_trajectory}"
+                    /> 
+                    <!-- look at latch again-->
+                    <SimplePlanAction
+                        service_name="/planning_interface/simple_plan"
+                        mode="POSE_LINE"
+                        pose="{approach_latch_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.08"
+                        acc_scaling="0.08"
+                        joint_trajectory="{joint_trajectory}"
+                    />
+                    <JointTrajectoryAction
+                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                        joint_trajectory="{joint_trajectory}"
+                    /> 
+                </Sequence>
+            </Explain>
+
+            <!-- confirm latch open -->
+            <!-- <Explain name="confirm {latch_name} is open" _skipIf="latch_state==OPEN">
+                <Delay delay_msec="1000">
+                    <DetectFrameAction 
+                        source_frame="{latch_tag_name}" 
+                        target_frame="world" 
+                        wait_duration="2000"
+                        timeout="3000"
+                    />
+                </Delay>
+            </Explain> -->
         </Sequence>
     </BehaviorTree>
 

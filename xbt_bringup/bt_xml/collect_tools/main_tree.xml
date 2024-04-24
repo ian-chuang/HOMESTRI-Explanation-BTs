@@ -38,8 +38,6 @@
                         qz="0"
                         qw="0.7071068"
                     />
-                </Sequence>
-                <Sequence name="calculate poses">
                     <TransformPoseAction
                         name="calculate tool 1 pose"
                         input_pose="{tool_rack_pose}"
