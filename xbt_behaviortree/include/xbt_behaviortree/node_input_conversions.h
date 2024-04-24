@@ -6,6 +6,7 @@
 #include <geometry_msgs/Transform.h>
 #include <geometry_msgs/Vector3.h>
 #include <geometry_msgs/Quaternion.h>
+#include <geometry_msgs/Point.h>
 #include <string>
 #include <vector>
 #include <tf2/LinearMath/Quaternion.h>
@@ -161,6 +162,22 @@ namespace BT
       quat.z = convertFromString<double>(parts[2]);
       quat.w = convertFromString<double>(parts[3]);
       return quat;
+    }
+    else {
+      throw RuntimeError("invalid input");
+    }
+  }
+
+  template <> inline geometry_msgs::Point convertFromString(StringView str)
+  {
+    // We expect real numbers separated by semicolons
+    auto parts = splitString(str, ';');
+    if (parts.size() == 3) {
+      geometry_msgs::Point point;
+      point.x = convertFromString<double>(parts[0]);
+      point.y = convertFromString<double>(parts[1]);
+      point.z = convertFromString<double>(parts[2]);
+      return point;
     }
     else {
       throw RuntimeError("invalid input");
