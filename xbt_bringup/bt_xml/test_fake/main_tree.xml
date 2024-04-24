@@ -1,57 +1,7 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
         <Sequence name="test sequence">
-            
-            <SwitchControllerAction 
-                name="switch to joint trajectory controller"
-                service_name="controller_manager/switch_controller"
-                controller="pos_joint_traj_controller"
-            />
-
-            <!-- move to joints -->
-            <SimplePlanAction
-                name="plan to move to home"
-                service_name="/planning_interface/simple_plan"
-                mode="JOINT"
-                joints="0.1;0;0;0;0;0"
-                vel_scaling="1"
-                acc_scaling="1"
-                joint_trajectory="{joint_trajectory}"
-            />
-            <JointTrajectoryAction
-                name="move to home"
-                server_name="/pos_joint_traj_controller/follow_joint_trajectory"
-                joint_trajectory="{joint_trajectory}"
-            />
-            <!-- move home -->
-            <SimplePlanAction
-                name="plan to move to home"
-                service_name="/planning_interface/simple_plan"
-                mode="TARGET"
-                target="home"
-                vel_scaling="1"
-                acc_scaling="1"
-                joint_trajectory="{joint_trajectory}"
-            />
-            <JointTrajectoryAction
-                name="move to home"
-                server_name="/pos_joint_traj_controller/follow_joint_trajectory"
-                joint_trajectory="{joint_trajectory}"
-            />
-
-            <!-- open gripper -->
-            <GripperAction
-                name="open gripper"
-                server_name="/gripper_action_controller/gripper_cmd"
-                position="0"
-                max_effort="20"
-            />
-
-            <!-- detect frame -->
-            <SleepAction 
-                name="sleep for 1 second" 
-                msec="1000"
-            />
+        
             <DetectFrameAction 
                 name="detect test frame"
                 source_frame="test_frame" 
@@ -66,64 +16,6 @@
                 output_pose="{offset_test_frame_pose}"
             />
 
-            <!-- move to approach pose -->
-            <SimplePlanAction
-                name="plan to move to approach pose"
-                service_name="/planning_interface/simple_plan"
-                mode="POSE"
-                pose="{offset_test_frame_pose}"
-                pose_frame_id="world"
-                vel_scaling="1"
-                acc_scaling="1"
-                joint_trajectory="{joint_trajectory}"
-            />
-            <JointTrajectoryAction
-                name="move to approach pose"
-                server_name="/pos_joint_traj_controller/follow_joint_trajectory"
-                joint_trajectory="{joint_trajectory}"
-            />
-
-            <!-- move to pose -->
-            <SimplePlanAction
-                name="plan to move to test frame"
-                service_name="/planning_interface/simple_plan"
-                mode="POSE_LINE"
-                pose="{test_frame_pose}"
-                pose_frame_id="world"
-                vel_scaling="1"
-                acc_scaling="1"
-                joint_trajectory="{joint_trajectory}"
-            />
-            <JointTrajectoryAction
-                name="move to test frame"
-                server_name="/pos_joint_traj_controller/follow_joint_trajectory"
-                joint_trajectory="{joint_trajectory}"
-            />
-
-            <!-- close gripper -->
-            <GripperAction
-                name="close gripper"
-                server_name="/gripper_action_controller/gripper_cmd"
-                position="0.8"
-                max_effort="20"
-            />
-
-            <!-- move to retract pose -->
-            <SimplePlanAction
-                name="plan to move to retract pose"
-                service_name="/planning_interface/simple_plan"
-                mode="POSE_LINE"
-                pose="{offset_test_frame_pose}"
-                pose_frame_id="world"
-                vel_scaling="1"
-                acc_scaling="1"
-                joint_trajectory="{joint_trajectory}"
-            />
-            <JointTrajectoryAction
-                name="move to retract pose"
-                server_name="/pos_joint_traj_controller/follow_joint_trajectory"
-                joint_trajectory="{joint_trajectory}"
-            />
 
             <!-- follow compliant trajectory back to home -->
             <SwitchControllerAction 
@@ -131,27 +23,20 @@
                 service_name="controller_manager/switch_controller"
                 controller="cartesian_compliance_controller_follow_trajectory"
             />
-
-            <DetectFrameAction 
-                name="detect test frame"
-                source_frame="tcp_link" 
-                target_frame="world" 
-                output_pose="{blah_pose}"
-                timeout="1000"
-            />
-
-            <SetTargetWrenchAction
-                name="set target wrench"
-                msec="10000"
-                wrench="0;-5;0;0;0;0"
-                wrench_frame_id="world"
-            />
+            <!-- <SwitchControllerAction 
+                name="switch to position controller"
+                service_name="controller_manager/switch_controller"
+                controller="pos_joint_traj_controller"
+            /> -->
 
             <SimplePlanAction
                 name="plan to move to home"
                 service_name="/planning_interface/simple_plan"
-                mode="TARGET"
-                target="home"
+                mode="CIRCLE"
+                pose="{offset_test_frame_pose}"
+                pose_frame_id="world"
+                center="0.5;0.0;1.0"
+                center_frame_id="world"
                 vel_scaling="0.02"
                 acc_scaling="0.02"
                 joint_trajectory="{joint_trajectory}"
@@ -163,26 +48,12 @@
                 wrench_frame_id="world"
                 joint_trajectory="{joint_trajectory}"
             />
+            <!-- <JointTrajectoryAction
+                name="move to start position"
+                server_name="/pos_joint_traj_controller/follow_joint_trajectory"
+                joint_trajectory="{joint_trajectory}"
+            />  -->
 
-            <!-- find surface using compliance surface -->
-            <SwitchControllerAction 
-                name="switch to compliance controller"
-                service_name="controller_manager/switch_controller"
-                controller="cartesian_compliance_controller_find_surface"
-            />
-            <FindSurfaceAction
-                name="find surface"
-                server_name="/find_surface_action_server/find_surface"
-                force_target="10"
-                force_threshold="5"
-                maximum_distance="0.2"
-                maximum_duration="30"
-            />
-            <SwitchControllerAction 
-                name="switch to joint trajectory controller"
-                service_name="controller_manager/switch_controller"
-                controller="pos_joint_traj_controller"
-            />
         </Sequence>
     </BehaviorTree>
 </root>

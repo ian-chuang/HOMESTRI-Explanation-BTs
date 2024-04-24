@@ -50,6 +50,9 @@ class YOLOVisualizer:
         if predictions is not None and predictions['predictions']:
             # Add bounding boxes to the model prediction of connector
             for bounding_box in predictions["predictions"]:
+
+                print(bounding_box)
+
                 x0 = bounding_box['x'] - bounding_box['width']  / 2
                 x1 = bounding_box['x'] + bounding_box['width']  / 2
                 y0 = bounding_box['y'] - bounding_box['height'] / 2

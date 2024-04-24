@@ -49,14 +49,14 @@ def generate_circle(current_pose, center_point, target_pose, rotation_step_size=
     angle = np.arccos(np.dot(start_vector, end_vector) / (np.linalg.norm(start_vector) * np.linalg.norm(end_vector)))
 
     poses = []
-    for rot in np.arange(0, angle, rotation_step_size):
+    for rot in np.flip(np.arange(angle, 0, -rotation_step_size)):
         # Create rotation matrix
         rot_matrix = R.from_rotvec(rotation_axis * rot).as_matrix()
         # Apply rotation matrix to start_vector
         rotated_vector = np.dot(rot_matrix, start_vector)
 
         # rotate starting_pose quat around rotation_axis
-        starting_rot = R.from_quat(current_orientation[3:])
+        starting_rot = R.from_quat(current_orientation)
         rotated_rot = R.from_rotvec(rotation_axis * rot) * starting_rot
 
         # Create pose
@@ -208,7 +208,7 @@ class PlanningInterface:
             ) 		
 
             res = SimplePlanResponse()        
-            res.joint_trajectory = plan
+            res.joint_trajectory = plan.joint_trajectory
             res.success = True
             return res
 
