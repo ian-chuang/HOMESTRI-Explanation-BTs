@@ -9,7 +9,6 @@
                 />
             </Explain>
 
-
             <!-- approach drawer tag -->
             <SubTree
                 ID="approach drawer"
@@ -18,31 +17,31 @@
             />              
 
             <!-- open latch 1 -->
-            <SubTree
+            <!-- <SubTree
                 ID="open latch"
                 name="open latch 1"
                 latch_name="latch 1"
                 latch_tag_name="latch_1_tag"
                 tag_pose="{tag_pose}"
                 latch_offset="0;-0.27;-0.04"
-            />
+            /> -->
 
             <!-- open latch 2 -->
-            <SubTree
+            <!-- <SubTree
                 ID="open latch"
                 name="open latch 2"
                 latch_name="latch 2"
                 latch_tag_name="latch_2_tag"
                 tag_pose="{tag_pose}"
                 latch_offset="0;-0.27;-0.3876625"
-            />
+            /> -->
 
             <!-- open drawer -->
             <SubTree
                 ID="open drawer"
                 name="open drawer"
                 tag_pose="{tag_pose}"
-                handle_offset="-0.08;0;-0.15"
+                handle_offset="-0.11;0;-0.15"
             />
 
             <!-- inspect drawer -->
@@ -50,13 +49,8 @@
                 ID="inspect drawer"
                 name="inspect drawer"
                 tag_pose="{tag_pose}"
-                inspect_offset="-0.33;0;0.11"
+                handle_offset="-0.11;0;-0.15"
             />
-
-            
-
-            
-
 
         </Sequence>
     </BehaviorTree>

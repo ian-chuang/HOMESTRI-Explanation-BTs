@@ -84,10 +84,11 @@ class PlanningInterface:
 
         self.move_group = moveit_commander.MoveGroupCommander(move_group_name, wait_for_servers=30.0)
 
-        self.move_group.set_planning_time(5)
+        self.move_group.set_planning_time(10)
         self.move_group.allow_replanning(True)
         self.move_group.allow_looking(True)
         self.move_group.set_pose_reference_frame("world")
+        self.move_group.set_num_planning_attempts(3)
 
         constraints = moveit_msgs.msg.Constraints()
         constraints.joint_constraints = []

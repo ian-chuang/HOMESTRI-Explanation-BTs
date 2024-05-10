@@ -17,6 +17,7 @@
         <arg name="controllers" value="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller" />
         <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory cartesian_compliance_controller_open_close_latch cartesian_compliance_controller_find_surface" />
         <arg name="use_rviz" value="false" />
+        <arg name="urdf_path" value="$(find xbt_bringup)/urdf/a_bot_scene.xacro" />
     </include>
 
     <!-- launch realsense -->

@@ -1,0 +1,11 @@
+planning_interface:
+  move_group: arm
+  default_vel_scaling: 0.1
+  default_acc_scaling: 0.1
+  joint_constraints:
+    shoulder_pan_joint: { min: -1.57, max: 3.14 }
+    # shoulder_lift_joint: { min: -3.14, max: 3.14 }
+    elbow_joint: { min: 0, max: 3.14 }
+    wrist_1_joint: { min: -6.28, max: 0 }
+    wrist_2_joint: { min: -3.14, max: 0 }
+    wrist_3_joint: { min: -6.28, max: 6.28 }

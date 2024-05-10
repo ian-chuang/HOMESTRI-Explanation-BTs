@@ -1,34 +1,47 @@
 <root>
-    <BehaviorTree ID="go to start position">
-
-        <Sequence>
+<!-- 
+    inputs: 
+      - joints
+      - pose
+      - pose_frame_id
+      - center
+      - center_frame_id
+      - vel_scaling
+      - acc_scaling
+      - mode
+  -->
+    <BehaviorTree ID="move">
+        <Sequence name="move">
 
             <!-- switch to position controller -->
             <SwitchControllerAction 
+                name="switch to position controller"
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
 
             <!-- plan to start position-->
             <SimplePlanAction
+                name="plan to start position"
                 service_name="/planning_interface/simple_plan"
-                mode="JOINT"
-                joints="3.2270455360412598; -1.677737375298971; 2.158804718648092; -0.5530705016902466; 0.08839351683855057; 0.07319009304046631"
-                 
-                vel_scaling="0.03"
-                acc_scaling="0.03"
+                mode="{mode}"
+                joints="{joints}"
+                pose="{pose}"
+                pose_frame_id="{pose_frame_id}"
+                center="{center}"
+                center_frame_id="{center_frame_id}"
+                vel_scaling="{vel_scaling}"
+                acc_scaling="{acc_scaling}"
                 joint_trajectory="{joint_trajectory}"
             />
 
-            
-
             <!-- move to start position -->
             <JointTrajectoryAction
+                name="move to start position"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 
 
         </Sequence>
-
     </BehaviorTree>
 </root>

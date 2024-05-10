@@ -22,19 +22,19 @@
                     <TransformPoseAction
                         name="calculate pull handle location"
                         input_pose="{handle_pose}"
-                        translation_xyz="-0.33;0;0"
+                        translation_xyz="-0.17;0;0"
                         output_pose="{pull_handle_pose}"
                     />
                     <TransformPoseAction
                         name="calculate handle gripper location"
                         input_pose="{handle_pose}"
-                        quaternion_xyzw="-0.6532815;0.2705981;0.2705981;0.6532815"
+                        quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
                         output_pose="{handle_gripper_pose}"
                     />
                     <TransformPoseAction
                         name="calculate pull handle gripper location"
                         input_pose="{pull_handle_pose}"
-                        quaternion_xyzw="-0.6532815;0.2705981;0.2705981;0.6532815"
+                        quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
                         output_pose="{pull_handle_gripper_pose}"
                     />
                     <TransformPoseAction
@@ -43,6 +43,23 @@
                         translation_xyz="-0.15;0;0"
                         output_pose="{approach_handle_gripper_pose}"
                     />
+
+                      
+                    <SimplePlanAction
+                        name="plan to starting joint pos"
+                        service_name="/planning_interface/simple_plan"
+                        mode="JOINT"
+                        joints="3.226013422012329; -1.983175893823141;  1.7863567511187952; -1.3737225991538544; -1.564768139516012; 3.1089069843292236"
+                        vel_scaling="0.06"
+                        acc_scaling="0.06"
+                        joint_trajectory="{joint_trajectory}"
+                    />
+                    <JointTrajectoryAction
+                        name="move to starting joint pos"
+                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                        joint_trajectory="{joint_trajectory}"
+                    /> 
+
                     <!-- move to approach handle pose -->
                     <SimplePlanAction
                         name="plan to approach handle"
@@ -183,7 +200,7 @@
                         name="plan to retract from handle"
                         service_name="/planning_interface/simple_plan"
                         mode="POSE_LINE"
-                        pose="-0.15;0;0;0;0;0"
+                        pose="-0.1;0;0;0;0;0"
                         pose_frame_id="tcp_link"
                         vel_scaling="0.03"
                         acc_scaling="0.03"
