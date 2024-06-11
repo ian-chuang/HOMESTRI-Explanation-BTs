@@ -3,6 +3,7 @@
     inputs: 
       - tag_pose
       - handle_offset
+      - pull_translation
 
     outputs:
       - handle_gripper_pose
@@ -22,7 +23,7 @@
                     <TransformPoseAction
                         name="calculate pull handle location"
                         input_pose="{handle_pose}"
-                        translation_xyz="-0.17;0;0"
+                        translation_xyz="{pull_translation}"
                         output_pose="{pull_handle_pose}"
                     />
                     <TransformPoseAction
@@ -44,60 +45,42 @@
                         output_pose="{approach_handle_gripper_pose}"
                     />
 
-                      
-                    <SimplePlanAction
-                        name="plan to starting joint pos"
-                        service_name="/planning_interface/simple_plan"
+                    <SubTree
+                        ID="move"
+                        name="move"
                         mode="JOINT"
-                        joints="3.226013422012329; -1.983175893823141;  1.7863567511187952; -1.3737225991538544; -1.564768139516012; 3.1089069843292236"
-                        vel_scaling="0.06"
-                        acc_scaling="0.06"
-                        joint_trajectory="{joint_trajectory}"
+                        joints="2.378270149230957; -1.7990418873228968;  2.006256882344381; -1.7773543796935023; 4.716665267944336; -3.0515883604632776"
+                        vel_scaling="0.05"
+                        acc_scaling="0.05"
                     />
-                    <JointTrajectoryAction
-                        name="move to starting joint pos"
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
-                    /> 
 
                     <!-- move to approach handle pose -->
-                    <SimplePlanAction
-                        name="plan to approach handle"
-                        service_name="/planning_interface/simple_plan"
+                    <SubTree
+                        ID="move"
+                        name="move"
                         mode="POSE_LINE"
                         pose="{approach_handle_gripper_pose}"
                         pose_frame_id="world"
                         vel_scaling="0.06"
                         acc_scaling="0.06"
-                        joint_trajectory="{joint_trajectory}"
-                    />
-                    <JointTrajectoryAction
-                        name="move to approach handle"
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
                     /> 
                     <!-- open gripper -->
                     <GripperAction
                         name="open gripper"
                         server_name="/gripper_controller/gripper_cmd"
                         position="0"
-                        max_effort="20"
+                        max_effort="100"
                     />   
-                    <!-- approach handle -->
-                    <SimplePlanAction
-                        name="plan to handle"
-                        service_name="/planning_interface/simple_plan"
+
+                    <!-- move to approach handle pose -->
+                    <SubTree
+                        ID="move"
+                        name="move"
                         mode="POSE_LINE"
                         pose="{handle_gripper_pose}"
                         pose_frame_id="world"
                         vel_scaling="0.03"
                         acc_scaling="0.03"
-                        joint_trajectory="{joint_trajectory}"
-                    />
-                    <JointTrajectoryAction
-                        name="move to handle"
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
                     /> 
                 </Sequence>
             </Explain>
@@ -118,7 +101,7 @@
                         <GripperAction
                             server_name="/gripper_controller/gripper_cmd"
                             position="0.8"
-                            max_effort="20"
+                            max_effort="100"
                         /> 
                     </Sequence>
                 </Delay>

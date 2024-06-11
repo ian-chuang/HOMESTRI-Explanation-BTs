@@ -25,37 +25,23 @@
             <Explain name="move towards drawer">
                 <Sequence name="approach tag">
 
-                    <!-- calculate pose for approaching tag -->
                     <TransformPoseAction
                         input_pose="{tag_pose}"
-                        translation_xyz="-0.25;0;-0.05"
+                        translation_xyz="-0.25;-0.05;0"
+                        quaternion_xyzw="-0.7071068;0;0;0.7071068"
                         output_pose="{approach_tag_pose}"
                     />
 
-                    <!-- position control -->
-                    <SwitchControllerAction 
-                        service_name="controller_manager/switch_controller"
-                        controller="scaled_pos_joint_traj_controller"
-                    />
-
-                    <!-- plan to approach tag pose -->
-                    <SimplePlanAction
-                        service_name="/planning_interface/simple_plan"
+                    <SubTree
+                        ID="move"
+                        name="move"
                         mode="POSE_LINE"
                         pose="{approach_tag_pose}"
                         pose_frame_id="world"
                         vel_scaling="0.02"
                         acc_scaling="0.02"
-                        joint_trajectory="{joint_trajectory}"
-                    />
-
-                    <!-- move to approach tag pose -->
-                    <JointTrajectoryAction
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
                     /> 
 
-                    <!-- detect tag pose again for a more accurate position-->
                     <DetectFrameAction 
                         source_frame="tag_frame" 
                         target_frame="world" 

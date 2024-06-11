@@ -18,6 +18,9 @@
         <arg name="stopped_controllers" value="cartesian_compliance_controller_follow_trajectory cartesian_compliance_controller_open_close_latch cartesian_compliance_controller_find_surface" />
         <arg name="use_rviz" value="false" />
         <arg name="urdf_path" value="$(find xbt_bringup)/urdf/a_bot_scene.xacro" />
+        <arg name="kinematics_config" value="$(find xbt_bringup)/config/calibration.yaml" />
+        <arg name="robot_ip" value="192.168.0.103" />
+        <arg name="reverse_ip" value="192.168.0.2" />
     </include>
 
     <!-- launch realsense -->

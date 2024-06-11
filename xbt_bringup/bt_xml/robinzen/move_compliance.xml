@@ -1,0 +1,51 @@
+<root>
+<!-- 
+    inputs: 
+      - joints
+      - pose
+      - pose_frame_id
+      - center
+      - center_frame_id
+      - vel_scaling
+      - acc_scaling
+      - mode
+      - wrench
+      - wrench_frame_id
+      - controller
+  -->
+    <BehaviorTree ID="move compliance">
+        <Sequence name="move compliance">
+
+            <!-- switch to position controller -->
+            <SwitchControllerAction 
+                name="switch to compliance controller"
+                service_name="controller_manager/switch_controller"
+                controller="{controller}"
+            />
+
+            <!-- plan to start position-->
+            <SimplePlanAction
+                name="plan to start position"
+                service_name="/planning_interface/simple_plan"
+                mode="{mode}"
+                joints="{joints}"
+                pose="{pose}"
+                pose_frame_id="{pose_frame_id}"
+                center="{center}"
+                center_frame_id="{center_frame_id}"
+                vel_scaling="{vel_scaling}"
+                acc_scaling="{acc_scaling}"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+            <CompliantTrajectoryAction
+                name="move to home with compliance"
+                server_name="/compliant_traj_action_server/follow_compliant_trajectory"
+                wrench="{wrench}"
+                wrench_frame_id="{wrench_frame_id}"
+                joint_trajectory="{joint_trajectory}"
+            />
+
+        </Sequence>
+    </BehaviorTree>
+</root>

@@ -21,8 +21,7 @@
 #   ]
 standalone_tags:
   [
-    {id: 23, size: 0.03, name: 'latch_2_tag'},
-    {id: 22, size: 0.03, name: 'latch_1_tag'},
+    {id: 2, size: 0.03, name: 'latch_1_tag'},
   ]
 # ## Tag bundle definitions
 # ### Remarks

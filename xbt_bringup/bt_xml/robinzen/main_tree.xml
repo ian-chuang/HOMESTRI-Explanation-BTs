@@ -2,12 +2,23 @@
     <BehaviorTree ID="MainTree">
         <Sequence name="inspect Robinzen">
 
-            <!-- go to start position -->
-            <Explain name="go to start position">
-                <SubTree
-                    ID="go to start position"
-                />
-            </Explain>
+            <!-- <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints="3.14;-1.57;1.57;0;1.57;-0"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> -->
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints="2.3904359340667725; -1.9121290645995082;  2.193907086049215; -0.28583796442065434; 2.100641965866089; -1.5478280226336878"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            />
 
             <!-- approach drawer tag -->
             <SubTree
@@ -16,25 +27,16 @@
                 tag_pose="{tag_pose}"
             />              
 
+
             <!-- open latch 1 -->
-            <!-- <SubTree
+            <SubTree
                 ID="open latch"
                 name="open latch 1"
                 latch_name="latch 1"
                 latch_tag_name="latch_1_tag"
                 tag_pose="{tag_pose}"
-                latch_offset="0;-0.27;-0.04"
-            /> -->
-
-            <!-- open latch 2 -->
-            <!-- <SubTree
-                ID="open latch"
-                name="open latch 2"
-                latch_name="latch 2"
-                latch_tag_name="latch_2_tag"
-                tag_pose="{tag_pose}"
-                latch_offset="0;-0.27;-0.3876625"
-            /> -->
+                latch_offset="0;-0.265;-0.05"
+            />
 
             <!-- open drawer -->
             <SubTree
@@ -42,15 +44,16 @@
                 name="open drawer"
                 tag_pose="{tag_pose}"
                 handle_offset="-0.11;0;-0.15"
+                pull_translation="-0.25;0;0"
             />
 
             <!-- inspect drawer -->
-            <SubTree
+            <!-- <SubTree
                 ID="inspect drawer"
                 name="inspect drawer"
                 tag_pose="{tag_pose}"
-                handle_offset="-0.11;0;-0.15"
-            />
+                handle_offset="-0.36;0;-0.15"
+            /> -->
 
         </Sequence>
     </BehaviorTree>

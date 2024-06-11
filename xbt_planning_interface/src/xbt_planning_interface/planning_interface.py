@@ -84,15 +84,12 @@ class PlanningInterface:
 
         self.move_group = moveit_commander.MoveGroupCommander(move_group_name, wait_for_servers=30.0)
 
-        self.move_group.set_planning_time(10)
-        self.move_group.allow_replanning(True)
-        self.move_group.allow_looking(True)
         self.move_group.set_pose_reference_frame("world")
-        self.move_group.set_num_planning_attempts(3)
-
         constraints = moveit_msgs.msg.Constraints()
         constraints.joint_constraints = []
         self.joint_constraints = rospy.get_param(name + '/joint_constraints')
+        print("param name: " + name + '/joint_constraints')
+        print(self.joint_constraints)
 
         for joint_name, limits in self.joint_constraints.items():
             min = limits['min']
@@ -106,7 +103,7 @@ class PlanningInterface:
             constraint.weight = 10
             constraints.joint_constraints.append(constraint)
 
-        self.move_group.set_path_constraints(constraints)
+        # self.move_group.set_path_constraints(constraints)
 
 
         self.tfBuffer = tf2_ros.Buffer()
@@ -169,8 +166,8 @@ class PlanningInterface:
             self.move_group.set_planner_id("CHOMP")
             self.move_group.set_named_target(target)
         elif mode == SimplePlanRequest.JOINT:
-            self.move_group.set_planning_pipeline_id("chomp")
-            self.move_group.set_planner_id("CHOMP")
+            self.move_group.set_planning_pipeline_id("ompl")
+            self.move_group.set_planner_id("RRTConnect")
             self.move_group.set_joint_value_target(joints)
         elif mode == SimplePlanRequest.CIRCLE:
 
