@@ -6,7 +6,7 @@
         - lift_zeode_pose
         - move_out_zeode_pose
   -->
-    <BehaviorTree ID="transfer zeode">
+    <BehaviorTree ID="pick zeode">
         <Sequence name="transfer zeode">
 
 
@@ -41,6 +41,16 @@
                 position="0"
                 max_effort="100"
             /> 
+
+            <SubTree
+                    ID="move"
+                    name="move"
+                    mode="POSE_LINE"
+                    pose="{lift_zeode_pose}"
+                    pose_frame_id="world"
+                    vel_scaling="0.02"
+                    acc_scaling="0.02"
+                /> 
 
 
              <SubTree
@@ -88,27 +98,6 @@
                     vel_scaling="0.01"
                     acc_scaling="0.01"
                 /> 
-
-            <!-- <SubTree
-                    ID="move"
-                    name="move"
-                    mode="POSE_LINE"
-                    pose="{move_out_zeode_pose}"
-                    pose_frame_id="world"
-                    vel_scaling="0.05"
-                    acc_scaling="0.05"
-                /> 
-
-
-            <SubTree
-                    ID="move"
-                    name="move"
-                    mode="POSE_LINE"
-                    pose="{lift_zeode_pose}"
-                    pose_frame_id="world"
-                    vel_scaling="0.05"
-                    acc_scaling="0.05"
-                />  -->
 
 
 

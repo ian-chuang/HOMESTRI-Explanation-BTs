@@ -59,7 +59,7 @@
             />
 
             <SubTree
-                ID="transfer zeode"
+                ID="pick zeode"
                 name="transfer"
                 zeode_pose="{zeode_pose}"
                 lift_zeode_pose="{lift_zeode_pose}"
@@ -67,7 +67,7 @@
             />
 
             <SubTree
-                ID="place new zeode"
+                ID="place zeode"
                 name="transfer"
                 zeode_pose="{zeode_pose}"
                 lift_zeode_pose="{lift_zeode_pose}"
