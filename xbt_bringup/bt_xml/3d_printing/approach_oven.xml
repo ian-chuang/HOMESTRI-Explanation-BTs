@@ -3,7 +3,7 @@
     outputs: 
       - tag_pose
   -->
-    <BehaviorTree ID="approach drawer">
+    <BehaviorTree ID="approach oven">
         <Sequence name="approach drawer">
 
             <!-- detect tag pose -->
@@ -27,8 +27,7 @@
 
                     <TransformPoseAction
                         input_pose="{tag_pose}"
-                        translation_xyz="-0.25;-0.05;0"
-                        quaternion_xyzw="-0.7071068;0;0;0.7071068"
+                        translation_xyz="-0.2;-0.05;0"
                         output_pose="{approach_tag_pose}"
                     />
 

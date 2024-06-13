@@ -1,0 +1,120 @@
+<root>
+    <!-- 
+    inputs: 
+    outputs:
+        - zeode_pose
+        - lift_zeode_pose
+        - move_out_zeode_pose
+  -->
+    <BehaviorTree ID="transfer zeode">
+        <Sequence name="transfer zeode">
+
+
+            <DetectFrameAction 
+                source_frame="zeode" 
+                target_frame="world" 
+                output_pose="{zeode_pose}"
+                timeout="1000"
+                qx="-0.5"
+                qy="0.5"
+                qz="0.5"
+                qw="0.5"
+            />
+            <TransformPoseAction
+                input_pose="{zeode_pose}"
+                translation_xyz="0.06;0;0"
+                output_pose="{zeode_pose}"
+            />
+            <TransformPoseAction
+                input_pose="{zeode_pose}"
+                translation_xyz="-0.1;0;0"
+                output_pose="{lift_zeode_pose}"
+            />
+            <TransformPoseAction
+                input_pose="{lift_zeode_pose}"
+                translation_xyz="0;0;-0.6"
+                output_pose="{move_out_zeode_pose}"
+            />
+
+            <GripperAction
+                server_name="/gripper_controller/gripper_cmd"
+                position="0"
+                max_effort="100"
+            /> 
+
+
+             <SubTree
+                    ID="move"
+                    name="move"
+                    mode="POSE_LINE"
+                    pose="{zeode_pose}"
+                    pose_frame_id="world"
+                    vel_scaling="0.02"
+                    acc_scaling="0.02"
+                /> 
+
+            <Explain name="let go of handle">
+                <Delay delay_msec="1000">
+                    <!-- open gripper -->
+                    <SubTree
+                        ID="grip with compliance"
+                        controller="cartesian_compliance_controller_follow_trajectory"
+                        position="0.8"
+                        max_effort="235"
+                    />
+                </Delay>
+            </Explain>
+
+            <!-- save current pose -->
+            <DetectFrameAction 
+                name="detect gripper location"
+                source_frame="tcp_link" 
+                target_frame="world" 
+                output_pose="{zeode_pose}"
+                timeout="1000"
+                qx="-0.5"
+                qy="0.5"
+                qz="0.5"
+                qw="0.5"
+            />
+
+
+             <SubTree
+                    ID="move"
+                    name="move"
+                    mode="POSE_LINE"
+                    pose="{lift_zeode_pose}"
+                    pose_frame_id="world"
+                    vel_scaling="0.01"
+                    acc_scaling="0.01"
+                /> 
+
+            <!-- <SubTree
+                    ID="move"
+                    name="move"
+                    mode="POSE_LINE"
+                    pose="{move_out_zeode_pose}"
+                    pose_frame_id="world"
+                    vel_scaling="0.05"
+                    acc_scaling="0.05"
+                /> 
+
+
+            <SubTree
+                    ID="move"
+                    name="move"
+                    mode="POSE_LINE"
+                    pose="{lift_zeode_pose}"
+                    pose_frame_id="world"
+                    vel_scaling="0.05"
+                    acc_scaling="0.05"
+                />  -->
+
+
+
+
+
+        </Sequence>
+    </BehaviorTree>
+
+</root>

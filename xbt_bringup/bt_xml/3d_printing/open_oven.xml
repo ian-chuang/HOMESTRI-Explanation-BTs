@@ -1,0 +1,94 @@
+<root>
+<!-- 
+    inputs: 
+      - tag_pose
+  -->
+    <BehaviorTree ID="open oven">
+        <Sequence name="move">
+            <TransformPoseAction
+                input_pose="{tag_pose}"
+                translation_xyz="0.015;0.2286;0.05"
+                quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
+                output_pose="{grab_door_pose}"
+            />
+            <TransformPoseAction
+                input_pose="{tag_pose}"
+                translation_xyz="0.015;0.2286;0.15"
+                quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
+                output_pose="{approach_door_pose}"
+            />
+            <TransformPoseAction
+                input_pose="{tag_pose}"
+                translation_xyz="0.00635;-0.27305; 0.05"
+                quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
+                output_pose="{center_pose}"
+            />
+            <TransformPoseAction
+                input_pose="{tag_pose}"
+                quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
+                translation_xyz="-0.1;-0.27305; 0.05"
+                output_pose="{target_pose}"
+            />
+
+            <!-- move to approach handle pose -->
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="{approach_door_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> 
+
+            <GripperAction
+                        server_name="/gripper_controller/gripper_cmd"
+                        position="0.3"
+                        max_effort="20"
+                    />   
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="{grab_door_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.01"
+                acc_scaling="0.01"
+            /> 
+
+
+            <SubTree
+                ID="move compliance"
+                name="move compliance"
+                mode="CIRCLE"
+                pose="{target_pose}"
+                pose_frame_id="world"
+                center="{center_pose}"
+                center_frame_id="world"
+                wrench="0;0;0;0;0;0"
+                wrench_frame_id="world"
+                vel_scaling="0.02"
+                acc_scaling="0.02"
+                controller="cartesian_compliance_controller_follow_trajectory"
+            />
+
+            <SleepAction msec="1000"/>
+
+            <!-- retreat from handle -->
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="-0.1;0;0;0;0;0"
+                pose_frame_id="tcp_link"
+                vel_scaling="0.03"
+                acc_scaling="0.03"
+            /> 
+
+
+
+
+        </Sequence>
+    </BehaviorTree>
+</root>

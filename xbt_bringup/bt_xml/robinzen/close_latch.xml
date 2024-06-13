@@ -6,7 +6,7 @@
       - latch_offset
       - latch_tag_name
   -->
-    <BehaviorTree ID="open latch">
+    <BehaviorTree ID="close latch">
         <Sequence name="open {latch_name}">
             <Explain name="look at {latch_name}">
                 <Sequence>
@@ -14,13 +14,13 @@
                     <TransformPoseAction
                         input_pose="{tag_pose}"
                         translation_xyz="{latch_offset}"
-                        quaternion_xyzw="-0.7071068;0;0;0.7071068"
                         output_pose="{latch_pose}"
                     />
                     <!-- calculate pose to inspect latch-->
                     <TransformPoseAction
                         input_pose="{latch_pose}"
-                        translation_xyz="-0.2;0.0;-0.05"
+                        translation_xyz="-0.2;-0.05;0"
+                        quaternion_xyzw="-0.7071068;0;0;0.7071068"
                         output_pose="{approach_latch_pose}"
                     />
                     <SubTree
@@ -51,7 +51,7 @@
             </Explain>
 
 
-            <Explain name="approach {latch_name}" _skipIf="latch_state==OPEN">
+            <Explain name="approach {latch_name}" _skipIf="latch_state==CLOSED">
                 <Sequence>
                     <!-- close gripper half way -->
                     <GripperAction
@@ -92,7 +92,7 @@
                 </Sequence>
             </Explain>
 
-            <Explain name="grip {latch_name}" _skipIf="latch_state==OPEN">
+            <Explain name="grip {latch_name}" _skipIf="latch_state==CLOSED">
                 <Delay delay_msec="2000">
                     <SubTree
                         ID="grip with compliance"
@@ -103,13 +103,13 @@
                 </Delay>
             </Explain>
 
-            <Explain name="turn {latch_name}" _skipIf="latch_state==OPEN">
+            <Explain name="turn {latch_name}" _skipIf="latch_state==CLOSED">
                 <Sequence>
                     <SubTree
                         ID="move compliance"
                         name="move compliance"
                         mode="POSE_LINE"
-                        pose="0;0;0;1.57;0;0"
+                        pose="0;0;0;-1.57;0;0"
                         pose_frame_id="tcp_link"
                         wrench="0;0;0;0;0;0"
                         wrench_frame_id="world"
@@ -125,7 +125,7 @@
                 </Sequence>
             </Explain>
 
-            <Explain name="release {latch_name}" _skipIf="latch_state==OPEN">
+            <Explain name="release {latch_name}" _skipIf="latch_state==CLOSED">
                 <Delay delay_msec="1000">
                     <!-- open gripper -->
                     <GripperAction
@@ -136,7 +136,7 @@
                 </Delay>
             </Explain>
 
-            <Explain name="retract from {latch_name}" _skipIf="latch_state==OPEN">
+            <Explain name="retract from {latch_name}" _skipIf="latch_state==CLOSED">
                 <Sequence >
                     <SubTree
                         ID="move"

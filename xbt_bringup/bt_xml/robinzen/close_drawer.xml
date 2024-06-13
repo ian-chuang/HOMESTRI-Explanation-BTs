@@ -9,7 +9,7 @@
     outputs:
       - new_handle_pose
   -->
-    <BehaviorTree ID="open drawer">
+    <BehaviorTree ID="close drawer">
         <Sequence name="open drawer">
 
             <Explain name="move to drawer handle">
@@ -95,12 +95,20 @@
                         mode="POSE_LINE"
                         pose="{pull_handle_gripper_pose}"
                         pose_frame_id="world"
-                        wrench="-5;0;30;0;0;0"
+                        wrench="5;0;30;0;0;0"
                         wrench_frame_id="world"
                         vel_scaling="0.02"
                         acc_scaling="0.02"
                         controller="cartesian_compliance_controller_follow_trajectory"
                     />
+
+                    <!-- <SubTree
+                        ID="apply force"
+                        controller="cartesian_compliance_controller_follow_trajectory"
+                        msec="2000"
+                        wrench="15;0;15;0;0;0"
+                        wrench_frame_id="world"
+                    /> -->
 
 
                     <SubTree
@@ -148,7 +156,6 @@
                         qw="1"
                     />
 
-
                     <SubTree
                         ID="move"
                         name="move"
@@ -159,6 +166,17 @@
                         acc_scaling="0.03"
                     /> 
 
+                    <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="0;0.2;0;0;0;0"
+                        pose_frame_id="tcp_link"
+                        vel_scaling="0.03"
+                        acc_scaling="0.03"
+                    /> 
+
+                    
 
                 </Sequence>
             </Explain>

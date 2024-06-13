@@ -1,0 +1,28 @@
+<root>
+<!-- 
+    inputs: 
+
+      - controller
+      - position
+      - max_effort
+  -->
+    <BehaviorTree ID="grip with compliance">
+        <Sequence>
+            <!-- zero ft sensor -->
+            <TriggerAction
+                service_name="/ur_hardware_interface/zero_ftsensor"
+            />
+            <!-- switch to compliance control-->
+            <SwitchControllerAction 
+                service_name="controller_manager/switch_controller"
+                controller="{controller}"
+            />  
+            
+            <GripperAction
+                server_name="/gripper_controller/gripper_cmd"
+                position="{position}"
+                max_effort="{max_effort}"
+            /> 
+        </Sequence>
+    </BehaviorTree>
+</root>

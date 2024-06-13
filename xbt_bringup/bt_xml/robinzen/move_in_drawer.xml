@@ -1,0 +1,64 @@
+<root>
+    <!-- 
+    inputs: 
+      - tag_pose
+      - handle_pose
+  -->
+    <BehaviorTree ID="move in drawer">
+        <Sequence name="inspect drawer">
+            <Explain name="look inside drawer">
+
+                <Sequence>
+                    <!-- position control -->
+                    <SwitchControllerAction 
+                        name="switch to position controller"
+                        service_name="controller_manager/switch_controller"
+                        controller="scaled_pos_joint_traj_controller"
+                    />
+
+                    <TransformPoseAction
+                        name="calculate raise pos"
+                        input_pose="{handle_pose}"
+                        translation_xyz="0;0;0.25"
+                        quaternion_xyzw="-0.5;0.5;0.5;0.5"
+                        output_pose="{raise_pose}"
+                    /> 
+
+                    <TransformPoseAction
+                        name="calculate inspect pos"
+                        input_pose="{handle_pose}"
+                        translation_xyz="0.2;-0.05;0.25"
+                        quaternion_xyzw="-0.5;0.5;0.5;0.5"
+                        output_pose="{inspect_pose}"
+                    /> 
+
+
+                    <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="{raise_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                    /> 
+
+                    <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="{inspect_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                    /> 
+
+                </Sequence>
+
+            </Explain>
+
+            
+        </Sequence>
+    </BehaviorTree>
+
+</root>

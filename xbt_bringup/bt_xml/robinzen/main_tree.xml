@@ -2,33 +2,30 @@
     <BehaviorTree ID="MainTree">
         <Sequence name="inspect Robinzen">
 
-            <!-- <SubTree
-                ID="move"
-                name="move"
-                mode="JOINT"
-                joints="3.14;-1.57;1.57;0;1.57;-0"
-                vel_scaling="0.05"
-                acc_scaling="0.05"
-            /> -->
 
             <SubTree
                 ID="move"
                 name="move"
                 mode="JOINT"
                 joints="2.3904359340667725; -1.9121290645995082;  2.193907086049215; -0.28583796442065434; 2.100641965866089; -1.5478280226336878"
-                vel_scaling="0.05"
-                acc_scaling="0.05"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
             />
 
-            <!-- approach drawer tag -->
             <SubTree
                 ID="approach drawer"
                 name="approach drawer"
                 tag_pose="{tag_pose}"
-            />              
+            />      
+
+            <TransformPoseAction
+                name="calculate handle location"
+                input_pose="{tag_pose}"
+                translation_xyz="-0.11;0;-0.155"
+                output_pose="{handle_pose}"
+            />         
 
 
-            <!-- open latch 1 -->
             <SubTree
                 ID="open latch"
                 name="open latch 1"
@@ -38,22 +35,83 @@
                 latch_offset="0;-0.265;-0.05"
             />
 
-            <!-- open drawer -->
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints="2.4674723148345947;  -1.529001896535494; 1.8917506376849573; -1.9327990017332972; -1.566434685383932; 3.14"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
             <SubTree
                 ID="open drawer"
                 name="open drawer"
-                tag_pose="{tag_pose}"
-                handle_offset="-0.11;0;-0.15"
-                pull_translation="-0.25;0;0"
+                handle_pose="{handle_pose}"
+                pull_translation="-0.33;0;0"
+                new_handle_pose="{handle_pose}"
             />
 
-            <!-- inspect drawer -->
-            <!-- <SubTree
-                ID="inspect drawer"
+            <SubTree
+                ID="move in drawer"
                 name="inspect drawer"
+                handle_pose="{handle_pose}"
+            />
+
+            <SubTree
+                ID="transfer zeode"
+                name="transfer"
+                zeode_pose="{zeode_pose}"
+                lift_zeode_pose="{lift_zeode_pose}"
+                move_out_zeode_pose="{move_out_zeode_pose}"
+            />
+
+            <SubTree
+                ID="place new zeode"
+                name="transfer"
+                zeode_pose="{zeode_pose}"
+                lift_zeode_pose="{lift_zeode_pose}"
+                move_out_zeode_pose="{move_out_zeode_pose}"
+            />
+
+            <SubTree
+                ID="move out drawer"
+                name="inspect drawer"
+                handle_pose="{handle_pose}"
+            />
+
+            <SubTree
+                ID="close drawer"
+                name="open drawer"
+                handle_pose="{handle_pose}"
+                pull_translation="0.33;0;0"
+                new_handle_pose="{handle_pose}"
+            />
+
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints="2.3904359340667725; -1.9121290645995082;  2.193907086049215; -0.28583796442065434; 2.100641965866089; -1.5478280226336878"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
+            <SubTree
+                ID="approach drawer"
+                name="approach drawer"
                 tag_pose="{tag_pose}"
-                handle_offset="-0.36;0;-0.15"
-            /> -->
+            />   
+
+            <SubTree
+                ID="close latch"
+                name="open latch 1"
+                latch_name="latch 1"
+                latch_tag_name="latch_1_tag"
+                tag_pose="{tag_pose}"
+                latch_offset="0;-0.265;-0.05"
+            /> 
 
         </Sequence>
     </BehaviorTree>

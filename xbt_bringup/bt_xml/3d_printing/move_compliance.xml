@@ -11,6 +11,7 @@
       - mode
       - wrench
       - wrench_frame_id
+      - controller
   -->
     <BehaviorTree ID="move compliance">
         <Sequence name="move compliance">
@@ -19,7 +20,7 @@
             <SwitchControllerAction 
                 name="switch to compliance controller"
                 service_name="controller_manager/switch_controller"
-                controller="cartesian_compliance_controller_follow_trajectory"
+                controller="{controller}"
             />
 
             <!-- plan to start position-->

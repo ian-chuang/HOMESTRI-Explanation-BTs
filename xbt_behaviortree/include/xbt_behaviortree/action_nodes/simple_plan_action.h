@@ -29,7 +29,7 @@ public:
             InputPort<std::vector<double>>("joints"),
             InputPort<geometry_msgs::Pose>("pose"),
             InputPort<std::string>("pose_frame_id"),
-            InputPort<geometry_msgs::Point>("center"),
+            InputPort<geometry_msgs::Pose>("center"),
             InputPort<std::string>("center_frame_id"),
             InputPort<double>("vel_scaling", SimplePlanAction::DefaultVelScaling, "Velocity scaling factor"),
             InputPort<double>("acc_scaling", SimplePlanAction::DefaultAccScaling, "Acceleration scaling factor"),
@@ -104,11 +104,17 @@ public:
                 ROS_ERROR("Missing required input [pose_frame_id]");
                 return false; 
             }
-            if (!getInput<geometry_msgs::Point>("center", request.center.point))
+            geometry_msgs::Pose center;
+            if (!getInput<geometry_msgs::Pose>("center", center))
             {
                 ROS_ERROR("Missing required input [center]");
                 return false;
             }
+            request.center.point.x = center.position.x;
+            request.center.point.y = center.position.y;
+            request.center.point.z = center.position.z;
+
+
             if (!getInput<std::string>("center_frame_id", request.center.header.frame_id))
             {
                 ROS_ERROR("Missing required input [center_frame_id]");

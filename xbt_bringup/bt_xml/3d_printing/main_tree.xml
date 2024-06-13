@@ -1,118 +1,40 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
-        <Sequence name="collect tools">
+        <Sequence name="inspect Robinzen">
 
-                <SubTree
-                    ID="move to joint target"
-                    name="move to joint target"
-                />
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints="0.039417386054992676; -1.4281166803887864;  2.134171787892477; -0.8164172929576416; 0.020134903490543365; 0.07041572034358978"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
 
-            <Explain name="localize tool rack and pallet">
-                <Sequence name="localize tags">
-                    <!-- detect tool rack tag -->
-                    <DetectFrameAction 
-                        name="scan tool rack location"
-                        source_frame="tool_rack_frame" 
-                        target_frame="world" 
-                        output_pose="{tool_rack_pose}"
-                        wait_duration="1000"
-                        timeout="1000"
-                        qx="0"
-                        qy="0"
-                        qz="0.7071068"
-                        qw="0.7071068"
-                    />
-                    <!-- detect tag pallet tag-->
-                    <DetectFrameAction 
-                        name="scan tool pallet location"
-                        source_frame="tool_pallet_frame" 
-                        target_frame="world" 
-                        output_pose="{tool_pallet_pose}"
-                        wait_duration="1000"
-                        timeout="1000"
-                        qx="0"
-                        qy="0.7071068"
-                        qz="0"
-                        qw="0.7071068"
-                    />
-                    <TransformPoseAction
-                        name="calculate tool 1 pose"
-                        input_pose="{tool_rack_pose}"
-                        translation_xyz="0.02;0;0"
-                        output_pose="{tool_1_pose}"
-                    />
 
-                    <TransformPoseAction
-                        name="calculate tool 2 pose"
-                        input_pose="{tool_1_pose}"
-                        translation_xyz="0;-0.0762;0"
-                        output_pose="{tool_2_pose}"
-                    />
+            <SubTree
+                ID="approach oven"
+                name="approach drawer"
+                tag_pose="{tag_pose}"
+            />    
 
-                    <TransformPoseAction
-                        name="calculate tool 3 pose"
-                        input_pose="{tool_2_pose}"
-                        translation_xyz="-.03;-0.0762;0"
-                        output_pose="{tool_3_pose}"
-                    />
-
-                    <TransformPoseAction
-                        name="calculate tool pallet 1 pose"
-                        input_pose="{tool_pallet_pose}"
-                        translation_xyz="0;0.045;0"
-                        output_pose="{tool_pallet_1_pose}"
-                    />
-
-                    <TransformPoseAction
-                        name="calculate tool pallet 2 pose"
-                        input_pose="{tool_pallet_pose}"
-                        translation_xyz="0;-0.04;0"
-                        output_pose="{tool_pallet_2_pose}"
-                    />
-
-                </Sequence>
-            </Explain>
-
-            <!-- <SubTree
-                ID="pick tool"
-                name="pick tool 1"
-                tool_name="tool 1"
-                tool_pose="{tool_1_pose}"
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints="0.03;  -1.529001896535494; 1.8917506376849573; -1.9327990017332972; -1.566434685383932; 3.14"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
             />
 
             <SubTree
-                ID="place tool"
-                name="place tool 1"
-                tool_name="tool 1"
-                place_pose="{tool_pallet_1_pose}"
-            /> -->
-
-            <SubTree
-                ID="pick tool"
-                name="pick tool 2"
-                tool_name="tool 2"
-                tool_pose="{tool_2_pose}"
+                ID="open oven"
+                tag_pose="{tag_pose}"
             />
 
             <SubTree
-                ID="place tool"
-                name="place tool 2"
-                tool_name="tool 2"
-                place_pose="{tool_pallet_1_pose}"
-            />
-
-            <SubTree
-                ID="pick tool"
-                name="pick tool 3"
-                tool_name="tool 3"
-                tool_pose="{tool_3_pose}"
-            />
-
-            <SubTree
-                ID="place tool"
-                name="place tool 3"
-                tool_name="tool 3"
-                place_pose="{tool_pallet_2_pose}"
+                ID="close oven"
+                tag_pose="{tag_pose}"
             />
 
 

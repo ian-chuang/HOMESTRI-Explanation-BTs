@@ -4,6 +4,8 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /MotionPlanning1
+        - /MotionPlanning1/Scene Robot1
         - /MotionPlanning1/Planning Request1
         - /TF1/Frames1
       Splitter Ratio: 0.5
@@ -227,6 +229,26 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
           upper_arm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          wall_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          wall_2:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          wall_3:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          wall_4:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -456,6 +478,26 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          wall_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          wall_2:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          wall_3:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          wall_4:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           world:
             Alpha: 1
             Show Axes: false
@@ -527,6 +569,8 @@ Visualization Manager:
           Value: false
         gripper_body:
           Value: false
+        latch_1_tag:
+          Value: true
         left_inner_finger:
           Value: false
         left_inner_finger_pad:
@@ -551,14 +595,28 @@ Visualization Manager:
           Value: false
         shoulder_link:
           Value: false
+        tag_frame:
+          Value: true
         tcp_link:
           Value: false
+        test:
+          Value: true
+        test_frame:
+          Value: true
         tool0:
           Value: false
         tool0_controller:
           Value: false
         upper_arm_link:
           Value: false
+        wall_1:
+          Value: true
+        wall_2:
+          Value: true
+        wall_3:
+          Value: true
+        wall_4:
+          Value: true
         world:
           Value: false
         wrist_1_link:
@@ -567,6 +625,8 @@ Visualization Manager:
           Value: false
         wrist_3_link:
           Value: false
+        zeode:
+          Value: true
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -592,7 +652,14 @@ Visualization Manager:
                                 camera_link:
                                   camera_color_frame:
                                     camera_color_optical_frame:
-                                      {}
+                                      latch_1_tag:
+                                        {}
+                                      tag_frame:
+                                        {}
+                                      test:
+                                        {}
+                                      zeode:
+                                        {}
                                   camera_depth_frame:
                                     camera_depth_optical_frame:
                                       {}
@@ -626,6 +693,16 @@ Visualization Manager:
                                 {}
                             tcp_link:
                               {}
+          test_frame:
+            {}
+          wall_1:
+            {}
+          wall_2:
+            {}
+          wall_3:
+            {}
+          wall_4:
+            {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -644,7 +721,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.452728509902954
+      Distance: 1.4948168992996216
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -660,9 +737,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.18479683995246887
+      Pitch: 0.6197966933250427
       Target Frame: world
-      Yaw: 4.3767595291137695
+      Yaw: 4.671761989593506
     Saved: ~
 Window Geometry:
   Displays:
@@ -681,4 +758,4 @@ Window Geometry:
     collapsed: false
   Width: 1291
   X: 183
-  Y: 119
+  Y: 45
