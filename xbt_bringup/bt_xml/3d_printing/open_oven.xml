@@ -5,6 +5,17 @@
   -->
     <BehaviorTree ID="open oven">
         <Sequence name="move">
+
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints=" 0.12980517745018005; -1.8077269993224085;  1.356182877217428; -1.1185470086387177; -1.5670040289508265; 2.8894410133361816"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
             <TransformPoseAction
                 input_pose="{tag_pose}"
                 translation_xyz="0.015;0.2286;0.05"
@@ -86,7 +97,14 @@
                 acc_scaling="0.03"
             /> 
 
-
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints=" 0.12980517745018005; -1.8077269993224085;  1.356182877217428; -1.1185470086387177; -1.5670040289508265; 2.8894410133361816"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
 
 
         </Sequence>

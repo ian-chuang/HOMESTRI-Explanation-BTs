@@ -67,6 +67,22 @@
             />
 
             <SubTree
+                ID="move to rack"
+                name="transfer"
+                zeode_pose="{zeode_pose}"
+                lift_zeode_pose="{lift_zeode_pose}"
+                move_out_zeode_pose="{move_out_zeode_pose}"
+            />
+
+            <SubTree
+                ID="move back from rack"
+                name="transfer"
+                zeode_pose="{zeode_pose}"
+                lift_zeode_pose="{lift_zeode_pose}"
+                move_out_zeode_pose="{move_out_zeode_pose}"
+            />
+
+            <SubTree
                 ID="place zeode"
                 name="transfer"
                 zeode_pose="{zeode_pose}"

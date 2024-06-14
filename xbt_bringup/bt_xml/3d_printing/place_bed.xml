@@ -1,0 +1,134 @@
+<root>
+<!-- 
+    inputs: 
+      - place_pose
+    outputs:
+        - look_pose
+  -->
+    <BehaviorTree ID="place bed">
+        <Sequence name="approach drawer">
+
+
+
+            
+
+            <TransformPoseAction
+                        name="t1"
+                        input_pose="{place_pose}"
+                        translation_xyz="0;0;0.08"
+                        output_pose="{raise_pose}"
+                    />
+            <TransformPoseAction
+                        name="t2"
+                        input_pose="{raise_pose}"
+                        translation_xyz="-0.4;0;0"
+                        output_pose="{approach_pose}"
+                    />
+            <TransformPoseAction
+            name="t3"
+                        input_pose="{raise_pose}"
+                        translation_xyz="-0.25;0.05;0.08"
+                        output_pose="{look_pose}"
+                    />
+            <TransformPoseAction
+                        name="t4"
+                        input_pose="{place_pose}"
+                        quaternion_xyzw="0.6532815;0.2705981; -0.2705981; 0.6532815"
+                        output_pose="{place_pose}"
+                    />
+
+            <TransformPoseAction
+                        name="t5"
+                        input_pose="{raise_pose}"
+                        quaternion_xyzw="0.6532815;0.2705981; -0.2705981; 0.6532815"
+                        output_pose="{raise_pose}"
+                    />
+             <TransformPoseAction
+                        name="t6"
+                        input_pose="{approach_pose}"
+                        quaternion_xyzw="0.6532815;0.2705981; -0.2705981; 0.6532815"
+                        output_pose="{approach_pose}"
+                    />
+            <TransformPoseAction
+                        name="t7"
+                        input_pose="{look_pose}"
+                        quaternion_xyzw="0.6532815;0.2705981; -0.2705981; 0.6532815"
+                        output_pose="{look_pose}"
+                    />
+
+             <TransformPoseAction
+                        name="t8"
+                        input_pose="{place_pose}"
+                        translation_xyz="-0.1;0;0"
+                        output_pose="{retract_pose}"
+                    />
+
+
+            <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="{approach_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                    /> 
+
+            <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="{raise_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                    /> 
+            
+            
+             <SubTree
+                         ID="move compliance"
+                        name="move compliance"
+                        mode="POSE_LINE"
+                        pose="{place_pose}"
+                        pose_frame_id="world"
+                        wrench="0;0;0;0;0;0"
+                        wrench_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                        controller="cartesian_compliance_controller_follow_trajectory"
+                    /> 
+            
+            
+            <GripperAction
+                        server_name="/gripper_controller/gripper_cmd"
+                        position="0.4"
+                        max_effort="20"
+                    />  
+
+
+            <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="{retract_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                    />  
+
+
+
+            <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="{approach_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                    /> 
+            
+
+        </Sequence>
+    </BehaviorTree>
+</root>

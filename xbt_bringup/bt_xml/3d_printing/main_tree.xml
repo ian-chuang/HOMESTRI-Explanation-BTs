@@ -14,28 +14,105 @@
 
             <SubTree
                 ID="approach oven"
-                name="approach drawer"
-                tag_pose="{tag_pose}"
+                tag_pose="{oven_tag_pose}"
             />    
+
+
+            <SubTree
+                ID="open oven"
+                tag_pose="{oven_tag_pose}"
+            />
 
             <SubTree
                 ID="move"
                 name="move"
                 mode="JOINT"
-                joints="0.03;  -1.529001896535494; 1.8917506376849573; -1.9327990017332972; -1.566434685383932; 3.14"
+                joints="0.4564828872680664; -1.775520463983053;  1.2742756048785608; -1.482328729038574; -0.810671631489889; 3.748528242111206"
                 vel_scaling="0.1"
                 acc_scaling="0.1"
             />
 
             <SubTree
-                ID="open oven"
-                tag_pose="{tag_pose}"
-            />
+                ID="pick bed"
+                place_pose="{printer_place_pose}"
+                />
+
+            <TransformPoseAction
+                    input_pose="{oven_tag_pose}"
+                    translation_xyz="0.075; 0 ;-0.25" 
+                    output_pose="{oven_place_pose}"
+                />
+
+            <SubTree
+                ID="place bed"
+                place_pose="{oven_place_pose}"
+                look_pose="{oven_look_pose}"
+                />
+
+
 
             <SubTree
                 ID="close oven"
-                tag_pose="{tag_pose}"
+                tag_pose="{oven_tag_pose}"
             />
+
+
+            <SubTree
+                ID="open oven"
+                tag_pose="{oven_tag_pose}"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+            <SubTree
+                        ID="move"
+                        name="move"
+                        mode="POSE_LINE"
+                        pose="{oven_look_pose}"
+                        pose_frame_id="world"
+                        vel_scaling="0.02"
+                        acc_scaling="0.02"
+                    /> 
+
+
+            
+            <SubTree
+                ID="pick bed"
+                />
+
+
+
+            <SubTree
+                ID="place bed"
+                place_pose="{printer_place_pose}"
+                />
+
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="JOINT"
+                joints=" 0.12980517745018005; -1.8077269993224085;  1.356182877217428; -1.1185470086387177; -1.5670040289508265; 2.8894410133361816"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
+
+            <SubTree
+                ID="close oven"
+                tag_pose="{oven_tag_pose}"
+            />
+
+            
 
 
         </Sequence>

@@ -1,0 +1,36 @@
+<root>
+    <!-- 
+    inputs: 
+    outputs:
+        - zeode_pose
+        - lift_zeode_pose
+        - move_out_zeode_pose
+  -->
+    <BehaviorTree ID="move back from rack">
+        <Sequence name="transfer zeode">
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="{move_out_zeode_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> 
+
+            <SubTree
+                    ID="move"
+                    name="move"
+                    mode="POSE_LINE"
+                    pose="{lift_zeode_pose}"
+                    pose_frame_id="world"
+                    vel_scaling="0.01"
+                    acc_scaling="0.01"
+                /> 
+
+
+        </Sequence>
+    </BehaviorTree>
+
+</root>

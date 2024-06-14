@@ -8,15 +8,32 @@
              
              <TransformPoseAction
                 input_pose="{zeode_pose}"
-                translation_xyz="-0.05;0;0"
-                output_pose="{zeode_middle_pose}"
+                translation_xyz="-0.1;0;0"
+                output_pose="{zeode_approach}"
             />
+
+            <TransformPoseAction
+                input_pose="{zeode_pose}"
+                translation_xyz="-0.05;0;0"
+                output_pose="{zeode_find_surface}"
+            />
+
 
             <SubTree
                 ID="move"
                 name="move"
                 mode="POSE_LINE"
-                pose="{zeode_middle_pose}"
+                pose="{zeode_approach}"
+                pose_frame_id="world"
+                vel_scaling="0.01"
+                acc_scaling="0.01"
+            /> 
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="{zeode_find_surface}"
                 pose_frame_id="world"
                 vel_scaling="0.01"
                 acc_scaling="0.01"
@@ -29,19 +46,13 @@
                 force_threshold="10"
             /> 
 
-            <SubTree
-                ID="apply force"
-                controller="cartesian_compliance_controller_follow_trajectory"
-                msec="2000"
-                wrench="0;0;0;0;0;0"
-                wrench_frame_id="world"
-            />
+
 
             <SubTree
                 ID="apply force"
                 controller="cartesian_compliance_controller_follow_trajectory"
                 msec="3000"
-                wrench="0;0;-40;0;0;0"
+                wrench="0;0;-50;0;0;0"
                 wrench_frame_id="world"
             />
 
@@ -63,7 +74,7 @@
                 ID="move"
                 name="move"
                 mode="POSE_LINE"
-                pose="{zeode_middle_pose}"
+                pose="{zeode_approach}"
                 pose_frame_id="world"
                 vel_scaling="0.01"
                 acc_scaling="0.01"
