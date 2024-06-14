@@ -1,0 +1,71 @@
+<root>
+    <!-- 
+    inputs: 
+    outputs:
+        - zeode_pose
+        - lift_zeode_pose
+        - move_out_zeode_pose
+  -->
+    <BehaviorTree ID="handoff">
+        <Sequence name="transfer zeode">
+
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="{move_out_zeode_pose}"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> 
+
+            <!-- intermediate pose to avoid collision -->
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="0.30041; -0.31105; 0.98088; -0.49998; 0.50001; 0.5; 0.50002"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> 
+           
+            <!-- handoff pose -->
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose=" 0.20216; -0.6234; 0.98088; 0.50002; -0.49998; -0.50001; -0.49999"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> 
+
+            <SleepAction msec="2000"/>
+
+            <GripperAction
+                server_name="/gripper_controller/gripper_cmd"
+                position="0"
+                max_effort="20"
+            /> 
+
+            
+            <!-- rack pose -->
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="-0.067633; -0.37185; 0.87046; 0.50002; -0.49998; -0.50001; -0.49999"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> 
+
+
+            
+
+
+        </Sequence>
+    </BehaviorTree>
+
+</root>

@@ -1,6 +1,7 @@
 <root>
     <!-- 
     inputs: 
+        - zeode_frame_name
     outputs:
         - zeode_pose
         - lift_zeode_pose
@@ -11,7 +12,7 @@
 
 
             <DetectFrameAction 
-                source_frame="zeode" 
+                source_frame="{zeode_frame_name}" 
                 target_frame="world" 
                 output_pose="{zeode_pose}"
                 timeout="1000"

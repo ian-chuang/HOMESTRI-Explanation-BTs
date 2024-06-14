@@ -64,14 +64,21 @@
                 zeode_pose="{zeode_pose}"
                 lift_zeode_pose="{lift_zeode_pose}"
                 move_out_zeode_pose="{move_out_zeode_pose}"
+                zeode_frame_name="zeode_1"
             />
 
             <SubTree
-                ID="move to rack"
+                ID="handoff"
                 name="transfer"
                 zeode_pose="{zeode_pose}"
                 lift_zeode_pose="{lift_zeode_pose}"
                 move_out_zeode_pose="{move_out_zeode_pose}"
+            />
+
+            <SubTree
+                ID="pick zeode"
+                name="transfer"
+                zeode_frame_name="zeode_2"
             />
 
             <SubTree

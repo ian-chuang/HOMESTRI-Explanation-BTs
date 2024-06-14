@@ -9,6 +9,17 @@
     <BehaviorTree ID="move back from rack">
         <Sequence name="transfer zeode">
 
+            <!-- intermediate pose to avoid collision -->
+            <SubTree
+                ID="move"
+                name="move"
+                mode="POSE_LINE"
+                pose="0.30041; -0.31105; 0.98088; -0.49998; 0.50001; 0.5; 0.50002"
+                pose_frame_id="world"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
+            /> 
+
             <SubTree
                 ID="move"
                 name="move"
