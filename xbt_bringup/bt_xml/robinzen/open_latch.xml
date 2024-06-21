@@ -7,7 +7,7 @@
       - latch_tag_name
   -->
     <BehaviorTree ID="open latch">
-        <Sequence name="open {latch_name}">
+        <Sequence name="ensure {latch_name} open">
             <Explain name="look at {latch_name}">
                 <Sequence>
                     <!-- calculate latch pose -->

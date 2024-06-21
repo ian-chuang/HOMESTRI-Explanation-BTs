@@ -1,11 +1,11 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
-        <Sequence name="inspect Robinzen">
+        <Sequence name="replace sorbent bed">
 
 
             <SubTree
                 ID="move"
-                name="move"
+                name="move to start position"
                 mode="JOINT"
                 joints="2.3904359340667725; -1.9121290645995082;  2.193907086049215; -0.28583796442065434; 2.100641965866089; -1.5478280226336878"
                 vel_scaling="0.05"
@@ -14,7 +14,7 @@
 
             <SubTree
                 ID="approach drawer"
-                name="approach drawer"
+                name="approach Zeode"
                 tag_pose="{tag_pose}"
             />      
 
@@ -37,7 +37,7 @@
 
             <SubTree
                 ID="move"
-                name="move"
+                name="move from latch to handle"
                 mode="JOINT"
                 joints="2.4674723148345947;  -1.529001896535494; 1.8917506376849573; -1.9327990017332972; -1.566434685383932; 3.14"
                 vel_scaling="0.1"
@@ -46,7 +46,7 @@
 
             <SubTree
                 ID="open drawer"
-                name="open drawer"
+                name="open Zeode"
                 handle_pose="{handle_pose}"
                 pull_translation="-0.33;0;0"
                 new_handle_pose="{handle_pose}"
@@ -54,13 +54,13 @@
 
             <SubTree
                 ID="move in drawer"
-                name="inspect drawer"
+                name="inspect Zeode"
                 handle_pose="{handle_pose}"
             />
 
             <SubTree
                 ID="pick zeode"
-                name="transfer"
+                name="remove sorbent bed"
                 zeode_pose="{zeode_pose}"
                 lift_zeode_pose="{lift_zeode_pose}"
                 move_out_zeode_pose="{move_out_zeode_pose}"
@@ -77,7 +77,7 @@
 
             <SubTree
                 ID="pick zeode"
-                name="transfer"
+                name="grasp replacement sorbent bed"
                 zeode_frame_name="zeode_2"
             />
 
@@ -91,7 +91,7 @@
 
             <SubTree
                 ID="place zeode"
-                name="transfer"
+                name="place replacement sorbent bed in Zeode"
                 zeode_pose="{zeode_pose}"
                 lift_zeode_pose="{lift_zeode_pose}"
                 move_out_zeode_pose="{move_out_zeode_pose}"
@@ -99,13 +99,13 @@
 
             <SubTree
                 ID="move out drawer"
-                name="inspect drawer"
+                name="retract from sorbent bed"
                 handle_pose="{handle_pose}"
             />
 
             <SubTree
                 ID="close drawer"
-                name="open drawer"
+                name="close Zeode"
                 handle_pose="{handle_pose}"
                 pull_translation="0.33;0;0"
                 new_handle_pose="{handle_pose}"
@@ -114,7 +114,7 @@
 
             <SubTree
                 ID="move"
-                name="move"
+                name="move from handle to latch"
                 mode="JOINT"
                 joints="2.3904359340667725; -1.9121290645995082;  2.193907086049215; -0.28583796442065434; 2.100641965866089; -1.5478280226336878"
                 vel_scaling="0.1"
@@ -123,13 +123,13 @@
 
             <SubTree
                 ID="approach drawer"
-                name="approach drawer"
+                name="approach Zeode cover"
                 tag_pose="{tag_pose}"
             />   
 
             <SubTree
                 ID="close latch"
-                name="open latch 1"
+                name="close latch 1"
                 latch_name="latch 1"
                 latch_tag_name="latch_1_tag"
                 tag_pose="{tag_pose}"
