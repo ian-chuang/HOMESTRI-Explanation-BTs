@@ -1,0 +1,31 @@
+<root>
+<!-- 
+    inputs: 
+    force_target
+    force_threshold
+
+  -->
+    <BehaviorTree ID="find surface">
+        <Sequence name="find surface">
+
+            <!-- zero ft sensor -->
+            <TriggerAction
+                service_name="/ur_hardware_interface/zero_ftsensor"
+            />
+            <!-- switch to find surface controller -->
+            <SwitchControllerAction 
+                service_name="controller_manager/switch_controller"
+                controller="cartesian_compliance_controller_find_surface"
+            />
+            <!-- find surface -->
+            <FindSurfaceAction
+                server_name="find_surface_action_server/find_surface"
+                force_target="{force_target}"
+                force_threshold="{force_threshold}"
+                maximum_distance="0.1"
+                maximum_duration="30"
+            />
+
+        </Sequence>
+    </BehaviorTree>
+</root>

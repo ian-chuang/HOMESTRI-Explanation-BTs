@@ -3,56 +3,67 @@
     inputs: 
       - tag_pose
   -->
-    <BehaviorTree ID="open oven">
-        <Sequence name="move">
+    <BehaviorTree ID="close oven">
+        <Sequence name="close oven">
 
 
             <SubTree
                 ID="move"
-                name="move"
-                mode="JOINT"
-                joints=" 0.12980517745018005; -1.8077269993224085;  1.356182877217428; -1.1185470086387177; -1.5670040289508265; 2.8894410133361816"
+                name="move to start position"
+                mode="POSE_LINE"
+                pose_frame_id="world"
+                pose="0.17763; -0.33313; 1.0836; 0.39672; 0.58533; -0.39673; 0.58532"
                 vel_scaling="0.1"
                 acc_scaling="0.1"
+
+                
+
             />
 
+
             <TransformPoseAction
+                name="translate"
                 input_pose="{tag_pose}"
                 translation_xyz="0.015;0.2286;0.05"
                 quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
-                output_pose="{grab_door_pose}"
+                output_pose="{target_pose}"
             />
+            
             <TransformPoseAction
-                input_pose="{tag_pose}"
-                translation_xyz="0.015;0.2286;0.15"
-                quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
-                output_pose="{approach_door_pose}"
-            />
-            <TransformPoseAction
+                name="translate"
                 input_pose="{tag_pose}"
                 translation_xyz="0.00635;-0.27305; 0.05"
                 quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
                 output_pose="{center_pose}"
             />
             <TransformPoseAction
+                name="translate"
                 input_pose="{tag_pose}"
                 quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
-                translation_xyz="-0.1;-0.27305; 0.05"
-                output_pose="{target_pose}"
+                translation_xyz="-0.4;-0.36; 0.05"
+                output_pose="{start_pose}"
+            />
+            <TransformPoseAction
+                name="translate"
+                input_pose="{tag_pose}"
+                translation_xyz="-0.4;-0.3; 0.15"
+                quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
+                output_pose="{approach_door_pose}"
             />
 
             <!-- move to approach handle pose -->
             <SubTree
                 ID="move"
-                name="move"
+                name="move to door"
                 mode="POSE_LINE"
                 pose="{approach_door_pose}"
                 pose_frame_id="world"
-                vel_scaling="0.1"
-                acc_scaling="0.1"
+                vel_scaling="0.06"
+                acc_scaling="0.06"
             /> 
 
             <GripperAction
+                        name="set gripper configuration"
                         server_name="/gripper_controller/gripper_cmd"
                         position="0.3"
                         max_effort="20"
@@ -62,16 +73,16 @@
                 ID="move"
                 name="move"
                 mode="POSE_LINE"
-                pose="{grab_door_pose}"
+                pose="{start_pose}"
                 pose_frame_id="world"
-                vel_scaling="0.01"
-                acc_scaling="0.01"
+                vel_scaling="0.02"
+                acc_scaling="0.02"
             /> 
 
 
             <SubTree
                 ID="move compliance"
-                name="move compliance"
+                name="close oven door"
                 mode="CIRCLE"
                 pose="{target_pose}"
                 pose_frame_id="world"
@@ -79,33 +90,35 @@
                 center_frame_id="world"
                 wrench="0;0;0;0;0;0"
                 wrench_frame_id="world"
-                vel_scaling="0.02"
-                acc_scaling="0.02"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
                 controller="cartesian_compliance_controller_follow_trajectory"
             />
 
-            <SleepAction msec="1000"/>
+            <SleepAction 
+                name="momentary pause"
+                msec="1000"/>
 
-            <!-- retreat from handle -->
+            <!-- retreat from oven -->
             <SubTree
                 ID="move"
-                name="move"
+                name="retreat from oven door"
                 mode="POSE_LINE"
-                pose="-0.1;0;0;0;0;0"
+                pose="0;0;0.15;0;0;0"
                 pose_frame_id="tcp_link"
                 vel_scaling="0.03"
                 acc_scaling="0.03"
             /> 
 
+
             <SubTree
                 ID="move"
-                name="move"
+                name="move to final position"
                 mode="JOINT"
                 joints=" 0.12980517745018005; -1.8077269993224085;  1.356182877217428; -1.1185470086387177; -1.5670040289508265; 2.8894410133361816"
                 vel_scaling="0.1"
                 acc_scaling="0.1"
             />
-
 
         </Sequence>
     </BehaviorTree>

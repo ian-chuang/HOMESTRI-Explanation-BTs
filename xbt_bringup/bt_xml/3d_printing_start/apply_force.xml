@@ -1,0 +1,28 @@
+<root>
+<!-- 
+    inputs: 
+     - controller
+     - msec
+    - wrench
+    - wrench_frame_id
+ 
+  -->
+    <BehaviorTree ID="apply force">
+        <Sequence name="apply force">
+            <!-- switch to find surface controller -->
+            <SwitchControllerAction 
+                service_name="controller_manager/switch_controller"
+                controller="{controller}"
+            />
+            <!-- find surface -->
+            <!-- apply upwards wrench for few seconds to lift drawer up -->
+            <SetTargetWrenchAction
+                name="lift the drawer up"
+                msec="{msec}"
+                wrench="{wrench}"
+                wrench_frame_id="{wrench_frame_id}"
+            />
+
+        </Sequence>
+    </BehaviorTree>
+</root>

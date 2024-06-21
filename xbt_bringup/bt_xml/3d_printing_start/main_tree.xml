@@ -1,0 +1,65 @@
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <Sequence name="move print bed to sintering oven">
+
+            <SubTree
+                ID="move"
+                name="move to start position"
+                mode="JOINT"
+                joints="0.039417386054992676; -1.4281166803887864;  2.134171787892477; -0.8164172929576416; 0.020134903490543365; 0.07041572034358978"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
+
+            <SubTree
+                ID="approach oven"
+                tag_pose="{oven_tag_pose}"
+            />    
+
+
+            <SubTree
+                ID="open oven"
+                tag_pose="{oven_tag_pose}"
+            />
+
+            <SubTree
+                ID="move"
+                name="move to 3D printer"
+                mode="JOINT"
+                joints="0.4564828872680664; -1.775520463983053;  1.2742756048785608; -1.482328729038574; -0.810671631489889; 3.748528242111206"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
+            <SubTree
+                ID="pick bed"
+                place_pose="{printer_place_pose}"
+                />
+
+            <TransformPoseAction
+                    name="translate"
+                    input_pose="{oven_tag_pose}"
+                    translation_xyz="0.075; 0 ;-0.25" 
+                    output_pose="{oven_place_pose}"
+                />
+
+            <SubTree
+                ID="place bed"
+                place_pose="{oven_place_pose}"
+                look_pose="{oven_look_pose}"
+                />
+
+
+
+            <SubTree
+                ID="close oven"
+                tag_pose="{oven_tag_pose}"
+            />
+
+        
+
+
+        </Sequence>
+    </BehaviorTree>
+</root>

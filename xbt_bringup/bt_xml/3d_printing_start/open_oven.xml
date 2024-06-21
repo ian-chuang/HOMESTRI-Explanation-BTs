@@ -4,12 +4,12 @@
       - tag_pose
   -->
     <BehaviorTree ID="open oven">
-        <Sequence name="move">
+        <Sequence name="open oven">
 
 
             <SubTree
                 ID="move"
-                name="move"
+                name="move to start position"
                 mode="JOINT"
                 joints=" 0.12980517745018005; -1.8077269993224085;  1.356182877217428; -1.1185470086387177; -1.5670040289508265; 2.8894410133361816"
                 vel_scaling="0.1"
@@ -17,34 +17,38 @@
             />
 
             <TransformPoseAction
+                name="translate"
                 input_pose="{tag_pose}"
                 translation_xyz="0.015;0.2286;0.05"
                 quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
                 output_pose="{grab_door_pose}"
             />
             <TransformPoseAction
+                name="translate"
                 input_pose="{tag_pose}"
                 translation_xyz="0.015;0.2286;0.15"
                 quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
                 output_pose="{approach_door_pose}"
             />
             <TransformPoseAction
+                name="translate"
                 input_pose="{tag_pose}"
                 translation_xyz="0.00635;-0.27305; 0.05"
                 quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
                 output_pose="{center_pose}"
             />
             <TransformPoseAction
+                name="translate"
                 input_pose="{tag_pose}"
                 quaternion_xyzw="-0.5;-0.5;0.5;-0.5"
                 translation_xyz="-0.1;-0.27305; 0.05"
                 output_pose="{target_pose}"
             />
 
-            <!-- move to approach handle pose -->
+            <!-- move to approach oven door pose -->
             <SubTree
                 ID="move"
-                name="move"
+                name="place gripper over door"
                 mode="POSE_LINE"
                 pose="{approach_door_pose}"
                 pose_frame_id="world"
@@ -53,6 +57,7 @@
             /> 
 
             <GripperAction
+                        name="change gripper config"
                         server_name="/gripper_controller/gripper_cmd"
                         position="0.3"
                         max_effort="20"
@@ -60,7 +65,7 @@
 
             <SubTree
                 ID="move"
-                name="move"
+                name="move to grab door pose"
                 mode="POSE_LINE"
                 pose="{grab_door_pose}"
                 pose_frame_id="world"
@@ -71,7 +76,7 @@
 
             <SubTree
                 ID="move compliance"
-                name="move compliance"
+                name="open oven door"
                 mode="CIRCLE"
                 pose="{target_pose}"
                 pose_frame_id="world"
@@ -84,12 +89,14 @@
                 controller="cartesian_compliance_controller_follow_trajectory"
             />
 
-            <SleepAction msec="1000"/>
+            <SleepAction 
+                name="momentary pause"
+                msec="1000"/>
 
             <!-- retreat from handle -->
             <SubTree
                 ID="move"
-                name="move"
+                name="retreat from door"
                 mode="POSE_LINE"
                 pose="-0.1;0;0;0;0;0"
                 pose_frame_id="tcp_link"
@@ -99,7 +106,7 @@
 
             <SubTree
                 ID="move"
-                name="move"
+                name="move to final position"
                 mode="JOINT"
                 joints=" 0.12980517745018005; -1.8077269993224085;  1.356182877217428; -1.1185470086387177; -1.5670040289508265; 2.8894410133361816"
                 vel_scaling="0.1"
