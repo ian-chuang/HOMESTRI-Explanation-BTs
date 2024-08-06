@@ -14,7 +14,7 @@
                 name="plan to start position"
                 service_name="/planning_interface/simple_plan"
                 mode="JOINT"
-                joints="0.69;-2.53;2.15;-1.76;-1.03;-3.84"
+                joints="2.944;-1.567;1.763;-1.765;-1.567;2.974"
                 vel_scaling="0.06"
                 acc_scaling="0.06"
                 joint_trajectory="{joint_trajectory}"

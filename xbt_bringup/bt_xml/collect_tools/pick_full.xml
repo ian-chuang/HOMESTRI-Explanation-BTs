@@ -7,6 +7,7 @@
     <BehaviorTree ID="pick tool">
 
         <Sequence name="pick {tool_name}">
+            <RetryUntilSuccessful num_attempts="2">
                 <Sequence name="grasp {tool_name}">
                     <Explain name="approach {tool_name}">
                         <Sequence>
@@ -14,7 +15,7 @@
                             <TransformPoseAction
                                 name="calculate approach {tool_name} location"
                                 input_pose="{tool_pose}"
-                                translation_xyz="-0.025;0;-0.025"
+                                translation_xyz="-0.15;0;0"
                                 output_pose="{tool_approach_pose}"
                             />
 
@@ -36,7 +37,7 @@
                                 acc_scaling="0.05"
                                 joint_trajectory="{joint_trajectory}"
                             />
-                            <!-- move to approach -->
+                            <!-- move to approach latch -->
                             <JointTrajectoryAction
                                 name="move to approach {tool_name}"
                                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
@@ -51,7 +52,71 @@
                             />  
                         </Sequence>
                     </Explain>
+<!--
+                    <Explain name="move to {tool_name}">
+                        <Sequence>
+                        
+                        
+                            <SimplePlanAction
+                                name="plan to {tool_name}"
+                                service_name="/planning_interface/simple_plan"
+                                mode="POSE_LINE"
+                                pose="{tool_pose}"
+                                pose_frame_id="world"
+                                vel_scaling="0.02"
+                                acc_scaling="0.02"
+                                joint_trajectory="{joint_trajectory}"
+                            />
+                            <JointTrajectoryAction
+                                name="move to {tool_name}"
+                                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                                joint_trajectory="{joint_trajectory}"
+                            />   
+                        </Sequence>
+                    </Explain>
+
+                    <Explain name="close gripper">
+                        <Sequence>
+                            <TriggerAction
+                                name="reset force torque sensor"
+                                service_name="/ur_hardware_interface/zero_ftsensor"
+                            />
+                            <SwitchControllerAction 
+                                name="switch to compliance controller"
+                                service_name="controller_manager/switch_controller"
+                                controller="cartesian_compliance_controller_follow_trajectory"
+                            />
+                            <Delay delay_msec="1000">
+                                <GripperAction
+                                    name="close gripper"
+                                    server_name="/gripper_controller/gripper_cmd"
+                                    position="0.8"
+                                    max_effort="20"
+                                /> 
+                            </Delay> 
+                        </Sequence> 
+                    </Explain>
+                    <Explain name="confirm {tool_name} is grasped">
+                        <Fallback>
+                            <Delay delay_msec="1000">
+                                <GraspedCondition
+                                    topic_name="/robotiq_2f_85_gripper/state"
+                                />
+                            </Delay>
+
+                            <ForceFailure>
+                                <TransformPoseAction
+                                    input_pose="{tool_pose}"
+                                    translation_xyz="0.03;0;0"
+                                    output_pose="{tool_pose}"
+                                />
+                            </ForceFailure>
+
+                        </Fallback>
+                    </Explain>
+        -->
                 </Sequence>
+            </RetryUntilSuccessful>
 <!--
             <Explain name="lift {tool_name} out from rack">
                 <Sequence>
