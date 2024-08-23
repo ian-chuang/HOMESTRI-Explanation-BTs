@@ -30,7 +30,7 @@
                         pose="{approach_latch_pose}"
                         pose_frame_id="world"
                         vel_scaling="0.1"
-                        acc_scaling="0.02"
+                        acc_scaling="0.05"
                     /> 
                 </Sequence>
             </Explain>
@@ -86,8 +86,8 @@
                         mode="POSE_LINE"
                         pose="-0.011;0;0;0;0;0"
                         pose_frame_id="tcp_link"
-                        vel_scaling="0.01"
-                        acc_scaling="0.01"
+                        vel_scaling="0.1"
+                        acc_scaling="0.05"
                     /> 
                 </Sequence>
             </Explain>
@@ -145,7 +145,7 @@
                         pose="-0.1;0;0;0;0;0"
                         pose_frame_id="tcp_link"
                         vel_scaling="0.1"
-                        acc_scaling="0.04"
+                        acc_scaling="0.05"
                     /> 
                     <SubTree
                         ID="move"
@@ -154,7 +154,7 @@
                         pose="{approach_latch_pose}"
                         pose_frame_id="world"
                         vel_scaling="0.1"
-                        acc_scaling="0.08"
+                        acc_scaling="0.05"
                     /> 
                 </Sequence>
             </Explain>

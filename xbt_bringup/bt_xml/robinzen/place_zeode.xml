@@ -1,35 +1,35 @@
 <root>
     <!-- 
     inputs: 
-        - zeode_pose
+        - rack_pose
   -->
     <BehaviorTree ID="place zeode">
         <Sequence name="transfer zeode">
              
              <TransformPoseAction
-                input_pose="{zeode_pose}"
-                translation_xyz="-0.1;0;0"
-                output_pose="{zeode_approach}"
+                input_pose="{rack_pose}"
+                translation_xyz="-0.2; 0.005; 0"
+                output_pose="{rack_approach}"
             />
 
-            <TransformPoseAction
-                input_pose="{zeode_pose}"
+            <!--TransformPoseAction
+                input_pose="{rack_pose}"
                 translation_xyz="-0.05;0;0"
                 output_pose="{zeode_find_surface}"
-            />
+            /-->
 
 
             <SubTree
                 ID="move"
-                name="move"
+                name="move to precontact position"
                 mode="POSE_LINE"
-                pose="{zeode_approach}"
+                pose="{rack_approach}"
                 pose_frame_id="world"
-                vel_scaling="0.01"
-                acc_scaling="0.01"
+                vel_scaling="0.05"
+                acc_scaling="0.05"
             /> 
 
-            <SubTree
+            <!--SubTree
                 ID="move"
                 name="move"
                 mode="POSE_LINE"
@@ -37,7 +37,7 @@
                 pose_frame_id="world"
                 vel_scaling="0.01"
                 acc_scaling="0.01"
-            /> 
+            /--> 
              
 
             <SubTree
@@ -74,7 +74,7 @@
                 ID="move"
                 name="move"
                 mode="POSE_LINE"
-                pose="{zeode_approach}"
+                pose="{rack_approach}"
                 pose_frame_id="world"
                 vel_scaling="0.01"
                 acc_scaling="0.01"

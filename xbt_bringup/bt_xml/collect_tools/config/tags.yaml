@@ -23,11 +23,12 @@ standalone_tags:
   [
     {id: 11, size: 0.03, name: 'hex_3_16'},
     {id: 14, size: 0.03, name: 'hex_3_8'},
-    {id: 16, size: 0.03, name: 'tape_measure'},
+    {id: 15, size: 0.03, name: 'tool_tray'},
+    {id: 16, size: 0.03, name: 'tag_16'},
     {id: 17, size: 0.03, name: 'hex_7_16'},
-    {id: 21, size: 0.03, name: 'metal_plate'},
-    {id: 22, size: 0.03, name: 'locking_pliers'},
-    {id: 23, size: 0.03, name: 'USB_hub'},
+    {id: 21, size: 0.03, name: 'tag_21'},
+    {id: 22, size: 0.03, name: 'tag_22'},
+    {id: 23, size: 0.03, name: 'tag_23'},
   ]
 # ## Tag bundle definitions
 # ### Remarks

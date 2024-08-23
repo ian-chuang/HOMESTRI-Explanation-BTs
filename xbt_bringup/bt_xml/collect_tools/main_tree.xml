@@ -5,16 +5,17 @@
             <!-- go to start position -->
             <Explain name="go to start position">
                 <Sequence name="go to start position">
-                    <SubTree
-                        ID="go to start position"
-                        name="go to start position"
-                    />
                     <GripperAction
                         name="partially close gripper"
                         server_name="/gripper_controller/gripper_cmd"
                         position="0.0"
                         max_effort="20"
-                    />  
+                    />
+                    <SubTree
+                        ID="go to start position"
+                        name="go to start position"
+                    />
+  
                 </Sequence>
             </Explain>
 
@@ -49,6 +50,11 @@
                 tool_name="3_16_hex"
                 tool_pose="{tool_pose_grasp}"
             />
+            <SubTree
+                ID="go to start position"
+                name="go to start position"
+            />
+
 <!-- 
             <SubTree
                 ID="place tool"

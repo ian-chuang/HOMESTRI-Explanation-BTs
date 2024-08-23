@@ -39,8 +39,8 @@
                         mode="POSE_LINE"
                         pose="{raise_pose}"
                         pose_frame_id="world"
-                        vel_scaling="0.02"
-                        acc_scaling="0.02"
+                        vel_scaling="0.1"
+                        acc_scaling="0.05"
                     /> 
 
                     <SubTree
@@ -49,8 +49,8 @@
                         mode="POSE_LINE"
                         pose="{inspect_pose}"
                         pose_frame_id="world"
-                        vel_scaling="0.02"
-                        acc_scaling="0.02"
+                        vel_scaling="0.1"
+                        acc_scaling="0.05"
                     /> 
 
                 </Sequence>

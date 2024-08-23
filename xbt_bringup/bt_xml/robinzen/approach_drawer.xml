@@ -38,7 +38,7 @@
                         mode="POSE_LINE"
                         pose="{approach_tag_pose}"
                         pose_frame_id="world"
-                        vel_scaling="0.05"
+                        vel_scaling="0.1"
                         acc_scaling="0.05"
                     /> 
 
