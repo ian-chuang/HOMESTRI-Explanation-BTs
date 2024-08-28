@@ -24,7 +24,7 @@
                     
                     <DetectFrameAction 
                         name="find tool"
-                        source_frame="hex_7_16" 
+                        source_frame="hex_3_16" 
                         target_frame="world" 
                         output_pose="{tool_pose}"
                         wait_duration="1000"
@@ -46,7 +46,7 @@
             
             <SubTree
                 ID="pick tool"
-                tool_name="7_16_hex"
+                tool_name="3_16_hex"
                 name="pick {tool_name}"
                 tool_pose="{tool_pose_grasp}"
             />
@@ -101,7 +101,7 @@
 
             <SubTree
                 ID="place tool"
-                tool_name="7_16_hex"
+                tool_name="3_16_hex"
                 name="place {tool_name}"
                 tool_pose="{tool_release_pose}"
             />
