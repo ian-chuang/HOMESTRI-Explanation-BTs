@@ -111,7 +111,7 @@ class PlanningInterface:
         self.plan_srv = rospy.Service(name + '/simple_plan', SimplePlan, self.simple_plan_cb)
 
     def simple_plan_cb(self, req):
-        print(req)
+        # print(req)
 
         mode = req.mode
         joints = req.joints

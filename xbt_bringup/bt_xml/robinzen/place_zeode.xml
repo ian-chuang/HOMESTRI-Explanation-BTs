@@ -8,7 +8,7 @@
              
              <TransformPoseAction
                 input_pose="{rack_pose}"
-                translation_xyz="-0.2; 0.005; 0"
+                translation_xyz="-0.2; 0.013; 0"
                 output_pose="{rack_approach}"
             />
 

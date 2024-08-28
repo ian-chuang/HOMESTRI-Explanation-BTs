@@ -1,6 +1,17 @@
-<root BTCPP_format="4">
-    <BehaviorTree ID="go to start position">
-        <Sequence name="go to start position">
+<root>
+<!-- 
+    inputs: 
+      - joints
+      - pose
+      - pose_frame_id
+      - center
+      - center_frame_id
+      - vel_scaling
+      - acc_scaling
+      - mode
+  -->
+    <BehaviorTree ID="move">
+        <Sequence name="move">
 
             <!-- switch to position controller -->
             <SwitchControllerAction 
@@ -9,20 +20,26 @@
                 controller="scaled_pos_joint_traj_controller"
             />
 
-            <!-- plan to start position-->
+            <!-- put in a retry-->
+
+            <!-- plan to next position-->
             <SimplePlanAction
-                name="plan to start position"
+                name="plan to next position"
                 service_name="/planning_interface/simple_plan"
-                mode="JOINT"
-                joints="2.944;-1.567;1.763;-1.765;-1.567;2.974"
-                vel_scaling="0.06"
-                acc_scaling="0.06"
+                mode="{mode}"
+                joints="{joints}"
+                pose="{pose}"
+                pose_frame_id="{pose_frame_id}"
+                center="{center}"
+                center_frame_id="{center_frame_id}"
+                vel_scaling="{vel_scaling}"
+                acc_scaling="{acc_scaling}"
                 joint_trajectory="{joint_trajectory}"
             />
 
             <!-- move to start position -->
             <JointTrajectoryAction
-                name="move to start position"
+                name="move to next position"
                 server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
                 joint_trajectory="{joint_trajectory}"
             /> 

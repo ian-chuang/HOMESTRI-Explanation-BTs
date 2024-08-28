@@ -1,160 +1,100 @@
-<root>
+<root BTCPP_format="4">
     <!-- 
     inputs: 
       - tool_name
-      - place_pose
+      - tool_pose
   -->
     <BehaviorTree ID="place tool">
 
-        <Sequence name="place tool">
+        <Sequence name="place {tool_name}">
+                <Sequence name="release {tool_name}">
+                    <Explain name="approach tray">
+                        <Sequence>
+                            <!-- calculate approach tool-->
+                            <TransformPoseAction
+                                name="calculate pre-approach tray location"
+                                input_pose="{tool_pose}"
+                                translation_xyz="-0.05;0.025;-0.25"
+                                output_pose="{tool_preapproach_pose}"
+                            />
 
 
-            <Explain name="approach pallet">
-                <Sequence>    
-                    <!-- calculate approach tool-->
-                    <TransformPoseAction
-                        name="calculate approach pallet location"
-                        input_pose="{place_pose}"
-                        translation_xyz="-0.15;0;0"
-                        output_pose="{place_approach_pose}"
-                    />
+                            <!-- position control -->
+                            <SwitchControllerAction 
+                                name="switch to position controller"
+                                service_name="controller_manager/switch_controller"
+                                controller="scaled_pos_joint_traj_controller"
+                            />
+                            <!-- plan to approach slot -->
+                            <SimplePlanAction
+                                name="plan to pre-approach {tool_name}"
+                                service_name="/planning_interface/simple_plan"
+                                mode="POSE_LINE"
+                                pose="{tool_preapproach_pose}"
+                                pose_frame_id="world"
+                                vel_scaling="0.05"
+                                acc_scaling="0.05"
+                                joint_trajectory="{joint_trajectory}"
+                            />
+                            <!-- move to approach -->
+                            <JointTrajectoryAction
+                                name="move to pre-approach {tool_name}"
+                                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                                joint_trajectory="{joint_trajectory}"
+                            />   
 
+                            <!-- calculate approach tool-->
+                            <TransformPoseAction
+                                name="calculate {tool_name} release location"
+                                input_pose="{tool_pose}"
+                                translation_xyz="0.005;0.025;-0.25"
+                                output_pose="{tool_approach_pose}"
+                            />
 
-                    <!-- position control -->
-                    <SwitchControllerAction 
-                        name="switch to position controller"
-                        service_name="controller_manager/switch_controller"
-                        controller="scaled_pos_joint_traj_controller"
-                    />
-                    <!-- plan to approach latch -->
-                    <SimplePlanAction
-                        name="plan to approach pallet"
-                        service_name="/planning_interface/simple_plan"
-                        mode="POSE_LINE"
-                        pose="{place_approach_pose}"
-                        pose_frame_id="world"
-                        vel_scaling="0.05"
-                        acc_scaling="0.05"
-                        joint_trajectory="{joint_trajectory}"
-                    />
-                    <!-- move to approach latch -->
-                    <JointTrajectoryAction
-                        name="move to approach pallet"
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
-                    />       
+                            <!-- plan to approach latch -->
+                            <SimplePlanAction
+                                name="plan to release {tool_name}"
+                                service_name="/planning_interface/simple_plan"
+                                mode="POSE_LINE"
+                                pose="{tool_approach_pose}"
+                                pose_frame_id="world"
+                                vel_scaling="0.02"
+                                acc_scaling="0.05"
+                                joint_trajectory="{joint_trajectory}"
+                            />
+                            <!-- move to approach -->
+                            <JointTrajectoryAction
+                                name="move to {tool_name} release location"
+                                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                                joint_trajectory="{joint_trajectory}"
+                            />   
+
+                            <GripperAction
+                                name="open gripper"
+                                server_name="/gripper_controller/gripper_cmd"
+                                position="0.4"
+                                max_effort="20"
+                            />  
+
+                            <!-- retract to preapproach position-->
+                            <SimplePlanAction
+                                name="plan to pre-approach {tool_name}"
+                                service_name="/planning_interface/simple_plan"
+                                mode="POSE_LINE"
+                                pose="{tool_preapproach_pose}"
+                                pose_frame_id="world"
+                                vel_scaling="0.02"
+                                acc_scaling="0.05"
+                                joint_trajectory="{joint_trajectory}"
+                            />
+                            <JointTrajectoryAction
+                                name="move to pre-approach {tool_name}"
+                                server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
+                                joint_trajectory="{joint_trajectory}"
+                            />
+                        </Sequence>
+                    </Explain>
                 </Sequence>
-            </Explain>
-
-            <Explain name="move to pallet">
-                <Sequence> 
-                    <!-- plan to tool -->
-                    <SimplePlanAction
-                        name="plan to pallet"
-                        service_name="/planning_interface/simple_plan"
-                        mode="POSE_LINE"
-                        pose="{place_pose}"
-                        pose_frame_id="world"
-                        vel_scaling="0.05"
-                        acc_scaling="0.05"
-                        joint_trajectory="{joint_trajectory}"
-                    />
-                    <!-- move to latch -->
-                    <JointTrajectoryAction
-                        name="move to pallet"
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
-                    />   
-                </Sequence>
-            </Explain>
-
-
-            <Explain name="find and touch pallet">
-                <Sequence> 
-                    <!-- zero ft sensor -->
-                    <TriggerAction
-                        name="reset force torque sensor"
-                        service_name="/ur_hardware_interface/zero_ftsensor"
-                    />
-                    <!-- switch to find surface controller -->
-                    <SwitchControllerAction 
-                        name="switch to compliance controller"
-                        service_name="controller_manager/switch_controller"
-                        controller="cartesian_compliance_controller_find_surface"
-                    />
-                    <!-- find surface -->
-                    <FindSurfaceAction
-                        name="find pallet surface"
-                        server_name="find_surface_action_server/find_surface"
-                        force_target="20"
-                        force_threshold="3"
-                        maximum_distance="0.3"
-                        maximum_duration="30"
-                    />
-                    <!-- switch to joint traj ctrl -->
-                    <SwitchControllerAction 
-                        name="switch to position controller"
-                        service_name="controller_manager/switch_controller"
-                        controller="scaled_pos_joint_traj_controller"
-                    />
-                    <!-- plan to retract-->
-                    <SimplePlanAction
-                        name="plan to retract slightly"
-                        service_name="/planning_interface/simple_plan"
-                        mode="POSE_LINE"
-                        pose="-0.01;0;0;0;0;0"
-                        pose_frame_id="tcp_link"
-                        vel_scaling="0.01"
-                        acc_scaling="0.01"
-                        joint_trajectory="{joint_trajectory}"
-                    />
-                    <!-- move to retract -->
-                    <JointTrajectoryAction
-                        name="move to retract slightly"
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
-                    /> 
-
-                </Sequence>
-            </Explain>
-
-            <Explain name="release {tool_name}">
-                <Delay delay_msec="1000">
-                    <!-- open gripper -->
-                    <GripperAction
-                        name="open gripper"
-                        server_name="/gripper_controller/gripper_cmd"
-                        position="0.4"
-                        max_effort="20"
-                    /> 
-                </Delay>
-            </Explain>
-
-            <Explain name="retreat from pallet">
-                <Sequence> 
-                    <!-- plan to approach latch -->
-                    <SimplePlanAction
-                        name="plan to retreat"
-                        service_name="/planning_interface/simple_plan"
-                        mode="POSE_LINE"
-                        pose="-0.2;0;0;0;0;0"
-                        pose_frame_id="tcp_link"
-                        vel_scaling="0.05"
-                        acc_scaling="0.05"
-                        joint_trajectory="{joint_trajectory}"
-                    />
-                    <!-- move to approach latch -->
-                    <JointTrajectoryAction
-                        name="move to retreat"
-                        server_name="/scaled_pos_joint_traj_controller/follow_joint_trajectory"
-                        joint_trajectory="{joint_trajectory}"
-                    />   
-
-                </Sequence>
-            </Explain>
-
-
-
         </Sequence>
     </BehaviorTree>
 

@@ -1,4 +1,4 @@
-<root main_tree_to_execute="MainTree">
+<root BTCPP_format="4">
     <BehaviorTree ID="MainTree">
         <Sequence name="collect tools">
 
@@ -24,7 +24,7 @@
                     
                     <DetectFrameAction 
                         name="find tool"
-                        source_frame="hex_3_16" 
+                        source_frame="hex_7_16" 
                         target_frame="world" 
                         output_pose="{tool_pose}"
                         wait_duration="1000"
@@ -46,8 +46,8 @@
             
             <SubTree
                 ID="pick tool"
-                name="pick 3/16 hex"
-                tool_name="3_16_hex"
+                tool_name="7_16_hex"
+                name="pick {tool_name}"
                 tool_pose="{tool_pose_grasp}"
             />
             <SubTree
@@ -55,15 +55,73 @@
                 name="go to start position"
             />
 
-<!-- 
+ 
+            <SubTree
+                ID="move"
+                name="clear the drawer handle"
+                mode="JOINT"
+                joints="1.563;  -2.281; 2.036; -1.326; -1.568; 1.591"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
+            <SubTree
+                ID="move"
+                name="move to tool tray"
+                mode="JOINT"
+                joints="0.236;  -1.983; 1.912; -1.5; -1.566; 0.265"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
+            <Explain name="localize tray">
+                <Sequence name="localize tray">
+                    
+                    <DetectFrameAction 
+                        name="find tray"
+                        source_frame="tool_tray" 
+                        target_frame="world" 
+                        output_pose="{tray_pose}"
+                        wait_duration="1000"
+                        timeout="1000"
+                        qx="-0.5"
+                        qy="0.5"
+                        qz="0.5"
+                        qw="0.5"
+                    />
+
+                    <TransformPoseAction
+                        name="calculate tray pose"
+                        input_pose="{tray_pose}"
+                        output_pose="{tool_release_pose}"
+                    />
+
+                </Sequence>
+            </Explain>
+
             <SubTree
                 ID="place tool"
-                name="place tool 2"
-                tool_name="tool 2"
-                place_pose="{tool_pallet_1_pose}"
+                tool_name="7_16_hex"
+                name="place {tool_name}"
+                tool_pose="{tool_release_pose}"
             />
--->
 
+            <Explain name="go to start position">
+                <Sequence name="go to start position">
+                    <SubTree
+                        ID="go to start position"
+                        name="go to start position"
+                    />
+                    <GripperAction
+                        name="partially close gripper"
+                        server_name="/gripper_controller/gripper_cmd"
+                        position="0.0"
+                        max_effort="20"
+                    />
+                    
+  
+                </Sequence>
+            </Explain>
         </Sequence>
     </BehaviorTree>
 </root>

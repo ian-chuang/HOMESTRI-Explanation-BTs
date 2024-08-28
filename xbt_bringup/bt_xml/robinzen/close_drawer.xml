@@ -10,11 +10,20 @@
       - new_handle_pose
   -->
     <BehaviorTree ID="close drawer">
-        <Sequence name="open drawer">
+        <Sequence name="close drawer">
+
+            <SubTree
+                ID="move"
+                name="reorient to manipulate handle"
+                mode="JOINT"
+                joints="2.469;  -1.481; 0.989; -1.078; -1.567; 3.137"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
 
             <Explain name="move to drawer handle">
                 <Sequence name="move to drawer handle">
-                    <!-- calculate poses for opening drawer-->
+                    <!-- calculate poses for closing drawer-->
                     <TransformPoseAction
                         name="calculate pull handle location"
                         input_pose="{handle_pose}"
@@ -78,8 +87,8 @@
                 max_effort="100"
             />
 
-            <Explain name="pull open drawer">
-                <Sequence name="open drawer">
+            <Explain name="push drawer closed">
+                <Sequence name="close drawer">
 
                     <SubTree
                         ID="apply force"

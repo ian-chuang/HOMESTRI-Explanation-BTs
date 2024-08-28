@@ -7,8 +7,8 @@
                 ID="move"
                 name="move to start position"
                 mode="JOINT"
-                joints="2.3904359340667725; -1.9121290645995082;  2.193907086049215; -0.28583796442065434; 2.100641965866089; -1.5478280226336878"
-                vel_scaling="0.2"
+                joints="2.765; -1.809;  2.124; -0.319; 2.476; -1.550"
+                vel_scaling="0.1"
                 acc_scaling="0.05"
             />
 
@@ -33,15 +33,6 @@
                 latch_tag_name="latch_1_tag"
                 tag_pose="{tag_pose}"
                 latch_offset="0;-0.265;-0.05"
-            />
-
-            <SubTree
-                ID="move"
-                name="move from latch to handle"
-                mode="JOINT"
-                joints="2.4674723148345947;  -1.529001896535494; 1.8917506376849573; -1.9327990017332972; -1.566434685383932; 3.14"
-                vel_scaling="0.1"
-                acc_scaling="0.1"
             />
 
             <SubTree
@@ -84,19 +75,6 @@
                 qz="0.5"
                 qw="0.5"
             />
-            <!--SubTree
-                ID="pick zeode"
-                name="grasp replacement sorbent bed"
-                zeode_frame_name="zeode_2"
-            />
-
-            <SubTree
-                ID="move back from rack"
-                name="transfer"
-                zeode_pose="{zeode_pose}"
-                lift_zeode_pose="{lift_zeode_pose}"
-                move_out_zeode_pose="{move_out_zeode_pose}"
-            /-->
 
             <SubTree
                 ID="place zeode"
@@ -105,12 +83,8 @@
                 lift_zeode_pose="{lift_zeode_pose}"
                 move_out_zeode_pose="{move_out_zeode_pose}"
             />
-<!-- Good until here-->
-            <SubTree
-                ID="move out drawer"
-                name="retract from sorbent bed"
-                handle_pose="{handle_pose}"
-            />
+
+
 
             <SubTree
                 ID="close drawer"
@@ -123,7 +97,7 @@
 
             <SubTree
                 ID="move"
-                name="move from handle to latch"
+                name="reorient to manipulate latch"
                 mode="JOINT"
                 joints="2.3904359340667725; -1.9121290645995082;  2.193907086049215; -0.28583796442065434; 2.100641965866089; -1.5478280226336878"
                 vel_scaling="0.1"

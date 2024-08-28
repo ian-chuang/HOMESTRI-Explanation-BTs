@@ -12,6 +12,15 @@
     <BehaviorTree ID="open drawer">
         <Sequence name="open drawer">
 
+            <SubTree
+                ID="move"
+                name="reorient to manipulate handle"
+                mode="JOINT"
+                joints="2.4674723148345947;  -1.529001896535494; 1.8917506376849573; -1.9327990017332972; -1.566434685383932; 3.14"
+                vel_scaling="0.1"
+                acc_scaling="0.1"
+            />
+
             <Explain name="move to drawer handle">
                 <Sequence name="move to drawer handle">
                     <!-- calculate poses for opening drawer-->
